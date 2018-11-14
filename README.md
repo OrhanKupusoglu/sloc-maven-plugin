@@ -1,4 +1,4 @@
-# Maven Source Lines of Code Plugin
+# Source Lines of Code Maven Plugin
 
 This [Apache Maven](https://maven.apache.org/) plugin counts [source lines of code](https://en.wikipedia.org/wiki/Source_lines_of_code) in a given Maven project.
 
