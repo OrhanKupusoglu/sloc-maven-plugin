@@ -35,11 +35,11 @@ $ mvn kupusoglu.orhan:sloc-maven-plugin:sloc
 [INFO] Inspecting build with total of 1 modules...
 [INFO] Installing Nexus Staging features:
 [INFO]   ... total of 1 executions of maven-deploy-plugin replaced with nexus-staging-maven-plugin
-[INFO] 
+[INFO]
 [INFO] -----------------< kupusoglu.orhan:sloc-maven-plugin >------------------
 [INFO] Building Plugin for SLOC 0.1.3
 [INFO] ----------------------------[ maven-plugin ]----------------------------
-[INFO] 
+[INFO]
 [INFO] --- sloc-maven-plugin:0.1.3:sloc (default-cli) @ sloc-maven-plugin ---
 [INFO] SLOC - directory: /home/orhanku/ME/DEV/OK/sloc-maven-plugin/src
 +------------------+------------------+----------+----------+----------+----------+----------+----------+
@@ -60,6 +60,39 @@ $ mvn kupusoglu.orhan:sloc-maven-plugin:sloc
 [INFO] ------------------------------------------------------------------------
 [INFO] Total time: 0.839 s
 [INFO] Finished at: 2018-11-15T10:30:44+03:00
+[INFO] ------------------------------------------------------------------------
+
+## use untrimmed package names
+$ mvn kupusoglu.orhan:sloc-maven-plugin:sloc -DtrimPkgNames=false
+[INFO] Scanning for projects...
+[INFO] Inspecting build with total of 1 modules...
+[INFO] Installing Nexus Staging features:
+[INFO]   ... total of 1 executions of maven-deploy-plugin replaced with nexus-staging-maven-plugin
+[INFO]
+[INFO] -----------------< kupusoglu.orhan:sloc-maven-plugin >------------------
+[INFO] Building Plugin for SLOC 0.1.3
+[INFO] ----------------------------[ maven-plugin ]----------------------------
+[INFO]
+[INFO] --- sloc-maven-plugin:0.1.3:sloc (default-cli) @ sloc-maven-plugin ---
+[INFO] SLOC - directory: /home/orhanku/ME/DEV/OK/sloc-maven-plugin/src
++------------------------------------------+------------------+----------+----------+----------+----------+----------+----------+
+| Package Name                             | File Name        | Type     | Blank    | JavaDoc  | Comment  | Code     | Total    |
++------------------------------------------+------------------+----------+----------+----------+----------+----------+----------+
+| kupusoglu.orhan.sloc_maven_plugin.engine | Common.java      | src      |       11 |        3 |        1 |       46 |       61 |
+| kupusoglu.orhan.sloc_maven_plugin.engine | CommonTest.java  | test     |       15 |        0 |        2 |       58 |       75 |
+| kupusoglu.orhan.sloc_maven_plugin.engine | CountLines.java  | src      |        9 |        0 |        0 |       38 |       47 |
+| kupusoglu.orhan.sloc_maven_plugin.engine | CountSLOC.java   | src      |       59 |       12 |        4 |      231 |      306 |
++------------------------------------------+------------------+----------+----------+----------+----------+----------+----------+
+| kupusoglu.orhan.sloc_maven_plugin.goal   | GoalSLOC.java    | src      |        8 |       25 |        0 |       35 |       68 |
++------------------------------------------+------------------+----------+----------+----------+----------+----------+----------+
+| 2 package(s)                             | 5 file(s)        | java     |      102 |       40 |        7 |      408 |      557 |
++------------------------------------------+------------------+----------+----------+----------+----------+----------+----------+
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 0.790 s
+[INFO] Finished at: 2018-11-15T10:32:05+03:00
 [INFO] ------------------------------------------------------------------------
 ```
 
@@ -117,24 +150,24 @@ $ mvn kupusoglu.orhan:sloc-maven-plugin:sloc
 [WARNING] The project com.google.guava:guava-parent:pom:HEAD-jre-SNAPSHOT uses prerequisites which is only intended for maven-plugin projects but not for non maven-plugin projects. For such purposes you should use the maven-enforcer-plugin. See https://maven.apache.org/enforcer/enforcer-rules/requireMavenVersion.html
 [INFO] ------------------------------------------------------------------------
 [INFO] Reactor Build Order:
-[INFO] 
+[INFO]
 [INFO] Guava Maven Parent                                                 [pom]
 [INFO] Guava: Google Core Libraries for Java                           [bundle]
 [INFO] Guava Testing Library                                              [jar]
 [INFO] Guava Unit Tests                                                   [jar]
 [INFO] Guava GWT compatible libs                                          [jar]
-[INFO] 
+[INFO]
 [INFO] -------------------< com.google.guava:guava-parent >--------------------
 [INFO] Building Guava Maven Parent HEAD-jre-SNAPSHOT                      [1/5]
 [INFO] --------------------------------[ pom ]---------------------------------
-[INFO] 
+[INFO]
 [INFO] --- sloc-maven-plugin:0.1.3:sloc (default-cli) @ guava-parent ---
 [WARNING] Does not contain a source directory: /home/orhanku/ME/DEV/x/guava/src
-[INFO] 
+[INFO]
 [INFO] -----------------------< com.google.guava:guava >-----------------------
 [INFO] Building Guava: Google Core Libraries for Java HEAD-jre-SNAPSHOT   [2/5]
 [INFO] -------------------------------[ bundle ]-------------------------------
-[INFO] 
+[INFO]
 [INFO] --- sloc-maven-plugin:0.1.3:sloc (default-cli) @ guava ---
 [INFO] SLOC - directory: /home/orhanku/ME/DEV/x/guava/guava/src
 +-------------------------+-----------------------------------------------------+----------+----------+----------+----------+----------+----------+
@@ -734,11 +767,11 @@ $ mvn kupusoglu.orhan:sloc-maven-plugin:sloc
 | 18 package(s)           | 573 file(s)                                         | java     |    17113 |    43662 |    12878 |    88070 |   161723 |
 +-------------------------+-----------------------------------------------------+----------+----------+----------+----------+----------+----------+
 
-[INFO] 
+[INFO]
 [INFO] -------------------< com.google.guava:guava-testlib >-------------------
 [INFO] Building Guava Testing Library HEAD-jre-SNAPSHOT                   [3/5]
 [INFO] --------------------------------[ jar ]---------------------------------
-[INFO] 
+[INFO]
 [INFO] --- sloc-maven-plugin:0.1.3:sloc (default-cli) @ guava-testlib ---
 [INFO] SLOC - directory: /home/orhanku/ME/DEV/x/guava/guava-testlib/src
 +--------------------------+---------------------------------------------+----------+----------+----------+----------+----------+----------+
@@ -1042,18 +1075,18 @@ $ mvn kupusoglu.orhan:sloc-maven-plugin:sloc
 | 7 package(s)             | 288 file(s)                                 | java     |     4284 |     3615 |     4906 |    26355 |    39160 |
 +--------------------------+---------------------------------------------+----------+----------+----------+----------+----------+----------+
 
-[INFO] 
+[INFO]
 [INFO] --------------------< com.google.guava:guava-tests >--------------------
 [INFO] Building Guava Unit Tests HEAD-jre-SNAPSHOT                        [4/5]
 [INFO] --------------------------------[ jar ]---------------------------------
-[INFO] 
+[INFO]
 [INFO] --- sloc-maven-plugin:0.1.3:sloc (default-cli) @ guava-tests ---
 [WARNING] Does not contain a source directory: /home/orhanku/ME/DEV/x/guava/guava-tests/src
-[INFO] 
+[INFO]
 [INFO] ---------------------< com.google.guava:guava-gwt >---------------------
 [INFO] Building Guava GWT compatible libs HEAD-jre-SNAPSHOT               [5/5]
 [INFO] --------------------------------[ jar ]---------------------------------
-[INFO] 
+[INFO]
 [INFO] --- sloc-maven-plugin:0.1.3:sloc (default-cli) @ guava-gwt ---
 [INFO] SLOC - directory: /home/orhanku/ME/DEV/x/guava/guava-gwt/src
 +-------------------+-------------------------------------------------------+----------+----------+----------+----------+----------+----------+
@@ -1136,7 +1169,7 @@ $ mvn kupusoglu.orhan:sloc-maven-plugin:sloc
 
 [INFO] ------------------------------------------------------------------------
 [INFO] Reactor Summary:
-[INFO] 
+[INFO]
 [INFO] Guava Maven Parent HEAD-jre-SNAPSHOT ............... SUCCESS [  0.207 s]
 [INFO] Guava: Google Core Libraries for Java .............. SUCCESS [  0.565 s]
 [INFO] Guava Testing Library .............................. SUCCESS [  0.171 s]
