@@ -25,7 +25,7 @@ The plugin finds each pom.xml's source codes and reports for each source file:
 
 The output is displayed in a formatted table, similar to [MySQL Shell](https://dev.mysql.com/doc/refman/8.0/en/selecting-all.html)'s table outputs.
 
-By default the package names are trimmed down to later unique parts to prevent too much repetition.
+By default the package names are trimmed down to later unique suffixes to prevent too much repetition.
 
 It can be tested right-away on its own project:
 
