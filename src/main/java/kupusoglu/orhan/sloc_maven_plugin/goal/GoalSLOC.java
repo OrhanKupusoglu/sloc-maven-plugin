@@ -47,12 +47,20 @@ public class GoalSLOC extends AbstractMojo {
     @Parameter(property = "fileExt", defaultValue = "java")
     private String fileExt;
 
+    /**
+     * trim package names
+     * @parameter
+     */
+    @Parameter(property = "trimPkgNames", defaultValue = "true")
+    private boolean trimPkgNames;
+
     public void execute() throws MojoExecutionException {
         try {
             Common.countLines(getLog(),
                               project.getBasedir().getAbsolutePath(),
                               srcMain,
-                              fileExt);
+                              fileExt,
+                              trimPkgNames);
         } catch (MojoExecutionException e) {
             getLog().error(e.getMessage());
         }

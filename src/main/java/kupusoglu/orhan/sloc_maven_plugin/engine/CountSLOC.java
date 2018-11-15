@@ -23,10 +23,11 @@ public class CountSLOC extends SimpleFileVisitor<Path> {
     private Log log;
     private String rootDir;
     private String fileExt;
+    private boolean trimPkgNames;
 
     private PathMatcher matcherJava;
     private TreeMap<String, int[]> locData = new TreeMap<>();
-    private final static int MIN_HEADER_LEN = 20;
+    private final static int MIN_HEADER_LEN = 16;
     private final static Pattern PACKAGE_DECLARATION = Pattern.compile("(package)(\\s+)(/\\*.*\\*/)?(\\s+)?(.+)(;)");
     private final static int PACKAGE_INDEX = 5;
 
@@ -40,12 +41,13 @@ public class CountSLOC extends SimpleFileVisitor<Path> {
         super();
     }
 
-    public CountSLOC(Log log, String rootDir, String fileExt) {
+    public CountSLOC(Log log, String rootDir, String fileExt, boolean trimPkgNames) {
         this();
 
         this.log = log;
         this.rootDir = rootDir;
         this.fileExt = fileExt;
+        this.trimPkgNames = trimPkgNames;
 
         this.matcherJava = FileSystems.getDefault().getPathMatcher("glob:*." + fileExt);
     }
@@ -204,32 +206,36 @@ public class CountSLOC extends SimpleFileVisitor<Path> {
             String[] packageNames = packageData.stream()
                                                .toArray(String[]::new);
 
-            String commonPackage = StringUtils.getCommonPrefix(packageNames);
+            String commonPackage = "";
 
-            // if all package names are identical, trim the last part of the common package name
-            if (commonPackage.length() == longestPName) {
-                commonPackage = Common.trimPackageName(commonPackage);
+            if (trimPkgNames) {
+                commonPackage = StringUtils.getCommonPrefix(packageNames);
+
+                // if all package names are identical, trim the last part of the common package name
+                if (commonPackage.length() == longestPName) {
+                    commonPackage = Common.trimPackageName(commonPackage);
+                }
+
+                // if some packagae names will be eliminated completely, trim the last part of the common package name
+                final String tempCommonPackage = commonPackage;
+                Optional<String> result = Arrays.stream(packageNames)
+                        .filter(s -> s.replace(tempCommonPackage, "").isEmpty())
+                        .findAny();
+
+                if (result.isPresent()) {
+                    commonPackage = Common.trimPackageName(commonPackage);
+                }
             }
-
-            // if some packagae names will be eliminated completely, trim the last part of the common package name
-            final String tempCommonPackage = commonPackage;
-            Optional<String> result = Arrays.stream(packageNames)
-                                            .filter(s -> s.replace(tempCommonPackage, "").isEmpty())
-                                            .findAny();
-
-            if (result.isPresent()) {
-                commonPackage = Common.trimPackageName(commonPackage);
-            }
-
-            // MIN_HEADER_LEN is longer than the minimum headers, f.ex.: "1 package(s)"
-            longestPName = Math.max(MIN_HEADER_LEN, longestPName);
-            longestCName = Math.max(MIN_HEADER_LEN, longestCName);
 
             String packageLine = packageData.size() + " package(s)";
             String classLine = locData.size() + " file(s)";
 
             int headerP = Math.max(longestPName - commonPackage.length(), packageLine.length());
             int headerC = Math.max(longestCName, classLine.length());
+
+            // MIN_HEADER_LEN is longer than the minimum headers.: "1 package(s)" & "1 file(s)"
+            headerP = Math.max(MIN_HEADER_LEN, headerP);
+            headerC = Math.max(MIN_HEADER_LEN, headerC);
 
             String lineHeader = String.format("+%0" + (headerP + 2) + "d+%0" + (headerC + 2) + "d+%010d+%010d+%010d+%010d+%010d+%010d+\n",
                                               0, 0, 0, 0, 0, 0, 0, 0).replace('0', '-');
@@ -244,7 +250,7 @@ public class CountSLOC extends SimpleFileVisitor<Path> {
 
             String[] fields = locData.firstKey().split(":");
 
-            String commonPackageName = fields[0].replace(commonPackage, "");
+            String commonPackageName = trimPkgNames ? fields[0].replace(commonPackage, "") : fields[0];
 
             for (String key : keys) {
                 int[] counters = locData.get(key);
@@ -252,7 +258,7 @@ public class CountSLOC extends SimpleFileVisitor<Path> {
 
                 fields = key.split(":");
 
-                String packageName = fields[0].replace(commonPackage, "");
+                String packageName = trimPkgNames ? fields[0].replace(commonPackage, "") : fields[0];
                 String className = fields[1];
                 String classType = fields[2];
 

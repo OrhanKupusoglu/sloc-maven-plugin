@@ -29,6 +29,7 @@ public class CommonTest extends AbstractMojo {
         Path resDir = Paths.get(new File(".").getAbsolutePath().toString(), "src/test/resources").normalize();
         String srcMain = "src";
         String fileExt = "java";
+        boolean trimPkgNames = true;
 
         try {
             // capture output
@@ -40,7 +41,8 @@ public class CommonTest extends AbstractMojo {
             Common.countLines(getLog(),
                               baseDir.toString(),
                               srcMain,
-                              fileExt);
+                              fileExt,
+                              trimPkgNames);
 
             System.setOut(stdOut);
 

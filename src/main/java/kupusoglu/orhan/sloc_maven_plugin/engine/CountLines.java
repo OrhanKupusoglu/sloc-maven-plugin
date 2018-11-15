@@ -14,24 +14,26 @@ public class CountLines {
     private String rootDir;
     private String srcMain;
     private String fileExt;
+    private boolean trimPkgNames;
 
     public CountLines() {
         super();
     }
 
-    public CountLines(Log log, String rootDir, String srcMain, String fileExt) {
+    public CountLines(Log log, String rootDir, String srcMain, String fileExt, boolean trimPkgNames) {
         this();
 
         this.log = log;
         this.rootDir = rootDir;
         this.srcMain = srcMain;
         this.fileExt = fileExt;
+        this.trimPkgNames = trimPkgNames;
     }
 
     public void execute() throws MojoExecutionException {
         try {
             if (Files.exists(Paths.get(rootDir + File.separator + srcMain).toAbsolutePath())) {
-                CountSLOC countSLOC = new CountSLOC(log, rootDir + File.separator + srcMain, fileExt);
+                CountSLOC countSLOC = new CountSLOC(log, rootDir + File.separator + srcMain, fileExt, trimPkgNames);
 
                 java.nio.file.Files.walkFileTree(Paths.get(rootDir + File.separator + srcMain).toAbsolutePath(), countSLOC);
                 countSLOC.done();

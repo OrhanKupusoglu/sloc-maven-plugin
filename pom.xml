@@ -7,7 +7,7 @@
     <!-- The Basics -->
     <groupId>kupusoglu.orhan</groupId>
     <artifactId>sloc-maven-plugin</artifactId>
-    <version>0.1.2</version>
+    <version>0.1.3</version>
     <packaging>maven-plugin</packaging>
 
     <dependencies>

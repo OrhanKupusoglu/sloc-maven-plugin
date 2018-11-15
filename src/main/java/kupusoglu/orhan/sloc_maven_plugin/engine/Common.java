@@ -42,9 +42,9 @@ public class Common {
         return lines;
     }
 
-    public static void countLines(Log log, String rootDir, String srcMain, String fileExt)
+    public static void countLines(Log log, String rootDir, String srcMain, String fileExt, boolean trimPkgNames)
             throws MojoExecutionException {
-        CountLines countLines = new CountLines(log, rootDir, srcMain, fileExt);
+        CountLines countLines = new CountLines(log, rootDir, srcMain, fileExt, trimPkgNames);
         countLines.execute();
     }
 
