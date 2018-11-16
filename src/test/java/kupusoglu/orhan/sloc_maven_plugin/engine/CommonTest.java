@@ -30,6 +30,8 @@ public class CommonTest extends AbstractMojo {
         String srcMain = "src";
         String fileExt = "java";
         boolean trimPkgNames = true;
+        boolean display = true;
+        boolean save = false;
 
         try {
             // capture output
@@ -42,7 +44,9 @@ public class CommonTest extends AbstractMojo {
                               baseDir.toString(),
                               srcMain,
                               fileExt,
-                              trimPkgNames);
+                              trimPkgNames,
+                              display,
+                              save);
 
             System.setOut(stdOut);
 
@@ -55,7 +59,7 @@ public class CommonTest extends AbstractMojo {
                 System.out.println("\nACTUAL OUTPUT:\n");
                 System.out.println(actual + "\n");
 
-                String expected = String.join("\n", Common.readTextFile(Paths.get(resDir.toString(),"table.txt")));
+                String expected = String.join("\n", Common.readTextFile(Paths.get(resDir.toString(),"sloc.txt")));
                 System.out.println("EXPECTED OUTPUT:\n");
                 System.out.println(expected + "\n");
 

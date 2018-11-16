@@ -54,13 +54,29 @@ public class GoalSLOC extends AbstractMojo {
     @Parameter(property = "trimPkgNames", defaultValue = "true")
     private boolean trimPkgNames;
 
+    /**
+     * output SLOC data to stdout
+     * @parameter
+     */
+    @Parameter(property = "display", defaultValue = "true")
+    private boolean display;
+
+    /**
+     * output SLOC data to file "sloc.txt"
+     * @parameter
+     */
+    @Parameter(property = "save", defaultValue = "false")
+    private boolean save;
+
     public void execute() throws MojoExecutionException {
         try {
             Common.countLines(getLog(),
                               project.getBasedir().getAbsolutePath(),
                               srcMain,
                               fileExt,
-                              trimPkgNames);
+                              trimPkgNames,
+                              display,
+                              save);
         } catch (MojoExecutionException e) {
             getLog().error(e.getMessage());
         }

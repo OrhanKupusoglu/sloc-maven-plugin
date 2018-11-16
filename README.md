@@ -31,35 +31,36 @@ It can be tested right-away on its own project:
 
 ```
 $ mvn kupusoglu.orhan:sloc-maven-plugin:sloc
+$ mvn kupusoglu.orhan:sloc-maven-plugin:sloc -Dsave
 [INFO] Scanning for projects...
 [INFO] Inspecting build with total of 1 modules...
 [INFO] Installing Nexus Staging features:
 [INFO]   ... total of 1 executions of maven-deploy-plugin replaced with nexus-staging-maven-plugin
-[INFO]
+[INFO] 
 [INFO] -----------------< kupusoglu.orhan:sloc-maven-plugin >------------------
-[INFO] Building Plugin for SLOC 0.1.3
+[INFO] Building Plugin for SLOC 0.1.4
 [INFO] ----------------------------[ maven-plugin ]----------------------------
-[INFO]
-[INFO] --- sloc-maven-plugin:0.1.3:sloc (default-cli) @ sloc-maven-plugin ---
-[INFO] SLOC - directory: /home/orhanku/ME/DEV/OK/sloc-maven-plugin/src
+[INFO] 
+[INFO] --- sloc-maven-plugin:0.1.4:sloc (default-cli) @ sloc-maven-plugin ---
+[INFO] SLOC - directory: /home/orhanku/ME/DEV/OK/x/sloc-maven-plugin/src
 +------------------+------------------+----------+----------+----------+----------+----------+----------+
 | Package Name     | File Name        | Type     | Blank    | JavaDoc  | Comment  | Code     | Total    |
 +------------------+------------------+----------+----------+----------+----------+----------+----------+
-| engine           | Common.java      | src      |       11 |        3 |        1 |       46 |       61 |
-| engine           | CommonTest.java  | test     |       15 |        0 |        2 |       58 |       75 |
-| engine           | CountLines.java  | src      |        9 |        0 |        0 |       38 |       47 |
-| engine           | CountSLOC.java   | src      |       59 |       12 |        4 |      231 |      306 |
+| engine           | Common.java      | src      |       41 |        3 |        4 |      125 |      173 |
+| engine           | CommonTest.java  | test     |       15 |        0 |        2 |       62 |       79 |
+| engine           | CountLines.java  | src      |       10 |        0 |        0 |       42 |       52 |
+| engine           | CountSLOC.java   | src      |       34 |       12 |        1 |      180 |      227 |
 +------------------+------------------+----------+----------+----------+----------+----------+----------+
-| goal             | GoalSLOC.java    | src      |        8 |       25 |        0 |       35 |       68 |
+| goal             | GoalSLOC.java    | src      |       10 |       33 |        0 |       41 |       84 |
 +------------------+------------------+----------+----------+----------+----------+----------+----------+
-| 2 package(s)     | 5 file(s)        | java     |      102 |       40 |        7 |      408 |      557 |
+| 2 package(s)     | 5 file(s)        | java     |      110 |       48 |        7 |      450 |      615 |
 +------------------+------------------+----------+----------+----------+----------+----------+----------+
 
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time: 0.839 s
-[INFO] Finished at: 2018-11-15T10:30:44+03:00
+[INFO] Total time: 0.876 s
+[INFO] Finished at: 2018-11-16T21:51:23+03:00
 [INFO] ------------------------------------------------------------------------
 
 ## use untrimmed package names
@@ -68,31 +69,31 @@ $ mvn kupusoglu.orhan:sloc-maven-plugin:sloc -DtrimPkgNames=false
 [INFO] Inspecting build with total of 1 modules...
 [INFO] Installing Nexus Staging features:
 [INFO]   ... total of 1 executions of maven-deploy-plugin replaced with nexus-staging-maven-plugin
-[INFO]
+[INFO] 
 [INFO] -----------------< kupusoglu.orhan:sloc-maven-plugin >------------------
-[INFO] Building Plugin for SLOC 0.1.3
+[INFO] Building Plugin for SLOC 0.1.4
 [INFO] ----------------------------[ maven-plugin ]----------------------------
-[INFO]
-[INFO] --- sloc-maven-plugin:0.1.3:sloc (default-cli) @ sloc-maven-plugin ---
-[INFO] SLOC - directory: /home/orhanku/ME/DEV/OK/sloc-maven-plugin/src
+[INFO] 
+[INFO] --- sloc-maven-plugin:0.1.4:sloc (default-cli) @ sloc-maven-plugin ---
+[INFO] SLOC - directory: /home/orhanku/ME/DEV/OK/x/sloc-maven-plugin/src
 +------------------------------------------+------------------+----------+----------+----------+----------+----------+----------+
 | Package Name                             | File Name        | Type     | Blank    | JavaDoc  | Comment  | Code     | Total    |
 +------------------------------------------+------------------+----------+----------+----------+----------+----------+----------+
-| kupusoglu.orhan.sloc_maven_plugin.engine | Common.java      | src      |       11 |        3 |        1 |       46 |       61 |
-| kupusoglu.orhan.sloc_maven_plugin.engine | CommonTest.java  | test     |       15 |        0 |        2 |       58 |       75 |
-| kupusoglu.orhan.sloc_maven_plugin.engine | CountLines.java  | src      |        9 |        0 |        0 |       38 |       47 |
-| kupusoglu.orhan.sloc_maven_plugin.engine | CountSLOC.java   | src      |       59 |       12 |        4 |      231 |      306 |
+| kupusoglu.orhan.sloc_maven_plugin.engine | Common.java      | src      |       41 |        3 |        4 |      125 |      173 |
+| kupusoglu.orhan.sloc_maven_plugin.engine | CommonTest.java  | test     |       15 |        0 |        2 |       62 |       79 |
+| kupusoglu.orhan.sloc_maven_plugin.engine | CountLines.java  | src      |       10 |        0 |        0 |       42 |       52 |
+| kupusoglu.orhan.sloc_maven_plugin.engine | CountSLOC.java   | src      |       34 |       12 |        1 |      180 |      227 |
 +------------------------------------------+------------------+----------+----------+----------+----------+----------+----------+
-| kupusoglu.orhan.sloc_maven_plugin.goal   | GoalSLOC.java    | src      |        8 |       25 |        0 |       35 |       68 |
+| kupusoglu.orhan.sloc_maven_plugin.goal   | GoalSLOC.java    | src      |       10 |       33 |        0 |       41 |       84 |
 +------------------------------------------+------------------+----------+----------+----------+----------+----------+----------+
-| 2 package(s)                             | 5 file(s)        | java     |      102 |       40 |        7 |      408 |      557 |
+| 2 package(s)                             | 5 file(s)        | java     |      110 |       48 |        7 |      450 |      615 |
 +------------------------------------------+------------------+----------+----------+----------+----------+----------+----------+
 
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time: 0.790 s
-[INFO] Finished at: 2018-11-15T10:32:05+03:00
+[INFO] Total time: 0.900 s
+[INFO] Finished at: 2018-11-16T21:58:00+03:00
 [INFO] ------------------------------------------------------------------------
 ```
 
@@ -104,19 +105,19 @@ Parameters for the **sloc** goal can be supplied with **-Dname=value**, for exam
 
 ```
 $ mvn kupusoglu.orhan:sloc-maven-plugin:sloc -DfileExt=cpp
-
-$ mvn kupusoglu.orhan:sloc-maven-plugin:sloc -DtrimPkgNames=false
 ```
 
 Detailed plugin documentation can be generated with [Maven Site Plugin](https://maven.apache.org/plugins/maven-site-plugin/)'s **mvn site** goal, please check the HTML pages at **target/site/index.html**.
 For example: **Project Reports > Plugin Documentation > sloc:sloc**
 
 ### goal: sloc
-| Parameter      | Default Value | Description                                                 |
-| :------------- | ------------- | ----------------------------------------------------------- |
-| srcMain        | src           | start in this directory and check files recursively         |
-| fileExt        | java          | count SLOC of files with this extension                     |
-| trimPkgNames   | true          | trim common prefixes of the package names to remove clutter |
+| Parameter      | Default Value | Description                                                           |
+| :------------- | ------------- | --------------------------------------------------------------------- |
+| srcMain        | src           | start in this directory and check files recursively                   |
+| fileExt        | java          | count SLOC of files with this extension                               |
+| trimPkgNames   | true          | trim common prefixes of the package names to remove clutter           |
+| display        | true          | write SLOC data to **stdout**                                         |
+| save           | false         | write SLOC data to **sloc.txt** to base dir where **pom.xml** resides |
 
 &nbsp;
 
@@ -134,42 +135,33 @@ Your branch is up-to-date with 'origin/master'.
 nothing to commit, working directory clean
 
 $ git log --oneline -n 5
-0ac4a8b common.graph PackageSanityTests: specify a default object for EndpointPair inputs. This should resolve a few internal flaky test issues
-5f47d39 Standardise message format for "duplicate key" IllegalArgumentException thrown from ImmutableTable.Builder.build().
-2d86514 Correct documentation for Splitter#withKeyValueSeparator(Splitter)
-c367e94 Use maven-compiler-plugin version 3.8.0.
-f3542ee Add MediaType.MICROSOFT_OUTLOOK and add missing javadocs to a few other MediaTypes.
+b8d5ecd40 (HEAD -> master, origin/master, origin/HEAD) Add the Origin-Trial HTTP response header.
+4d5e9445c Address why users should prefer our immutable collections to things like Collections.emptyList().
+0ac4a8b11 common.graph PackageSanityTests: specify a default object for EndpointPair inputs. This should resolve a few internal flaky test issues
+5f47d39fc Standardise message format for "duplicate key" IllegalArgumentException thrown from ImmutableTable.Builder.build().
+2d8651410 Correct documentation for Splitter#withKeyValueSeparator(Splitter)
 
 $ mvn kupusoglu.orhan:sloc-maven-plugin:sloc
 ```
 The second run will give a simpler output:
 
 ```
-$ mvn kupusoglu.orhan:sloc-maven-plugin:sloc
-[INFO] Scanning for projects...
-[WARNING] The project com.google.guava:guava-parent:pom:HEAD-jre-SNAPSHOT uses prerequisites which is only intended for maven-plugin projects but not for non maven-plugin projects. For such purposes you should use the maven-enforcer-plugin. See https://maven.apache.org/enforcer/enforcer-rules/requireMavenVersion.html
-[INFO] ------------------------------------------------------------------------
-[INFO] Reactor Build Order:
-[INFO]
-[INFO] Guava Maven Parent                                                 [pom]
-[INFO] Guava: Google Core Libraries for Java                           [bundle]
-[INFO] Guava Testing Library                                              [jar]
-[INFO] Guava Unit Tests                                                   [jar]
-[INFO] Guava GWT compatible libs                                          [jar]
-[INFO]
-[INFO] -------------------< com.google.guava:guava-parent >--------------------
-[INFO] Building Guava Maven Parent HEAD-jre-SNAPSHOT                      [1/5]
-[INFO] --------------------------------[ pom ]---------------------------------
-[INFO]
-[INFO] --- sloc-maven-plugin:0.1.3:sloc (default-cli) @ guava-parent ---
-[WARNING] Does not contain a source directory: /home/orhanku/ME/DEV/x/guava/src
-[INFO]
-[INFO] -----------------------< com.google.guava:guava >-----------------------
-[INFO] Building Guava: Google Core Libraries for Java HEAD-jre-SNAPSHOT   [2/5]
-[INFO] -------------------------------[ bundle ]-------------------------------
-[INFO]
-[INFO] --- sloc-maven-plugin:0.1.3:sloc (default-cli) @ guava ---
-[INFO] SLOC - directory: /home/orhanku/ME/DEV/x/guava/guava/src
+$ mvn kupusoglu.orhan:sloc-maven-plugin:sloc -Ddisplay=false -Dsave=true
+
+$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+
+	guava-gwt/sloc.txt
+	guava-testlib/sloc.txt
+	guava/sloc.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+$ cat guava/sloc.txt
 +-------------------------+-----------------------------------------------------+----------+----------+----------+----------+----------+----------+
 | Package Name            | File Name                                           | Type     | Blank    | JavaDoc  | Comment  | Code     | Total    |
 +-------------------------+-----------------------------------------------------+----------+----------+----------+----------+----------+----------+
@@ -357,7 +349,7 @@ $ mvn kupusoglu.orhan:sloc-maven-plugin:sloc
 | common.collect          | ImmutableBiMap.java                                 | src      |       36 |      175 |       30 |      194 |      435 |
 | common.collect          | ImmutableBiMapFauxverideShim.java                   | src      |        4 |       23 |       15 |       21 |       63 |
 | common.collect          | ImmutableClassToInstanceMap.java                    | src      |       20 |       72 |       16 |       84 |      192 |
-| common.collect          | ImmutableCollection.java                            | src      |       34 |      245 |       25 |      165 |      469 |
+| common.collect          | ImmutableCollection.java                            | src      |       34 |      246 |       25 |      165 |      470 |
 | common.collect          | ImmutableEntry.java                                 | src      |        8 |        0 |       15 |       27 |       50 |
 | common.collect          | ImmutableEnumMap.java                               | src      |       21 |        5 |       19 |       89 |      134 |
 | common.collect          | ImmutableEnumSet.java                               | src      |       23 |        5 |       28 |      100 |      156 |
@@ -634,7 +626,7 @@ $ mvn kupusoglu.orhan:sloc-maven-plugin:sloc
 +-------------------------+-----------------------------------------------------+----------+----------+----------+----------+----------+----------+
 | common.net              | HostAndPort.java                                    | src      |       27 |      112 |       18 |      161 |      318 |
 | common.net              | HostSpecifier.java                                  | src      |       20 |       53 |       25 |       70 |      168 |
-| common.net              | HttpHeaders.java                                    | src      |       15 |      192 |       17 |      198 |      422 |
+| common.net              | HttpHeaders.java                                    | src      |       15 |      196 |       17 |      199 |      427 |
 | common.net              | InetAddresses.java                                  | src      |       90 |      387 |       50 |      462 |      989 |
 | common.net              | InternetDomainName.java                             | src      |       70 |      327 |       38 |      202 |      637 |
 | common.net              | MediaType.java                                      | src      |      118 |      410 |       35 |      475 |     1038 |
@@ -764,421 +756,17 @@ $ mvn kupusoglu.orhan:sloc-maven-plugin:sloc
 | thirdparty.publicsuffix | PublicSuffixType.java                               | src      |       11 |        8 |       13 |       37 |       69 |
 | thirdparty.publicsuffix | TrieParser.java                                     | src      |       11 |       14 |       20 |       57 |      102 |
 +-------------------------+-----------------------------------------------------+----------+----------+----------+----------+----------+----------+
-| 18 package(s)           | 573 file(s)                                         | java     |    17113 |    43662 |    12878 |    88070 |   161723 |
+| 18 package(s)           | 573 file(s)                                         | java     |    17113 |    43667 |    12878 |    88071 |   161729 |
 +-------------------------+-----------------------------------------------------+----------+----------+----------+----------+----------+----------+
 
-[INFO]
-[INFO] -------------------< com.google.guava:guava-testlib >-------------------
-[INFO] Building Guava Testing Library HEAD-jre-SNAPSHOT                   [3/5]
-[INFO] --------------------------------[ jar ]---------------------------------
-[INFO]
-[INFO] --- sloc-maven-plugin:0.1.3:sloc (default-cli) @ guava-testlib ---
-[INFO] SLOC - directory: /home/orhanku/ME/DEV/x/guava/guava-testlib/src
-+--------------------------+---------------------------------------------+----------+----------+----------+----------+----------+----------+
-| Package Name             | File Name                                   | Type     | Blank    | JavaDoc  | Comment  | Code     | Total    |
-+--------------------------+---------------------------------------------+----------+----------+----------+----------+----------+----------+
-| collect.testing.features | CollectionFeature.java                      | src      |       18 |       47 |       16 |       47 |      128 |
-| collect.testing.features | CollectionSize.java                         | src      |       11 |       16 |       22 |       48 |       97 |
-| collect.testing.features | ConflictingRequirementsException.java       | src      |        8 |        5 |       15 |       25 |       53 |
-| collect.testing.features | Feature.java                                | src      |        3 |        6 |       15 |        8 |       32 |
-| collect.testing.features | FeatureUtil.java                            | src      |       19 |       83 |       16 |      180 |      298 |
-| collect.testing.features | ListFeature.java                            | src      |       10 |        5 |       16 |       37 |       68 |
-| collect.testing.features | MapFeature.java                             | src      |        9 |       29 |       16 |       41 |       95 |
-| collect.testing.features | SetFeature.java                             | src      |        8 |        5 |       16 |       27 |       56 |
-| collect.testing.features | TesterAnnotation.java                       | src      |        3 |        9 |       13 |       11 |       36 |
-| collect.testing.features | TesterRequirements.java                     | src      |       12 |        6 |       15 |       47 |       80 |
-+--------------------------+---------------------------------------------+----------+----------+----------+----------+----------+----------+
-| collect.testing.google   | AbstractBiMapTester.java                    | src      |        8 |        0 |       19 |       56 |       83 |
-| collect.testing.google   | AbstractListMultimapTester.java             | src      |        8 |        5 |       13 |       28 |       54 |
-| collect.testing.google   | AbstractMultimapTester.java                 | src      |       36 |        9 |       16 |      138 |      199 |
-| collect.testing.google   | AbstractMultisetSetCountTester.java         | src      |       55 |       20 |       32 |      293 |      400 |
-| collect.testing.google   | AbstractMultisetTester.java                 | src      |        4 |        5 |       15 |       15 |       39 |
-| collect.testing.google   | BiMapClearTester.java                       | src      |        9 |        5 |       15 |       52 |       81 |
-| collect.testing.google   | BiMapEntrySetTester.java                    | src      |        7 |        0 |       15 |       61 |       83 |
-| collect.testing.google   | BiMapGenerators.java                        | src      |        5 |        6 |       15 |       37 |       63 |
-| collect.testing.google   | BiMapInverseTester.java                     | src      |       11 |       12 |       15 |       46 |       84 |
-| collect.testing.google   | BiMapPutTester.java                         | src      |       22 |        0 |       20 |      112 |      154 |
-| collect.testing.google   | BiMapRemoveTester.java                      | src      |       10 |        5 |       15 |       66 |       96 |
-| collect.testing.google   | BiMapTestSuiteBuilder.java                  | src      |       19 |        6 |       24 |      108 |      157 |
-| collect.testing.google   | DerivedGoogleCollectionGenerators.java      | src      |       34 |        6 |       17 |      154 |      211 |
-| collect.testing.google   | GoogleHelpers.java                          | src      |        6 |        5 |       15 |       13 |       39 |
-| collect.testing.google   | ListGenerators.java                         | src      |       18 |        5 |       15 |      105 |      143 |
-| collect.testing.google   | ListMultimapAsMapTester.java                | src      |        9 |        7 |       13 |       69 |       98 |
-| collect.testing.google   | ListMultimapEqualsTester.java               | src      |        4 |        5 |       13 |       28 |       50 |
-| collect.testing.google   | ListMultimapPutAllTester.java               | src      |        8 |        5 |       13 |       25 |       51 |
-| collect.testing.google   | ListMultimapPutTester.java                  | src      |       13 |        5 |       14 |       46 |       78 |
-| collect.testing.google   | ListMultimapRemoveTester.java               | src      |       17 |        5 |       13 |       70 |      105 |
-| collect.testing.google   | ListMultimapReplaceValuesTester.java        | src      |        5 |        5 |       13 |       23 |       46 |
-| collect.testing.google   | ListMultimapTestSuiteBuilder.java           | src      |       12 |        6 |       15 |      104 |      137 |
-| collect.testing.google   | MapGenerators.java                          | src      |       27 |        5 |       18 |      189 |      239 |
-| collect.testing.google   | MultimapAsMapGetTester.java                 | src      |       17 |        5 |       15 |      100 |      137 |
-| collect.testing.google   | MultimapAsMapTester.java                    | src      |       15 |        5 |       13 |      109 |      142 |
-| collect.testing.google   | MultimapClearTester.java                    | src      |       15 |        5 |       15 |      103 |      138 |
-| collect.testing.google   | MultimapContainsEntryTester.java            | src      |       10 |        5 |       17 |       56 |       88 |
-| collect.testing.google   | MultimapContainsKeyTester.java              | src      |       12 |        5 |       16 |       58 |       91 |
-| collect.testing.google   | MultimapContainsValueTester.java            | src      |        8 |        5 |       16 |       39 |       68 |
-| collect.testing.google   | MultimapEntriesTester.java                  | src      |       13 |        5 |       13 |       91 |      122 |
-| collect.testing.google   | MultimapEqualsTester.java                   | src      |        9 |        5 |       13 |       65 |       92 |
-| collect.testing.google   | MultimapFeature.java                        | src      |        8 |        5 |       16 |       30 |       59 |
-| collect.testing.google   | MultimapForEachTester.java                  | src      |        4 |        5 |       15 |       26 |       50 |
-| collect.testing.google   | MultimapGetTester.java                      | src      |       19 |        5 |       16 |      118 |      158 |
-| collect.testing.google   | MultimapKeySetTester.java                   | src      |        8 |        5 |       13 |       53 |       79 |
-| collect.testing.google   | MultimapKeysTester.java                     | src      |       10 |        5 |       13 |       79 |      107 |
-| collect.testing.google   | MultimapPutAllMultimapTester.java           | src      |       11 |        5 |       15 |       80 |      111 |
-| collect.testing.google   | MultimapPutIterableTester.java              | src      |       26 |        5 |       24 |      166 |      221 |
-| collect.testing.google   | MultimapPutTester.java                      | src      |       40 |        5 |       15 |      162 |      222 |
-| collect.testing.google   | MultimapRemoveAllTester.java                | src      |       14 |        5 |       15 |       59 |       93 |
-| collect.testing.google   | MultimapRemoveEntryTester.java              | src      |       29 |        5 |       17 |      140 |      191 |
-| collect.testing.google   | MultimapReplaceValuesTester.java            | src      |       15 |        5 |       17 |      107 |      144 |
-| collect.testing.google   | MultimapSizeTester.java                     | src      |       15 |        5 |       15 |       71 |      106 |
-| collect.testing.google   | MultimapTestSuiteBuilder.java               | src      |       78 |        6 |       23 |      568 |      675 |
-| collect.testing.google   | MultimapToStringTester.java                 | src      |        8 |        5 |       13 |       44 |       70 |
-| collect.testing.google   | MultimapValuesTester.java                   | src      |        6 |        5 |       13 |       42 |       66 |
-| collect.testing.google   | MultisetAddTester.java                      | src      |       15 |        5 |       15 |       92 |      127 |
-| collect.testing.google   | MultisetContainsTester.java                 | src      |        5 |        5 |       13 |       18 |       41 |
-| collect.testing.google   | MultisetCountTester.java                    | src      |       12 |        9 |       15 |       57 |       93 |
-| collect.testing.google   | MultisetElementSetTester.java               | src      |       10 |        9 |       15 |       74 |      108 |
-| collect.testing.google   | MultisetEntrySetTester.java                 | src      |       21 |        5 |       15 |      214 |      255 |
-| collect.testing.google   | MultisetEqualsTester.java                   | src      |        7 |        5 |       13 |       38 |       63 |
-| collect.testing.google   | MultisetFeature.java                        | src      |        6 |        9 |       15 |       25 |       55 |
-| collect.testing.google   | MultisetForEachEntryTester.java             | src      |        7 |        9 |       15 |       46 |       77 |
-| collect.testing.google   | MultisetIteratorTester.java                 | src      |        8 |       10 |       13 |       83 |      114 |
-| collect.testing.google   | MultisetNavigationTester.java               | src      |       83 |        5 |       15 |      571 |      674 |
-| collect.testing.google   | MultisetReadsTester.java                    | src      |       16 |        6 |       15 |       77 |      114 |
-| collect.testing.google   | MultisetRemoveTester.java                   | src      |       19 |       10 |       16 |      151 |      196 |
-| collect.testing.google   | MultisetSerializationTester.java            | src      |        5 |        6 |       15 |       22 |       48 |
-| collect.testing.google   | MultisetSetCountConditionallyTester.java    | src      |       15 |        6 |       22 |       68 |      111 |
-| collect.testing.google   | MultisetSetCountUnconditionallyTester.java  | src      |        5 |        6 |       15 |       21 |       47 |
-| collect.testing.google   | MultisetTestSuiteBuilder.java               | src      |       34 |        7 |       16 |      225 |      282 |
-| collect.testing.google   | SetGenerators.java                          | src      |       46 |        7 |       41 |      330 |      424 |
-| collect.testing.google   | SetMultimapAsMapTester.java                 | src      |        9 |        7 |       13 |       68 |       97 |
-| collect.testing.google   | SetMultimapEqualsTester.java                | src      |        4 |        5 |       13 |       28 |       50 |
-| collect.testing.google   | SetMultimapPutAllTester.java                | src      |        9 |        5 |       13 |       26 |       53 |
-| collect.testing.google   | SetMultimapPutTester.java                   | src      |       10 |        5 |       14 |       45 |       74 |
-| collect.testing.google   | SetMultimapReplaceValuesTester.java         | src      |        6 |        5 |       13 |       24 |       48 |
-| collect.testing.google   | SetMultimapTestSuiteBuilder.java            | src      |       15 |        6 |       15 |      114 |      150 |
-| collect.testing.google   | SortedMapGenerators.java                    | src      |       13 |       10 |       15 |       95 |      133 |
-| collect.testing.google   | SortedMultisetTestSuiteBuilder.java         | src      |       40 |       20 |       22 |      232 |      314 |
-| collect.testing.google   | SortedSetMultimapAsMapTester.java           | src      |        6 |        7 |       13 |       36 |       62 |
-| collect.testing.google   | SortedSetMultimapGetTester.java             | src      |        3 |        5 |       15 |       12 |       35 |
-| collect.testing.google   | SortedSetMultimapTestSuiteBuilder.java      | src      |        7 |        6 |       15 |       69 |       97 |
-| collect.testing.google   | TestBiMapGenerator.java                     | src      |        4 |        5 |       15 |       10 |       34 |
-| collect.testing.google   | TestEnumMultisetGenerator.java              | src      |        7 |        5 |       15 |       35 |       62 |
-| collect.testing.google   | TestListMultimapGenerator.java              | src      |        3 |        5 |       15 |        6 |       29 |
-| collect.testing.google   | TestMultimapGenerator.java                  | src      |        8 |        5 |       15 |       16 |       44 |
-| collect.testing.google   | TestMultisetGenerator.java                  | src      |        3 |        5 |       15 |        9 |       32 |
-| collect.testing.google   | TestSetMultimapGenerator.java               | src      |        3 |        5 |       15 |        6 |       29 |
-| collect.testing.google   | TestStringBiMapGenerator.java               | src      |       10 |        8 |       15 |       50 |       83 |
-| collect.testing.google   | TestStringListMultimapGenerator.java        | src      |       13 |        5 |       15 |       64 |       97 |
-| collect.testing.google   | TestStringMultisetGenerator.java            | src      |        7 |        5 |       15 |       32 |       59 |
-| collect.testing.google   | TestStringSetMultimapGenerator.java         | src      |       12 |        5 |       15 |       64 |       96 |
-| collect.testing.google   | UnmodifiableCollectionTests.java            | src      |       56 |       82 |       33 |      244 |      415 |
-+--------------------------+---------------------------------------------+----------+----------+----------+----------+----------+----------+
-| collect.testing.testers  | AbstractListIndexOfTester.java              | src      |       12 |        5 |       15 |       57 |       89 |
-| collect.testing.testers  | AbstractListTester.java                     | src      |        5 |       16 |       21 |       32 |       74 |
-| collect.testing.testers  | AbstractQueueTester.java                    | src      |        3 |        5 |       15 |       12 |       35 |
-| collect.testing.testers  | AbstractSetTester.java                      | src      |        3 |        0 |       20 |       13 |       36 |
-| collect.testing.testers  | CollectionAddAllTester.java                 | src      |       17 |       24 |       20 |      136 |      197 |
-| collect.testing.testers  | CollectionAddTester.java                    | src      |       12 |       28 |       16 |       86 |      142 |
-| collect.testing.testers  | CollectionClearTester.java                  | src      |        7 |        6 |       20 |       55 |       88 |
-| collect.testing.testers  | CollectionContainsAllTester.java            | src      |       13 |        8 |       15 |       71 |      107 |
-| collect.testing.testers  | CollectionContainsTester.java               | src      |       10 |        7 |       15 |       48 |       80 |
-| collect.testing.testers  | CollectionCreationTester.java               | src      |        7 |       12 |       15 |       36 |       70 |
-| collect.testing.testers  | CollectionEqualsTester.java                 | src      |        6 |        5 |       18 |       20 |       49 |
-| collect.testing.testers  | CollectionForEachTester.java                | src      |        5 |        6 |       15 |       27 |       53 |
-| collect.testing.testers  | CollectionIsEmptyTester.java                | src      |        5 |        6 |       15 |       18 |       44 |
-| collect.testing.testers  | CollectionIteratorTester.java               | src      |       14 |        6 |       16 |       99 |      135 |
-| collect.testing.testers  | CollectionRemoveAllTester.java              | src      |       19 |        7 |       24 |      157 |      207 |
-| collect.testing.testers  | CollectionRemoveIfTester.java               | src      |        9 |        6 |       16 |       75 |      106 |
-| collect.testing.testers  | CollectionRemoveTester.java                 | src      |       14 |        6 |       16 |      117 |      153 |
-| collect.testing.testers  | CollectionRetainAllTester.java              | src      |       50 |        6 |       38 |      234 |      328 |
-| collect.testing.testers  | CollectionSerializationEqualTester.java     | src      |        4 |        6 |       15 |       15 |       40 |
-| collect.testing.testers  | CollectionSerializationTester.java          | src      |        4 |        5 |       16 |       17 |       42 |
-| collect.testing.testers  | CollectionSizeTester.java                   | src      |        3 |        6 |       15 |       11 |       35 |
-| collect.testing.testers  | CollectionSpliteratorTester.java            | src      |       11 |        6 |       17 |       62 |       96 |
-| collect.testing.testers  | CollectionStreamTester.java                 | src      |        7 |        6 |       19 |       30 |       62 |
-| collect.testing.testers  | CollectionToArrayTester.java                | src      |       21 |       20 |       17 |      143 |      201 |
-| collect.testing.testers  | CollectionToStringTester.java               | src      |        8 |        6 |       15 |       45 |       74 |
-| collect.testing.testers  | ConcurrentMapPutIfAbsentTester.java         | src      |       13 |        7 |       15 |      101 |      136 |
-| collect.testing.testers  | ConcurrentMapRemoveTester.java              | src      |       12 |        6 |       18 |       74 |      110 |
-| collect.testing.testers  | ConcurrentMapReplaceEntryTester.java        | src      |       16 |        7 |       20 |      109 |      152 |
-| collect.testing.testers  | ConcurrentMapReplaceTester.java             | src      |       11 |        7 |       17 |       73 |      108 |
-| collect.testing.testers  | ListAddAllAtIndexTester.java                | src      |       17 |        6 |       19 |      141 |      183 |
-| collect.testing.testers  | ListAddAllTester.java                       | src      |        6 |        6 |       15 |       36 |       63 |
-| collect.testing.testers  | ListAddAtIndexTester.java                   | src      |       15 |       10 |       20 |      116 |      161 |
-| collect.testing.testers  | ListAddTester.java                          | src      |        8 |       10 |       19 |       46 |       83 |
-| collect.testing.testers  | ListCreationTester.java                     | src      |        5 |        7 |       15 |       20 |       47 |
-| collect.testing.testers  | ListEqualsTester.java                       | src      |       10 |        5 |       15 |       62 |       92 |
-| collect.testing.testers  | ListGetTester.java                          | src      |        5 |        6 |       16 |       24 |       51 |
-| collect.testing.testers  | ListHashCodeTester.java                     | src      |        4 |        9 |       15 |       24 |       52 |
-| collect.testing.testers  | ListIndexOfTester.java                      | src      |        6 |        6 |       15 |       29 |       56 |
-| collect.testing.testers  | ListLastIndexOfTester.java                  | src      |        6 |        6 |       15 |       31 |       58 |
-| collect.testing.testers  | ListListIteratorTester.java                 | src      |       12 |       17 |       20 |       78 |      127 |
-| collect.testing.testers  | ListRemoveAllTester.java                    | src      |        6 |        6 |       16 |       28 |       56 |
-| collect.testing.testers  | ListRemoveAtIndexTester.java                | src      |       11 |        6 |       16 |       82 |      115 |
-| collect.testing.testers  | ListRemoveTester.java                       | src      |        5 |        6 |       15 |       33 |       59 |
-| collect.testing.testers  | ListReplaceAllTester.java                   | src      |        6 |        6 |       15 |       39 |       66 |
-| collect.testing.testers  | ListRetainAllTester.java                    | src      |        6 |        6 |       15 |       47 |       74 |
-| collect.testing.testers  | ListSetTester.java                          | src      |       15 |       15 |       15 |      104 |      149 |
-| collect.testing.testers  | ListSubListTester.java                      | src      |       32 |       26 |       27 |      269 |      354 |
-| collect.testing.testers  | ListToArrayTester.java                      | src      |        8 |        6 |       16 |       26 |       56 |
-| collect.testing.testers  | MapClearTester.java                         | src      |        9 |        7 |       18 |       78 |      112 |
-| collect.testing.testers  | MapComputeIfAbsentTester.java               | src      |       15 |        6 |       16 |      168 |      205 |
-| collect.testing.testers  | MapComputeIfPresentTester.java              | src      |       15 |        6 |       15 |      146 |      182 |
-| collect.testing.testers  | MapComputeTester.java                       | src      |       13 |        6 |       17 |      168 |      204 |
-| collect.testing.testers  | MapContainsKeyTester.java                   | src      |       10 |        6 |       16 |       49 |       81 |
-| collect.testing.testers  | MapContainsValueTester.java                 | src      |       10 |        7 |       16 |       50 |       83 |
-| collect.testing.testers  | MapCreationTester.java                      | src      |       17 |       13 |       15 |      109 |      154 |
-| collect.testing.testers  | MapEntrySetTester.java                      | src      |       19 |        7 |       17 |      125 |      168 |
-| collect.testing.testers  | MapEqualsTester.java                        | src      |       17 |        6 |       15 |       93 |      131 |
-| collect.testing.testers  | MapForEachTester.java                       | src      |        7 |        6 |       15 |       51 |       79 |
-| collect.testing.testers  | MapGetOrDefaultTester.java                  | src      |       13 |        6 |       15 |       91 |      125 |
-| collect.testing.testers  | MapGetTester.java                           | src      |       10 |        7 |       15 |       50 |       82 |
-| collect.testing.testers  | MapHashCodeTester.java                      | src      |       11 |        6 |       15 |       54 |       86 |
-| collect.testing.testers  | MapIsEmptyTester.java                       | src      |        5 |        6 |       15 |       18 |       44 |
-| collect.testing.testers  | MapMergeTester.java                         | src      |       14 |       10 |       15 |      157 |      196 |
-| collect.testing.testers  | MapPutAllTester.java                        | src      |       21 |       12 |       16 |      154 |      203 |
-| collect.testing.testers  | MapPutIfAbsentTester.java                   | src      |       12 |        6 |       15 |       94 |      127 |
-| collect.testing.testers  | MapPutTester.java                           | src      |       27 |       13 |       18 |      204 |      262 |
-| collect.testing.testers  | MapRemoveEntryTester.java                   | src      |       11 |        6 |       18 |       70 |      105 |
-| collect.testing.testers  | MapRemoveTester.java                        | src      |       15 |        7 |       18 |      125 |      165 |
-| collect.testing.testers  | MapReplaceAllTester.java                    | src      |       10 |        6 |       15 |       95 |      126 |
-| collect.testing.testers  | MapReplaceEntryTester.java                  | src      |       16 |        6 |       20 |      109 |      151 |
-| collect.testing.testers  | MapReplaceTester.java                       | src      |       12 |        6 |       18 |       74 |      110 |
-| collect.testing.testers  | MapSerializationTester.java                 | src      |        4 |        5 |       15 |       18 |       42 |
-| collect.testing.testers  | MapSizeTester.java                          | src      |        3 |        6 |       15 |       11 |       35 |
-| collect.testing.testers  | MapToStringTester.java                      | src      |       10 |        7 |       13 |       59 |       89 |
-| collect.testing.testers  | NavigableMapNavigationTester.java           | src      |       33 |        7 |       16 |      209 |      265 |
-| collect.testing.testers  | NavigableSetNavigationTester.java           | src      |       30 |       12 |       31 |      185 |      258 |
-| collect.testing.testers  | Platform.java                               | src      |        7 |        5 |       15 |       19 |       46 |
-| collect.testing.testers  | QueueElementTester.java                     | src      |        6 |        6 |       15 |       34 |       61 |
-| collect.testing.testers  | QueueOfferTester.java                       | src      |        6 |        6 |       15 |       31 |       58 |
-| collect.testing.testers  | QueuePeekTester.java                        | src      |        6 |        6 |       15 |       29 |       56 |
-| collect.testing.testers  | QueuePollTester.java                        | src      |        6 |        6 |       15 |       33 |       60 |
-| collect.testing.testers  | QueueRemoveTester.java                      | src      |        6 |        6 |       15 |       38 |       65 |
-| collect.testing.testers  | SetAddAllTester.java                        | src      |        6 |        6 |       15 |       32 |       59 |
-| collect.testing.testers  | SetAddTester.java                           | src      |        6 |       10 |       15 |       33 |       64 |
-| collect.testing.testers  | SetCreationTester.java                      | src      |        9 |        7 |       15 |       55 |       86 |
-| collect.testing.testers  | SetEqualsTester.java                        | src      |       13 |        5 |       15 |       63 |       96 |
-| collect.testing.testers  | SetHashCodeTester.java                      | src      |        7 |       10 |       15 |       47 |       79 |
-| collect.testing.testers  | SetRemoveTester.java                        | src      |        4 |        6 |       15 |       19 |       44 |
-| collect.testing.testers  | SortedMapNavigationTester.java              | src      |       20 |        7 |       16 |      147 |      190 |
-| collect.testing.testers  | SortedSetNavigationTester.java              | src      |       13 |        7 |       16 |       70 |      106 |
-+--------------------------+---------------------------------------------+----------+----------+----------+----------+----------+----------+
-| collect.testing          | AbstractCollectionTestSuiteBuilder.java     | src      |        3 |        5 |       16 |       55 |       79 |
-| collect.testing          | AbstractCollectionTester.java               | src      |       10 |       12 |       18 |       39 |       79 |
-| collect.testing          | AbstractContainerTester.java                | src      |       32 |       73 |       29 |      124 |      258 |
-| collect.testing          | AbstractIteratorTester.java                 | src      |       64 |       78 |       54 |      413 |      609 |
-| collect.testing          | AbstractMapTester.java                      | src      |       39 |       27 |       19 |      170 |      255 |
-| collect.testing          | AbstractTester.java                         | src      |       10 |       11 |       19 |       42 |       82 |
-| collect.testing          | AnEnum.java                                 | src      |        3 |        5 |       15 |       11 |       34 |
-| collect.testing          | BaseComparable.java                         | src      |        8 |        5 |       15 |       29 |       57 |
-| collect.testing          | CollectionTestSuiteBuilder.java             | src      |       13 |        8 |       15 |       64 |      100 |
-| collect.testing          | ConcurrentMapTestSuiteBuilder.java          | src      |        5 |        6 |       13 |       28 |       52 |
-| collect.testing          | ConcurrentNavigableMapTestSuiteBuilder.java | src      |        6 |        6 |       15 |       24 |       51 |
-| collect.testing          | DerivedCollectionGenerators.java            | src      |       88 |        9 |       41 |      420 |      558 |
-| collect.testing          | DerivedComparable.java                      | src      |        4 |        5 |       15 |        9 |       33 |
-| collect.testing          | DerivedGenerator.java                       | src      |        3 |       11 |       15 |        6 |       35 |
-| collect.testing          | DerivedTestIteratorGenerator.java           | src      |        6 |        5 |       15 |       20 |       46 |
-| collect.testing          | FeatureSpecificTestSuiteBuilder.java        | src      |       43 |       23 |       28 |      218 |      312 |
-| collect.testing          | Helpers.java                                | src      |       68 |       46 |       36 |      376 |      526 |
-| collect.testing          | IteratorFeature.java                        | src      |        5 |       23 |       15 |       17 |       60 |
-| collect.testing          | IteratorTester.java                         | src      |        4 |       39 |       15 |       18 |       76 |
-| collect.testing          | ListIteratorTester.java                     | src      |        5 |       13 |       15 |       25 |       58 |
-| collect.testing          | ListTestSuiteBuilder.java                   | src      |       16 |       10 |       15 |      116 |      157 |
-| collect.testing          | MapInterfaceTest.java                       | src      |      137 |       58 |       58 |     1367 |     1620 |
-| collect.testing          | MapTestSuiteBuilder.java                    | src      |       31 |        5 |       22 |      223 |      281 |
-| collect.testing          | MinimalCollection.java                      | src      |       19 |        6 |       25 |       84 |      134 |
-| collect.testing          | MinimalIterable.java                        | src      |        7 |       29 |       18 |       31 |       85 |
-| collect.testing          | MinimalSet.java                             | src      |       10 |        7 |       18 |       47 |       82 |
-| collect.testing          | NavigableMapTestSuiteBuilder.java           | src      |       25 |        4 |       16 |      138 |      183 |
-| collect.testing          | NavigableSetTestSuiteBuilder.java           | src      |       17 |        4 |       16 |      116 |      153 |
-| collect.testing          | OneSizeGenerator.java                       | src      |       12 |        5 |       15 |       53 |       85 |
-| collect.testing          | OneSizeTestContainerGenerator.java          | src      |        5 |       10 |       15 |       11 |       41 |
-| collect.testing          | PerCollectionSizeTestSuiteBuilder.java      | src      |       17 |       13 |       17 |       87 |      134 |
-| collect.testing          | Platform.java                               | src      |        6 |        7 |       16 |       16 |       45 |
-| collect.testing          | QueueTestSuiteBuilder.java                  | src      |        7 |       11 |       15 |       34 |       67 |
-| collect.testing          | ReserializingTestCollectionGenerator.java   | src      |       10 |        7 |       15 |       49 |       81 |
-| collect.testing          | ReserializingTestSetGenerator.java          | src      |        6 |        7 |       15 |       17 |       45 |
-| collect.testing          | SafeTreeMap.java                            | src      |       55 |        6 |       16 |      250 |      327 |
-| collect.testing          | SafeTreeSet.java                            | src      |       44 |        6 |       16 |      189 |      255 |
-| collect.testing          | SampleElements.java                         | src      |       23 |        5 |       21 |      106 |      155 |
-| collect.testing          | SetTestSuiteBuilder.java                    | src      |       15 |        5 |       18 |       83 |      121 |
-| collect.testing          | SortedMapInterfaceTest.java                 | src      |       10 |        6 |       16 |       96 |      128 |
-| collect.testing          | SortedMapTestSuiteBuilder.java              | src      |       16 |       14 |       15 |       87 |      132 |
-| collect.testing          | SortedSetTestSuiteBuilder.java              | src      |       12 |       10 |       15 |       69 |      106 |
-| collect.testing          | SpliteratorTester.java                      | src      |       14 |        8 |       17 |      154 |      193 |
-| collect.testing          | TestCharacterListGenerator.java             | src      |        7 |       10 |       15 |       30 |       62 |
-| collect.testing          | TestCollectionGenerator.java                | src      |        3 |        5 |       15 |        5 |       28 |
-| collect.testing          | TestCollidingSetGenerator.java              | src      |        5 |        5 |       15 |       20 |       45 |
-| collect.testing          | TestContainerGenerator.java                 | src      |        6 |       26 |       15 |       13 |       60 |
-| collect.testing          | TestEnumMapGenerator.java                   | src      |       11 |        5 |       15 |       49 |       80 |
-| collect.testing          | TestEnumSetGenerator.java                   | src      |        7 |        5 |       15 |       33 |       60 |
-| collect.testing          | TestIntegerSetGenerator.java                | src      |        7 |       16 |       15 |       30 |       68 |
-| collect.testing          | TestIntegerSortedSetGenerator.java          | src      |        4 |        6 |       15 |       16 |       41 |
-| collect.testing          | TestIteratorGenerator.java                  | src      |        3 |        6 |       15 |        7 |       31 |
-| collect.testing          | TestListGenerator.java                      | src      |        3 |        5 |       15 |        8 |       31 |
-| collect.testing          | TestMapEntrySetGenerator.java               | src      |        9 |        5 |       15 |       36 |       65 |
-| collect.testing          | TestMapGenerator.java                       | src      |        4 |        5 |       15 |        8 |       32 |
-| collect.testing          | TestQueueGenerator.java                     | src      |        3 |        5 |       15 |        8 |       31 |
-| collect.testing          | TestSetGenerator.java                       | src      |        3 |        5 |       15 |        8 |       31 |
-| collect.testing          | TestSortedMapGenerator.java                 | src      |        7 |       21 |       15 |       13 |       56 |
-| collect.testing          | TestSortedSetGenerator.java                 | src      |        7 |       21 |       15 |       12 |       55 |
-| collect.testing          | TestStringCollectionGenerator.java          | src      |        7 |        5 |       15 |       31 |       58 |
-| collect.testing          | TestStringListGenerator.java                | src      |        7 |        9 |       15 |       30 |       61 |
-| collect.testing          | TestStringMapGenerator.java                 | src      |       10 |        7 |       15 |       48 |       80 |
-| collect.testing          | TestStringQueueGenerator.java               | src      |        7 |        5 |       15 |       31 |       58 |
-| collect.testing          | TestStringSetGenerator.java                 | src      |        7 |       16 |       15 |       30 |       68 |
-| collect.testing          | TestStringSortedMapGenerator.java           | src      |       10 |        5 |       15 |       36 |       66 |
-| collect.testing          | TestStringSortedSetGenerator.java           | src      |       10 |        5 |       15 |       37 |       67 |
-| collect.testing          | TestSubjectGenerator.java                   | src      |        3 |        7 |       15 |        6 |       31 |
-| collect.testing          | TestUnhashableCollectionGenerator.java      | src      |        7 |        9 |       15 |       31 |       62 |
-| collect.testing          | TestsForListsInJavaUtil.java                | src      |       29 |        6 |       16 |      292 |      343 |
-| collect.testing          | TestsForMapsInJavaUtil.java                 | src      |       50 |       10 |       22 |      517 |      599 |
-| collect.testing          | TestsForQueuesInJavaUtil.java               | src      |       25 |        6 |       20 |      216 |      267 |
-| collect.testing          | TestsForSetsInJavaUtil.java                 | src      |       49 |       10 |       15 |      498 |      572 |
-| collect.testing          | UnhashableObject.java                       | src      |        8 |        5 |       16 |       29 |       58 |
-| collect.testing          | WrongType.java                              | src      |        3 |        4 |       15 |        6 |       28 |
-+--------------------------+---------------------------------------------+----------+----------+----------+----------+----------+----------+
-| escape.testing           | EscaperAsserts.java                         | src      |       13 |       45 |       18 |       45 |      121 |
-| escape.testing           | package-info.java                           | src      |        2 |        6 |       15 |        3 |       26 |
-+--------------------------+---------------------------------------------+----------+----------+----------+----------+----------+----------+
-| testing                  | AbstractPackageSanityTests.java             | src      |       26 |      159 |       22 |      236 |      443 |
-| testing                  | ArbitraryInstances.java                     | src      |       35 |       35 |       25 |      426 |      521 |
-| testing                  | ClassSanityTester.java                      | src      |       48 |      203 |       30 |      555 |      836 |
-| testing                  | ClusterException.java                       | src      |        7 |       55 |       15 |       37 |      114 |
-| testing                  | CollectorTester.java                        | src      |       14 |       31 |       15 |      108 |      168 |
-| testing                  | DummyProxy.java                             | src      |       14 |        9 |       18 |       73 |      114 |
-| testing                  | EqualsTester.java                           | src      |       11 |       54 |       15 |       60 |      140 |
-| testing                  | EquivalenceTester.java                      | src      |       11 |       25 |       19 |       55 |      110 |
-| testing                  | FakeTicker.java                             | src      |        9 |       17 |       15 |       34 |       75 |
-| testing                  | ForwardingWrapperTester.java                | src      |       19 |       26 |       23 |      171 |      239 |
-| testing                  | FreshValueGenerator.java                    | src      |      150 |       34 |       31 |      823 |     1038 |
-| testing                  | GcFinalization.java                         | src      |       15 |      148 |       27 |      126 |      316 |
-| testing                  | NullPointerTester.java                      | src      |       54 |      101 |       21 |      384 |      560 |
-| testing                  | Platform.java                               | src      |        5 |        5 |       15 |       26 |       51 |
-| testing                  | RelationshipTester.java                     | src      |       20 |       13 |       18 |      118 |      169 |
-| testing                  | SerializableTester.java                     | src      |        5 |       54 |       15 |       20 |       94 |
-| testing                  | SloppyTearDown.java                         | src      |        5 |        9 |       15 |       19 |       48 |
-| testing                  | TearDown.java                               | src      |        3 |       22 |       15 |        9 |       49 |
-| testing                  | TearDownAccepter.java                       | src      |        3 |       13 |       15 |        8 |       39 |
-| testing                  | TearDownStack.java                          | src      |       10 |        8 |       15 |       54 |       87 |
-| testing                  | TestLogHandler.java                         | src      |        8 |       27 |       22 |       32 |       89 |
-| testing                  | package-info.java                           | src      |        1 |        4 |       15 |        2 |       22 |
-+--------------------------+---------------------------------------------+----------+----------+----------+----------+----------+----------+
-| util.concurrent.testing  | AbstractCheckedFutureTest.java              | src      |       29 |       11 |       17 |       95 |      152 |
-| util.concurrent.testing  | AbstractListenableFutureTest.java           | src      |       45 |       17 |       27 |      158 |      247 |
-| util.concurrent.testing  | MockFutureListener.java                     | src      |       12 |       18 |       19 |       44 |       93 |
-| util.concurrent.testing  | SameThreadScheduledExecutorService.java     | src      |       27 |        8 |       15 |      139 |      189 |
-| util.concurrent.testing  | TestingExecutors.java                       | src      |       21 |       48 |       15 |       86 |      170 |
-+--------------------------+---------------------------------------------+----------+----------+----------+----------+----------+----------+
-| 7 package(s)             | 288 file(s)                                 | java     |     4284 |     3615 |     4906 |    26355 |    39160 |
-+--------------------------+---------------------------------------------+----------+----------+----------+----------+----------+----------+
+## delete sloc.txt files
+$ git clean -n
+Would remove guava-gwt/sloc.txt
+Would remove guava-testlib/sloc.txt
+Would remove guava/sloc.txt
 
-[INFO]
-[INFO] --------------------< com.google.guava:guava-tests >--------------------
-[INFO] Building Guava Unit Tests HEAD-jre-SNAPSHOT                        [4/5]
-[INFO] --------------------------------[ jar ]---------------------------------
-[INFO]
-[INFO] --- sloc-maven-plugin:0.1.3:sloc (default-cli) @ guava-tests ---
-[WARNING] Does not contain a source directory: /home/orhanku/ME/DEV/x/guava/guava-tests/src
-[INFO]
-[INFO] ---------------------< com.google.guava:guava-gwt >---------------------
-[INFO] Building Guava GWT compatible libs HEAD-jre-SNAPSHOT               [5/5]
-[INFO] --------------------------------[ jar ]---------------------------------
-[INFO]
-[INFO] --- sloc-maven-plugin:0.1.3:sloc (default-cli) @ guava-gwt ---
-[INFO] SLOC - directory: /home/orhanku/ME/DEV/x/guava/guava-gwt/src
-+-------------------+-------------------------------------------------------+----------+----------+----------+----------+----------+----------+
-| Package Name      | File Name                                             | Type     | Blank    | JavaDoc  | Comment  | Code     | Total    |
-+-------------------+-------------------------------------------------------+----------+----------+----------+----------+----------+----------+
-| common.base       | Absent_CustomFieldSerializer.java                     | src      |        5 |        9 |       15 |       12 |       41 |
-| common.base       | GwtSerializationDependencies.java                     | src      |       16 |        9 |       15 |       58 |       98 |
-| common.base       | PairwiseEquivalence_CustomFieldSerializer.java        | src      |        8 |        5 |       15 |       20 |       48 |
-| common.base       | Present_CustomFieldSerializer.java                    | src      |        5 |        5 |       15 |       17 |       42 |
-+-------------------+-------------------------------------------------------+----------+----------+----------+----------+----------+----------+
-| common.collect    | AllEqualOrdering_CustomFieldSerializer.java           | src      |        5 |        5 |       15 |       10 |       35 |
-| common.collect    | ArrayListMultimap_CustomFieldSerializer.java          | src      |        6 |        5 |       15 |       16 |       42 |
-| common.collect    | ByFunctionOrdering_CustomFieldSerializer.java         | src      |        6 |        5 |       15 |       20 |       46 |
-| common.collect    | ComparatorOrdering_CustomFieldSerializer.java         | src      |        6 |        5 |       15 |       18 |       44 |
-| common.collect    | CompoundOrdering_CustomFieldSerializer.java           | src      |        6 |        5 |       15 |       27 |       53 |
-| common.collect    | DenseImmutableTable_CustomFieldSerializer.java        | src      |        5 |        5 |       13 |       18 |       41 |
-| common.collect    | EmptyImmutableListMultimap_CustomFieldSerializer.java | src      |        6 |        5 |       15 |       12 |       38 |
-| common.collect    | EmptyImmutableSetMultimap_CustomFieldSerializer.java  | src      |        6 |        5 |       15 |       12 |       38 |
-| common.collect    | ExplicitOrdering_CustomFieldSerializer.java           | src      |        6 |        5 |       15 |       16 |       42 |
-| common.collect    | ForwardingImmutableList_CustomFieldSerializer.java    | src      |        2 |        6 |       15 |        2 |       25 |
-| common.collect    | ForwardingImmutableSet_CustomFieldSerializer.java     | src      |        2 |        6 |       15 |        2 |       25 |
-| common.collect    | GwtSerializationDependencies.java                     | src      |       19 |       27 |       28 |       60 |      134 |
-| common.collect    | HashBasedTable_CustomFieldSerializer.java             | src      |        5 |        5 |       13 |       15 |       38 |
-| common.collect    | HashMultimap_CustomFieldSerializer.java               | src      |        6 |        5 |       15 |       16 |       42 |
-| common.collect    | HashMultiset_CustomFieldSerializer.java               | src      |        6 |        5 |       15 |       16 |       42 |
-| common.collect    | ImmutableAsList_CustomFieldSerializer.java            | src      |        2 |        6 |       15 |        2 |       25 |
-| common.collect    | ImmutableBiMap_CustomFieldSerializer.java             | src      |        2 |        6 |       15 |        2 |       25 |
-| common.collect    | ImmutableEntry_CustomFieldSerializer.java             | src      |        6 |        5 |       15 |       18 |       44 |
-| common.collect    | ImmutableEnumMap_CustomFieldSerializer.java           | src      |        6 |        5 |       20 |       20 |       51 |
-| common.collect    | ImmutableEnumSet_CustomFieldSerializer.java           | src      |        6 |        5 |       20 |       19 |       50 |
-| common.collect    | ImmutableListMultimap_CustomFieldSerializer.java      | src      |        6 |        5 |       15 |       18 |       44 |
-| common.collect    | ImmutableList_CustomFieldSerializer.java              | src      |        2 |        6 |       15 |        2 |       25 |
-| common.collect    | ImmutableMultiset_CustomFieldSerializer.java          | src      |        2 |        6 |       15 |        2 |       25 |
-| common.collect    | ImmutableSetMultimap_CustomFieldSerializer.java       | src      |        6 |        5 |       16 |       26 |       53 |
-| common.collect    | ImmutableSet_CustomFieldSerializer.java               | src      |        2 |        6 |       15 |        2 |       25 |
-| common.collect    | ImmutableSortedMap_CustomFieldSerializer.java         | src      |        5 |        7 |       15 |       16 |       43 |
-| common.collect    | ImmutableSortedMap_CustomFieldSerializerBase.java     | src      |        8 |        6 |       19 |       24 |       57 |
-| common.collect    | ImmutableSortedSet_CustomFieldSerializer.java         | src      |        2 |        6 |       15 |        2 |       25 |
-| common.collect    | ImmutableTable_CustomFieldSerializerBase.java         | src      |        5 |        6 |       13 |       30 |       54 |
-| common.collect    | IndexedImmutableSet_CustomFieldSerializer.java        | src      |        2 |        7 |       15 |        2 |       26 |
-| common.collect    | JdkBackedImmutableBiMap_CustomFieldSerializer.java    | src      |        6 |        5 |       15 |       20 |       46 |
-| common.collect    | JdkBackedImmutableMap_CustomFieldSerializer.java      | src      |        6 |        5 |       15 |       20 |       46 |
-| common.collect    | JdkBackedImmutableMultiset_CustomFieldSerializer.java | src      |        6 |        5 |       15 |       16 |       42 |
-| common.collect    | JdkBackedImmutableSet_CustomFieldSerializer.java      | src      |        6 |        5 |       15 |       19 |       45 |
-| common.collect    | LexicographicalOrdering_CustomFieldSerializer.java    | src      |        6 |        5 |       15 |       18 |       44 |
-| common.collect    | LinkedHashMultimap_CustomFieldSerializer.java         | src      |        8 |        5 |       15 |       41 |       69 |
-| common.collect    | LinkedHashMultiset_CustomFieldSerializer.java         | src      |        6 |        5 |       15 |       17 |       43 |
-| common.collect    | LinkedListMultimap_CustomFieldSerializer.java         | src      |        6 |        5 |       15 |       27 |       53 |
-| common.collect    | Multimap_CustomFieldSerializerBase.java               | src      |        7 |        8 |       15 |       50 |       80 |
-| common.collect    | Multiset_CustomFieldSerializerBase.java               | src      |        6 |        7 |       15 |       26 |       54 |
-| common.collect    | NaturalOrdering_CustomFieldSerializer.java            | src      |        6 |        5 |       15 |       10 |       36 |
-| common.collect    | NullsFirstOrdering_CustomFieldSerializer.java         | src      |        6 |        5 |       15 |       17 |       43 |
-| common.collect    | NullsLastOrdering_CustomFieldSerializer.java          | src      |        6 |        5 |       15 |       16 |       42 |
-| common.collect    | Range_CustomFieldSerializer.java                      | src      |       13 |        5 |       15 |       46 |       79 |
-| common.collect    | RegularImmutableAsList_CustomFieldSerializer.java     | src      |        6 |        5 |       15 |       23 |       49 |
-| common.collect    | RegularImmutableBiMap_CustomFieldSerializer.java      | src      |        5 |        5 |       15 |       20 |       45 |
-| common.collect    | RegularImmutableList_CustomFieldSerializer.java       | src      |        6 |        5 |       21 |       21 |       53 |
-| common.collect    | RegularImmutableMap_CustomFieldSerializer.java        | src      |        6 |        5 |       15 |       20 |       46 |
-| common.collect    | RegularImmutableMultiset_CustomFieldSerializer.java   | src      |        5 |        5 |       15 |       16 |       41 |
-| common.collect    | RegularImmutableSet_CustomFieldSerializer.java        | src      |        6 |        5 |       15 |       19 |       45 |
-| common.collect    | RegularImmutableSortedSet_CustomFieldSerializer.java  | src      |        7 |        5 |       25 |       26 |       63 |
-| common.collect    | ReverseNaturalOrdering_CustomFieldSerializer.java     | src      |        6 |        5 |       15 |       11 |       37 |
-| common.collect    | ReverseOrdering_CustomFieldSerializer.java            | src      |        6 |        5 |       15 |       16 |       42 |
-| common.collect    | SingletonImmutableBiMap_CustomFieldSerializer.java    | src      |        7 |        5 |       15 |       21 |       48 |
-| common.collect    | SingletonImmutableList_CustomFieldSerializer.java     | src      |        6 |        5 |       15 |       17 |       43 |
-| common.collect    | SingletonImmutableSet_CustomFieldSerializer.java      | src      |        6 |        5 |       15 |       17 |       43 |
-| common.collect    | SingletonImmutableTable_CustomFieldSerializer.java    | src      |        5 |        5 |       13 |       22 |       45 |
-| common.collect    | SparseImmutableTable_CustomFieldSerializer.java       | src      |        5 |        5 |       13 |       18 |       41 |
-| common.collect    | Table_CustomFieldSerializerBase.java                  | src      |        5 |        8 |       18 |       21 |       52 |
-| common.collect    | TreeBasedTable_CustomFieldSerializer.java             | src      |        6 |        5 |       13 |       24 |       48 |
-| common.collect    | TreeMultimap_CustomFieldSerializer.java               | src      |        7 |        5 |       15 |       23 |       50 |
-| common.collect    | UsingToStringOrdering_CustomFieldSerializer.java      | src      |        6 |        5 |       15 |       11 |       37 |
-+-------------------+-------------------------------------------------------+----------+----------+----------+----------+----------+----------+
-| common.primitives | UnsignedLong_CustomFieldSerializer.java               | src      |        5 |        5 |       13 |       15 |       38 |
-+-------------------+-------------------------------------------------------+----------+----------+----------+----------+----------+----------+
-| common            | ForceGuavaCompilationEntryPoint.java                  | src      |        3 |        5 |       15 |        6 |       29 |
-+-------------------+-------------------------------------------------------+----------+----------+----------+----------+----------+----------+
-| 4 package(s)      | 68 file(s)                                            | java     |      396 |      392 |     1053 |     1262 |     3103 |
-+-------------------+-------------------------------------------------------+----------+----------+----------+----------+----------+----------+
-
-[INFO] ------------------------------------------------------------------------
-[INFO] Reactor Summary:
-[INFO]
-[INFO] Guava Maven Parent HEAD-jre-SNAPSHOT ............... SUCCESS [  0.207 s]
-[INFO] Guava: Google Core Libraries for Java .............. SUCCESS [  0.565 s]
-[INFO] Guava Testing Library .............................. SUCCESS [  0.171 s]
-[INFO] Guava Unit Tests ................................... SUCCESS [  0.080 s]
-[INFO] Guava GWT compatible libs HEAD-jre-SNAPSHOT ........ SUCCESS [  0.253 s]
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time: 1.849 s
-[INFO] Finished at: 2018-11-15T10:33:54+03:00
-[INFO] ------------------------------------------------------------------------
+$ git clean -f
+Removing guava-gwt/sloc.txt
+Removing guava-testlib/sloc.txt
+Removing guava/sloc.txt
 ```

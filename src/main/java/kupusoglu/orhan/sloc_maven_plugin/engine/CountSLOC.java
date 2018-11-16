@@ -3,6 +3,8 @@ package kupusoglu.orhan.sloc_maven_plugin.engine;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.logging.Log;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
@@ -21,17 +23,15 @@ import java.util.stream.IntStream;
  */
 public class CountSLOC extends SimpleFileVisitor<Path> {
     private Log log;
-    private String rootDir;
+    private String baseDir;
+    private String srcMain;
     private String fileExt;
     private boolean trimPkgNames;
+    private boolean display;
+    private boolean save;
 
     private PathMatcher matcherJava;
     private TreeMap<String, int[]> locData = new TreeMap<>();
-    private final static int MIN_HEADER_LEN = 16;
-    private final static Pattern PACKAGE_DECLARATION = Pattern.compile("(package)(\\s+)(/\\*.*\\*/)?(\\s+)?(.+)(;)");
-    private final static int PACKAGE_INDEX = 5;
-
-    private int numJavaMatch = 0;
     private boolean isblockComment = false;
     private boolean isblockDoc = false;
     private boolean isPackageFound = false;
@@ -41,13 +41,16 @@ public class CountSLOC extends SimpleFileVisitor<Path> {
         super();
     }
 
-    public CountSLOC(Log log, String rootDir, String fileExt, boolean trimPkgNames) {
+    public CountSLOC(Log log, String baseDir, String srcMain, String fileExt, boolean trimPkgNames, boolean display, boolean save) {
         this();
 
         this.log = log;
-        this.rootDir = rootDir;
+        this.baseDir = baseDir;
+        this.srcMain = srcMain;
         this.fileExt = fileExt;
         this.trimPkgNames = trimPkgNames;
+        this.display = display;
+        this.save = save;
 
         this.matcherJava = FileSystems.getDefault().getPathMatcher("glob:*." + fileExt);
     }
@@ -65,7 +68,6 @@ public class CountSLOC extends SimpleFileVisitor<Path> {
             Path absolutePathOfFile = file.toAbsolutePath().normalize();
 
             if (matcherJava.matches(name)) {
-                numJavaMatch++;
                 processSource(absolutePathOfFile);
             } else {
                 return FileVisitResult.CONTINUE;
@@ -161,11 +163,11 @@ public class CountSLOC extends SimpleFileVisitor<Path> {
     }
 
     private boolean isPackage(String line) {
-        Matcher matcher = PACKAGE_DECLARATION.matcher(line);
+        Matcher matcher = Common.PACKAGE_DECLARATION.matcher(line);
         isPackageFound = matcher.find();
 
         if (isPackageFound) {
-            packageName = matcher.group(PACKAGE_INDEX);
+            packageName = matcher.group(Common.PACKAGE_INDEX);
         }
 
         return isPackageFound;
@@ -184,107 +186,26 @@ public class CountSLOC extends SimpleFileVisitor<Path> {
     }
 
     public void done() {
-        if (locData.size() > 0) {
-            SortedSet<String> keys = new TreeSet<>(locData.keySet());
+        String data = Common.processSLOCData(locData, fileExt, trimPkgNames).toString();
 
-            Set<String> packageData = new TreeSet<>();
-            int longestPName = 0;
-            int longestCName = 0;
-
-            for (String key : keys) {
-                String[] fields = key.split(":");
-
-                String packageName = fields[0];
-                String className = fields[1];
-
-                packageData.add(packageName);
-
-                longestPName = Math.max(packageName.length(), longestPName);
-                longestCName = Math.max(className.length(), longestCName);
+        if (display) {
+            if (data.length() > 0) {
+                log.info(String.format("SLOC - directory: %s\n%s", (baseDir + File.separator + srcMain), data));
+            } else {
+                log.warn("Does not contain source files: " + (baseDir + File.separator + srcMain) + " : *." + fileExt);
             }
+        }
 
-            String[] packageNames = packageData.stream()
-                                               .toArray(String[]::new);
+        if (save) {
+            File file = new File(baseDir + File.separator + Common.OUTPUT_SLOC_FILE);
 
-            String commonPackage = "";
-
-            if (trimPkgNames) {
-                commonPackage = StringUtils.getCommonPrefix(packageNames);
-
-                // if all package names are identical, trim the last part of the common package name
-                if (commonPackage.length() == longestPName) {
-                    commonPackage = Common.trimPackageName(commonPackage);
-                }
-
-                // if some packagae names will be eliminated completely, trim the last part of the common package name
-                final String tempCommonPackage = commonPackage;
-                Optional<String> result = Arrays.stream(packageNames)
-                        .filter(s -> s.replace(tempCommonPackage, "").isEmpty())
-                        .findAny();
-
-                if (result.isPresent()) {
-                    commonPackage = Common.trimPackageName(commonPackage);
-                }
+            try {
+                FileWriter writer = new FileWriter(file);
+                writer.append(data);
+                writer.flush();
+            } catch (IOException e) {
+                log.error(e.getMessage());
             }
-
-            String packageLine = packageData.size() + " package(s)";
-            String classLine = locData.size() + " file(s)";
-
-            int headerP = Math.max(longestPName - commonPackage.length(), packageLine.length());
-            int headerC = Math.max(longestCName, classLine.length());
-
-            // MIN_HEADER_LEN is longer than the minimum headers.: "1 package(s)" & "1 file(s)"
-            headerP = Math.max(MIN_HEADER_LEN, headerP);
-            headerC = Math.max(MIN_HEADER_LEN, headerC);
-
-            String lineHeader = String.format("+%0" + (headerP + 2) + "d+%0" + (headerC + 2) + "d+%010d+%010d+%010d+%010d+%010d+%010d+\n",
-                                              0, 0, 0, 0, 0, 0, 0, 0).replace('0', '-');
-
-            int[] totals = new int[5];
-            StringBuilder sb = new StringBuilder();
-
-            sb.append(lineHeader);
-            sb.append(String.format("| %-" + headerP + "s | %-" + headerC + "s | %-8s | %-8s | %-8s | %-8s | %-8s | %-8s |\n",
-                                    "Package Name", "File Name", "Type", "Blank", "JavaDoc", "Comment", "Code", "Total"));
-            sb.append(lineHeader);
-
-            String[] fields = locData.firstKey().split(":");
-
-            String commonPackageName = trimPkgNames ? fields[0].replace(commonPackage, "") : fields[0];
-
-            for (String key : keys) {
-                int[] counters = locData.get(key);
-                int total = IntStream.of(counters).sum();
-
-                fields = key.split(":");
-
-                String packageName = trimPkgNames ? fields[0].replace(commonPackage, "") : fields[0];
-                String className = fields[1];
-                String classType = fields[2];
-
-                if (!packageName.equals(commonPackageName)) {
-                    sb.append(lineHeader);
-                    commonPackageName = packageName;
-                }
-
-                sb.append(String.format("| %-" + headerP + "s | %-" + headerC + "s | %-8s | %8d | %8d | %8d | %8d | %8d |\n",
-                                        packageName, className, classType, counters[0], counters[1], counters[2], counters[3], total));
-
-                totals[0] += counters[0];
-                totals[1] += counters[1];
-                totals[2] += counters[2];
-                totals[3] += counters[3];
-                totals[4] += total;
-            }
-
-            sb.append(lineHeader);
-            sb.append(String.format("| %-" + headerP + "s | %-" + headerC + "s | %-8s | %8d | %8d | %8d | %8d | %8d |\n",
-                                    packageLine, classLine, fileExt, totals[0], totals[1], totals[2], totals[3], totals[4]));
-            sb.append(lineHeader);
-
-            log.info(String.format("SLOC - directory: %s\n%s", rootDir, sb.toString()));
-        } else {
-            log.warn("Does not contain source files: " + rootDir + " : *." + fileExt);
         }
     }
 
