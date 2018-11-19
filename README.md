@@ -126,6 +126,7 @@ For example: **Project Reports > Plugin Documentation > sloc:sloc**
 
 ```
 $ git clone https://github.com/google/guava.git
+
 $ cd guava/
 
 $ git status
