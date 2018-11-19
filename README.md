@@ -31,7 +31,6 @@ It can be tested right-away on its own project:
 
 ```
 $ mvn kupusoglu.orhan:sloc-maven-plugin:sloc
-$ mvn kupusoglu.orhan:sloc-maven-plugin:sloc -Dsave
 [INFO] Scanning for projects...
 [INFO] Inspecting build with total of 1 modules...
 [INFO] Installing Nexus Staging features:
