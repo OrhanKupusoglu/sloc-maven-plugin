@@ -41,7 +41,7 @@ $ mvn kupusoglu.orhan:sloc-maven-plugin:sloc
 [INFO] ----------------------------[ maven-plugin ]----------------------------
 [INFO] 
 [INFO] --- sloc-maven-plugin:0.1.4:sloc (default-cli) @ sloc-maven-plugin ---
-[INFO] SLOC - directory: /home/orhanku/ME/DEV/OK/x/sloc-maven-plugin/src
+[INFO] SLOC - directory: /home/orhanku/ME/DEV/OK/sloc-maven-plugin/src
 +------------------+------------------+----------+----------+----------+----------+----------+----------+
 | Package Name     | File Name        | Type     | Blank    | JavaDoc  | Comment  | Code     | Total    |
 +------------------+------------------+----------+----------+----------+----------+----------+----------+
@@ -74,7 +74,7 @@ $ mvn kupusoglu.orhan:sloc-maven-plugin:sloc -DtrimPkgNames=false
 [INFO] ----------------------------[ maven-plugin ]----------------------------
 [INFO] 
 [INFO] --- sloc-maven-plugin:0.1.4:sloc (default-cli) @ sloc-maven-plugin ---
-[INFO] SLOC - directory: /home/orhanku/ME/DEV/OK/x/sloc-maven-plugin/src
+[INFO] SLOC - directory: /home/orhanku/ME/DEV/OK/sloc-maven-plugin/src
 +------------------------------------------+------------------+----------+----------+----------+----------+----------+----------+
 | Package Name                             | File Name        | Type     | Blank    | JavaDoc  | Comment  | Code     | Total    |
 +------------------------------------------+------------------+----------+----------+----------+----------+----------+----------+
