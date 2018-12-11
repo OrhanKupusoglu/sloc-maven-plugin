@@ -27,7 +27,7 @@ The output is displayed in a formatted table, similar to [MySQL Shell](https://d
 
 By default the package names are trimmed down to later unique suffixes to prevent too much repetition.
 
-It can be tested right-away on its own project:
+It can be tested right away on its own source code:
 
 ```
 $ mvn kupusoglu.orhan:sloc-maven-plugin:sloc
