@@ -50,18 +50,18 @@ public class CommonTest extends AbstractMojo {
 
             System.setOut(stdOut);
 
-            String[] output = baos.toString().split("\n");
+            String[] output = baos.toString().split("\r\n|\r|\n");
 
             if (output.length > 0) {
                 String[] table = Common.removeArrayElement(output, 0);
-                String actual = String.join("\n", table);
+                String actual = String.join(System.lineSeparator(), table);
 
-                System.out.println("\nACTUAL OUTPUT:\n");
-                System.out.println(actual + "\n");
+                System.out.println(System.lineSeparator() + "ACTUAL OUTPUT:" + System.lineSeparator());
+                System.out.println(actual + System.lineSeparator());
 
-                String expected = String.join("\n", Common.readTextFile(Paths.get(resDir.toString(),"sloc.txt")));
-                System.out.println("EXPECTED OUTPUT:\n");
-                System.out.println(expected + "\n");
+                String expected = String.join(System.lineSeparator(), Common.readTextFile(Paths.get(resDir.toString(),"sloc.txt")));
+                System.out.println("EXPECTED OUTPUT:" + System.lineSeparator());
+                System.out.println(expected + System.lineSeparator());
 
                 Assert.assertEquals("SLOC - failure", expected, actual);
             } else {
