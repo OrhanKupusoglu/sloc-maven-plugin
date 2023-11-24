@@ -4,12 +4,69 @@
                              https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <!-- The Basics -->
-    <groupId>kupusoglu.orhan</groupId>
+    <!-- project coordinates -->
+    <groupId>io.github.OrhanKupusoglu</groupId>
     <artifactId>sloc-maven-plugin</artifactId>
-    <version>0.1.4</version>
+    <version>1.0.1</version>
     <packaging>maven-plugin</packaging>
 
+    <!-- meta data -->
+    <name>${project.artifactId}</name>
+    <description>This plugin counts Source Lines Of Code (SLOC) in a given repository.</description>
+    <url>https://github.com/OrhanKupusoglu/sloc-maven-plugin</url>
+    <inceptionYear>2018</inceptionYear>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <organization>
+        <name>Open Source</name>
+    </organization>
+
+    <developers>
+        <developer>
+            <id>orhan.kupusoglu</id>
+            <name>Orhan Kupusoglu</name>
+            <url>https://github.com/OrhanKupusoglu</url>
+            <roles>
+                <role>architect</role>
+                <role>developer</role>
+            </roles>
+            <timezone>Europe/Berlin</timezone>
+        </developer>
+    </developers>
+
+    <issueManagement>
+        <url>https://github.com/OrhanKupusoglu/sloc-maven-plugin/issues</url>
+        <system>GitHub Issues</system>
+    </issueManagement>
+
+    <mailingLists>
+        <mailingList></mailingList>
+    </mailingLists>
+
+    <scm>
+        <connection>scm:git:git://github.com/OrhanKupusoglu/sloc-maven-plugin.git</connection>
+        <developerConnection>scm:git:ssh://github.com:OrhanKupusoglu/sloc-maven-plugin.git</developerConnection>
+        <url>https://github.com/OrhanKupusoglu/sloc-maven-plugin</url>
+    </scm>
+
+    <prerequisites>
+        <maven>3.3.9</maven>
+    </prerequisites>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+
+    <!-- dependencies -->
     <dependencies>
         <dependency>
             <groupId>org.apache.maven</groupId>
@@ -45,13 +102,7 @@
         </dependency>
     </dependencies>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
-
-    <!-- Build Settings -->
+    <!-- build settings -->
     <build>
         <plugins>
             <plugin>
@@ -200,54 +251,4 @@
             </plugin>
         </plugins>
     </reporting>
-
-    <!-- More Project Information -->
-    <name>Plugin for SLOC</name>
-    <description>Generates SLOC statistics for Maven Projects</description>
-    <inceptionYear>2018</inceptionYear>
-
-    <licenses>
-        <license>
-            <name>MIT License</name>
-            <url>http://www.opensource.org/licenses/mit-license.php</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
-
-    <organization>
-        <name>Open Source</name>
-    </organization>
-
-    <developers>
-        <developer>
-            <id>orhan.kupusoglu</id>
-            <name>Orhan Kupusoglu</name>
-            <url>https://github.com/OrhanKupusoglu</url>
-            <email>or.han.solo@example.com</email>
-            <roles>
-                <role>architect</role>
-                <role>developer</role>
-            </roles>
-            <timezone>Europe/Istanbul</timezone>
-        </developer>
-    </developers>
-
-    <!-- Environment Settings -->
-    <issueManagement>
-        <url>https://github.com/OrhanKupusoglu/sloc-maven-plugin/issues</url>
-        <system>GitHub Issues</system>
-    </issueManagement>
-
-    <mailingLists>
-        <mailingList></mailingList>
-    </mailingLists>
-
-    <scm>
-        <url>https://github.com/OrhanKupusoglu/sloc-maven-plugin</url>
-        <connection>scm:git:https://github.com/OrhanKupusoglu/sloc-maven-plugin.git</connection>
-    </scm>
-
-    <prerequisites>
-        <maven>3.3.9</maven>
-    </prerequisites>
 </project>
