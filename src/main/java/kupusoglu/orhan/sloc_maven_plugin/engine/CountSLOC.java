@@ -1,6 +1,5 @@
 package kupusoglu.orhan.sloc_maven_plugin.engine;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.logging.Log;
 
 import java.io.File;
@@ -9,10 +8,7 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
-import java.util.TreeSet;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.IntStream;
 
 
 /**
