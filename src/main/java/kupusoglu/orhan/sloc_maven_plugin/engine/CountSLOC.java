@@ -198,13 +198,22 @@ public class CountSLOC extends SimpleFileVisitor<Path> {
 
         if (save) {
             File file = new File(baseDir + File.separator + Common.OUTPUT_SLOC_FILE);
+            FileWriter writer = null;
 
             try {
-                FileWriter writer = new FileWriter(file);
+                writer = new FileWriter(file);
                 writer.append(data);
                 writer.flush();
             } catch (IOException e) {
                 log.error(e.getMessage());
+            } finally {
+                try {
+                    if (writer != null) {
+                        writer.close();
+                    }
+                } catch (IOException e) {
+                    log.error(e.getMessage());
+                }
             }
         }
     }
