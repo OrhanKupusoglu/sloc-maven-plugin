@@ -107,7 +107,7 @@ $ mvn io.github.orhankupusoglu:sloc-maven-plugin:sloc -DtrimPkgNames=false
 Parameters for the **sloc** goal can be supplied with **-Dname=value**, for example:
 
 ```
-$ mvn kupusoglu.orhan:sloc-maven-plugin:sloc -DfileExt=cpp
+$ mvn io.github.orhankupusoglu:sloc-maven-plugin:sloc -DfileExt=cpp
 ```
 
 Detailed plugin documentation can be generated with [Maven Site Plugin](https://maven.apache.org/plugins/maven-site-plugin/)'s **mvn site** goal, please check the HTML pages at **target/site/index.html**.
