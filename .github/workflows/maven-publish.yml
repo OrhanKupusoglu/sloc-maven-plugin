@@ -12,7 +12,9 @@ jobs:
       contents: read
       packages: write
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Set up Maven Central Repository
         uses: actions/setup-java@v3
         with:
