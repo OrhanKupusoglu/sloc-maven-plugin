@@ -126,7 +126,7 @@ For example: **Project Reports > Plugin Documentation > sloc:sloc**
 
 ## Sample Project
 
-[Google Guice](hhttps://en.wikipedia.org/wiki/Google_Guice) is a well-known Java project.
+[Google Guice](https://en.wikipedia.org/wiki/Google_Guice) is a well-known Java project.
 
 ```
 $ git clone https://github.com/google/guice.git
