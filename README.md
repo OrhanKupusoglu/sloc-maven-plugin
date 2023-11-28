@@ -30,69 +30,73 @@ By default the package names are trimmed down to later unique suffixes to preven
 It can be tested right away on its own source code:
 
 ```
-$ mvn kupusoglu.orhan:sloc-maven-plugin:sloc
+$ mvn io.github.orhankupusoglu:sloc-maven-plugin:sloc
 [INFO] Scanning for projects...
 [INFO] Inspecting build with total of 1 modules...
 [INFO] Installing Nexus Staging features:
 [INFO]   ... total of 1 executions of maven-deploy-plugin replaced with nexus-staging-maven-plugin
-[INFO] 
-[INFO] -----------------< kupusoglu.orhan:sloc-maven-plugin >------------------
-[INFO] Building Plugin for SLOC 0.1.4
+Downloading from central: https://repo.maven.apache.org/maven2/io/github/orhankupusoglu/sloc-maven-plugin/maven-metadata.xml
+Downloaded from central: https://repo.maven.apache.org/maven2/io/github/orhankupusoglu/sloc-maven-plugin/maven-metadata.xml (379 B at 713 B/s)
+[INFO]
+[INFO] -------------< io.github.orhankupusoglu:sloc-maven-plugin >-------------
+[INFO] Building sloc-maven-plugin 1.0.3
+[INFO]   from pom.xml
 [INFO] ----------------------------[ maven-plugin ]----------------------------
-[INFO] 
-[INFO] --- sloc-maven-plugin:0.1.4:sloc (default-cli) @ sloc-maven-plugin ---
-[INFO] SLOC - directory: /home/orhanku/ME/DEV/OK/sloc-maven-plugin/src
+[INFO]
+[INFO] --- sloc:1.0.3:sloc (default-cli) @ sloc-maven-plugin ---
+[INFO] SLOC - directory: /home/orhanku/Me/Dev/sloc-maven-plugin/src
 +------------------+------------------+----------+----------+----------+----------+----------+----------+
 | Package Name     | File Name        | Type     | Blank    | JavaDoc  | Comment  | Code     | Total    |
 +------------------+------------------+----------+----------+----------+----------+----------+----------+
 | engine           | Common.java      | src      |       41 |        3 |        4 |      125 |      173 |
 | engine           | CommonTest.java  | test     |       15 |        0 |        2 |       62 |       79 |
 | engine           | CountLines.java  | src      |       10 |        0 |        0 |       42 |       52 |
-| engine           | CountSLOC.java   | src      |       34 |       12 |        1 |      180 |      227 |
+| engine           | CountSLOC.java   | src      |       34 |       12 |        1 |      185 |      232 |
 +------------------+------------------+----------+----------+----------+----------+----------+----------+
 | goal             | GoalSLOC.java    | src      |       10 |       33 |        0 |       41 |       84 |
 +------------------+------------------+----------+----------+----------+----------+----------+----------+
-| 2 package(s)     | 5 file(s)        | java     |      110 |       48 |        7 |      450 |      615 |
+| 2 package(s)     | 5 file(s)        | java     |      110 |       48 |        7 |      455 |      620 |
 +------------------+------------------+----------+----------+----------+----------+----------+----------+
 
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time: 0.876 s
-[INFO] Finished at: 2018-11-16T21:51:23+03:00
+[INFO] Total time:  1.741 s
+[INFO] Finished at: 2023-11-28T02:50:13+01:00
 [INFO] ------------------------------------------------------------------------
 
 ## use untrimmed package names
-$ mvn kupusoglu.orhan:sloc-maven-plugin:sloc -DtrimPkgNames=false
+$ mvn io.github.orhankupusoglu:sloc-maven-plugin:sloc -DtrimPkgNames=false
 [INFO] Scanning for projects...
 [INFO] Inspecting build with total of 1 modules...
 [INFO] Installing Nexus Staging features:
 [INFO]   ... total of 1 executions of maven-deploy-plugin replaced with nexus-staging-maven-plugin
-[INFO] 
-[INFO] -----------------< kupusoglu.orhan:sloc-maven-plugin >------------------
-[INFO] Building Plugin for SLOC 0.1.4
+[INFO]
+[INFO] -------------< io.github.orhankupusoglu:sloc-maven-plugin >-------------
+[INFO] Building sloc-maven-plugin 1.0.2
+[INFO]   from pom.xml
 [INFO] ----------------------------[ maven-plugin ]----------------------------
-[INFO] 
-[INFO] --- sloc-maven-plugin:0.1.4:sloc (default-cli) @ sloc-maven-plugin ---
-[INFO] SLOC - directory: /home/orhanku/ME/DEV/OK/sloc-maven-plugin/src
+[INFO]
+[INFO] --- sloc:1.0.2:sloc (default-cli) @ sloc-maven-plugin ---
+[INFO] SLOC - directory: /home/orhanku/Me/Dev/sloc-maven-plugin/src
 +------------------------------------------+------------------+----------+----------+----------+----------+----------+----------+
 | Package Name                             | File Name        | Type     | Blank    | JavaDoc  | Comment  | Code     | Total    |
 +------------------------------------------+------------------+----------+----------+----------+----------+----------+----------+
 | kupusoglu.orhan.sloc_maven_plugin.engine | Common.java      | src      |       41 |        3 |        4 |      125 |      173 |
 | kupusoglu.orhan.sloc_maven_plugin.engine | CommonTest.java  | test     |       15 |        0 |        2 |       62 |       79 |
 | kupusoglu.orhan.sloc_maven_plugin.engine | CountLines.java  | src      |       10 |        0 |        0 |       42 |       52 |
-| kupusoglu.orhan.sloc_maven_plugin.engine | CountSLOC.java   | src      |       34 |       12 |        1 |      180 |      227 |
+| kupusoglu.orhan.sloc_maven_plugin.engine | CountSLOC.java   | src      |       34 |       12 |        1 |      185 |      232 |
 +------------------------------------------+------------------+----------+----------+----------+----------+----------+----------+
 | kupusoglu.orhan.sloc_maven_plugin.goal   | GoalSLOC.java    | src      |       10 |       33 |        0 |       41 |       84 |
 +------------------------------------------+------------------+----------+----------+----------+----------+----------+----------+
-| 2 package(s)                             | 5 file(s)        | java     |      110 |       48 |        7 |      450 |      615 |
+| 2 package(s)                             | 5 file(s)        | java     |      110 |       48 |        7 |      455 |      620 |
 +------------------------------------------+------------------+----------+----------+----------+----------+----------+----------+
 
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time: 0.900 s
-[INFO] Finished at: 2018-11-16T21:58:00+03:00
+[INFO] Total time:  1.023 s
+[INFO] Finished at: 2023-11-28T02:05:28+01:00
 [INFO] ------------------------------------------------------------------------
 ```
 
@@ -122,31 +126,37 @@ For example: **Project Reports > Plugin Documentation > sloc:sloc**
 
 ## Sample Project
 
-[Google Guava](https://en.wikipedia.org/wiki/Google_Guava) is a well-known Java project.
+[Google Guice](hhttps://en.wikipedia.org/wiki/Google_Guice) is a well-known Java project.
 
 ```
-$ git clone https://github.com/google/guava.git
+$ git clone https://github.com/google/guice.git
 
-$ cd guava/
+$ cd guice/
 
 $ git status
 On branch master
-Your branch is up-to-date with 'origin/master'.
-nothing to commit, working directory clean
+Your branch is up to date with 'origin/master'.
+
+nothing to commit, working tree clean
 
 $ git log --oneline -n 5
-b8d5ecd40 (HEAD -> master, origin/master, origin/HEAD) Add the Origin-Trial HTTP response header.
-4d5e9445c Address why users should prefer our immutable collections to things like Collections.emptyList().
-0ac4a8b11 common.graph PackageSanityTests: specify a default object for EndpointPair inputs. This should resolve a few internal flaky test issues
-5f47d39fc Standardise message format for "duplicate key" IllegalArgumentException thrown from ImmutableTable.Builder.build().
-2d8651410 Correct documentation for Splitter#withKeyValueSeparator(Splitter)
+e23d3b436 (HEAD -> master, origin/master, origin/HEAD) Internal change.
+87d262c4d Remove stale comment
+cf435821d Move exports to public target
+cd1921901 Internal change
+1ab911ad2 Internal change
 
-$ mvn kupusoglu.orhan:sloc-maven-plugin:sloc
+## install all dependencies
+$ mvn clean install
+
+$ mvn io.github.orhankupusoglu:sloc-maven-plugin:sloc
+...
 ```
+
 The second run will give a simpler output:
 
 ```
-$ mvn kupusoglu.orhan:sloc-maven-plugin:sloc -Ddisplay=false -Dsave=true
+$ mvn io.github.orhankupusoglu:sloc-maven-plugin:sloc -Ddisplay=false -Dsave=true
 
 $ git status
 On branch master
@@ -154,619 +164,324 @@ Your branch is up to date with 'origin/master'.
 
 Untracked files:
   (use "git add <file>..." to include in what will be committed)
-
-	guava-gwt/sloc.txt
-	guava-testlib/sloc.txt
-	guava/sloc.txt
+	core/sloc.txt
+	extensions/assistedinject/sloc.txt
+	extensions/dagger-adapter/sloc.txt
+	extensions/grapher/sloc.txt
+	extensions/jmx/sloc.txt
+	extensions/jndi/sloc.txt
+	extensions/persist/sloc.txt
+	extensions/servlet/sloc.txt
+	extensions/spring/sloc.txt
+	extensions/testlib/sloc.txt
+	extensions/throwingproviders/sloc.txt
 
 nothing added to commit but untracked files present (use "git add" to track)
 
-$ cat guava/sloc.txt
-+-------------------------+-----------------------------------------------------+----------+----------+----------+----------+----------+----------+
-| Package Name            | File Name                                           | Type     | Blank    | JavaDoc  | Comment  | Code     | Total    |
-+-------------------------+-----------------------------------------------------+----------+----------+----------+----------+----------+----------+
-| common.annotations      | Beta.java                                           | src      |        3 |       14 |       13 |       17 |       47 |
-| common.annotations      | GwtCompatible.java                                  | src      |        5 |       54 |       13 |       14 |       86 |
-| common.annotations      | GwtIncompatible.java                                | src      |        3 |       18 |       13 |       13 |       47 |
-| common.annotations      | VisibleForTesting.java                              | src      |        2 |        6 |       13 |        4 |       25 |
-| common.annotations      | package-info.java                                   | src      |        1 |        4 |       13 |        1 |       19 |
-+-------------------------+-----------------------------------------------------+----------+----------+----------+----------+----------+----------+
-| common.base.internal    | Finalizer.java                                      | src      |       23 |       33 |       44 |      135 |      235 |
-+-------------------------+-----------------------------------------------------+----------+----------+----------+----------+----------+----------+
-| common.base             | Absent.java                                         | src      |       19 |        0 |       13 |       67 |       99 |
-| common.base             | AbstractIterator.java                               | src      |       13 |        4 |       13 |       60 |       90 |
-| common.base             | Ascii.java                                          | src      |       61 |      391 |       23 |      160 |      635 |
-| common.base             | CaseFormat.java                                     | src      |       28 |       17 |       15 |      149 |      209 |
-| common.base             | CharMatcher.java                                    | src      |      250 |      410 |       87 |     1066 |     1813 |
-| common.base             | Charsets.java                                       | src      |       10 |       55 |       19 |       18 |      102 |
-| common.base             | CommonMatcher.java                                  | src      |        8 |        5 |       13 |       11 |       37 |
-| common.base             | CommonPattern.java                                  | src      |        8 |        5 |       14 |       16 |       43 |
-| common.base             | Converter.java                                      | src      |       65 |      167 |       35 |      256 |      523 |
-| common.base             | Defaults.java                                       | src      |        6 |       11 |       13 |       33 |       63 |
-| common.base             | Enums.java                                          | src      |       20 |       29 |       13 |       89 |      151 |
-| common.base             | Equivalence.java                                    | src      |       43 |      162 |       19 |      154 |      378 |
-| common.base             | ExtraObjectsMethodsForWeb.java                      | src      |        3 |        4 |       13 |        4 |       24 |
-| common.base             | FinalizablePhantomReference.java                    | src      |        3 |       16 |       13 |       12 |       44 |
-| common.base             | FinalizableReference.java                           | src      |        3 |       12 |       13 |        6 |       34 |
-| common.base             | FinalizableReferenceQueue.java                      | src      |       28 |       87 |       74 |      163 |      352 |
-| common.base             | FinalizableSoftReference.java                       | src      |        3 |       14 |       13 |       12 |       42 |
-| common.base             | FinalizableWeakReference.java                       | src      |        3 |       14 |       13 |       12 |       42 |
-| common.base             | Function.java                                       | src      |        4 |       32 |       13 |       14 |       63 |
-| common.base             | FunctionalEquivalence.java                          | src      |       12 |        6 |       13 |       44 |       75 |
-| common.base             | Functions.java                                      | src      |       61 |       91 |       18 |      231 |      401 |
-| common.base             | JdkPattern.java                                     | src      |       17 |        0 |       13 |       60 |       90 |
-| common.base             | Joiner.java                                         | src      |       43 |      180 |       13 |      242 |      478 |
-| common.base             | MoreObjects.java                                    | src      |       31 |      196 |       14 |      146 |      387 |
-| common.base             | Objects.java                                        | src      |        5 |       47 |       13 |       14 |       79 |
-| common.base             | Optional.java                                       | src      |       24 |      244 |       13 |       72 |      353 |
-| common.base             | PairwiseEquivalence.java                            | src      |       14 |        0 |       13 |       48 |       75 |
-| common.base             | PatternCompiler.java                                | src      |        4 |       14 |       13 |        7 |       38 |
-| common.base             | Platform.java                                       | src      |       17 |        5 |       13 |       62 |       97 |
-| common.base             | Preconditions.java                                  | src      |       88 |      723 |       42 |      565 |     1418 |
-| common.base             | Predicate.java                                      | src      |        5 |       47 |       13 |       16 |       81 |
-| common.base             | Predicates.java                                     | src      |      103 |      124 |       27 |      449 |      703 |
-| common.base             | Present.java                                        | src      |       17 |        0 |       13 |       69 |       99 |
-| common.base             | SmallCharMatcher.java                               | src      |       13 |       11 |       32 |       90 |      146 |
-| common.base             | Splitter.java                                       | src      |       54 |      254 |       30 |      275 |      613 |
-| common.base             | StandardSystemProperty.java                         | src      |       36 |       10 |       13 |       78 |      137 |
-| common.base             | Stopwatch.java                                      | src      |       22 |      109 |       14 |      126 |      271 |
-| common.base             | Strings.java                                        | src      |       24 |      125 |       19 |      145 |      313 |
-| common.base             | Supplier.java                                       | src      |        3 |       24 |       13 |       10 |       50 |
-| common.base             | Suppliers.java                                      | src      |       47 |       64 |       32 |      222 |      365 |
-| common.base             | Throwables.java                                     | src      |       34 |      246 |       37 |      224 |      541 |
-| common.base             | Ticker.java                                         | src      |        6 |       16 |       13 |       23 |       58 |
-| common.base             | Utf8.java                                           | src      |       15 |       42 |       35 |      109 |      201 |
-| common.base             | Verify.java                                         | src      |       31 |      287 |       15 |      175 |      508 |
-| common.base             | VerifyException.java                                | src      |        6 |       19 |       13 |       18 |       56 |
-| common.base             | package-info.java                                   | src      |        2 |       43 |       13 |        5 |       63 |
-+-------------------------+-----------------------------------------------------+----------+----------+----------+----------+----------+----------+
-| common.cache            | AbstractCache.java                                  | src      |       30 |       76 |       13 |      137 |      256 |
-| common.cache            | AbstractLoadingCache.java                           | src      |        8 |       15 |       13 |       40 |       76 |
-| common.cache            | Cache.java                                          | src      |       15 |      114 |       13 |       30 |      172 |
-| common.cache            | CacheBuilder.java                                   | src      |       73 |      537 |       17 |      388 |     1015 |
-| common.cache            | CacheBuilderSpec.java                               | src      |       45 |       65 |       15 |      354 |      479 |
-| common.cache            | CacheLoader.java                                    | src      |       22 |      115 |       17 |       97 |      251 |
-| common.cache            | CacheStats.java                                     | src      |       23 |      116 |       13 |      124 |      276 |
-| common.cache            | ForwardingCache.java                                | src      |       20 |       14 |       13 |       81 |      128 |
-| common.cache            | ForwardingLoadingCache.java                         | src      |       13 |       17 |       13 |       44 |       87 |
-| common.cache            | LoadingCache.java                                   | src      |        9 |      118 |       13 |       20 |      160 |
-| common.cache            | LocalCache.java                                     | src      |      723 |      293 |      281 |     3697 |     4994 |
-| common.cache            | LongAddable.java                                    | src      |        5 |        5 |       13 |        8 |       31 |
-| common.cache            | LongAddables.java                                   | src      |        8 |        5 |       13 |       47 |       73 |
-| common.cache            | LongAdder.java                                      | src      |       19 |       57 |        9 |       99 |      184 |
-| common.cache            | ReferenceEntry.java                                 | src      |       21 |       20 |       23 |       43 |      107 |
-| common.cache            | RemovalCause.java                                   | src      |        8 |       34 |       13 |       39 |       94 |
-| common.cache            | RemovalListener.java                                | src      |        3 |       22 |       15 |        7 |       47 |
-| common.cache            | RemovalListeners.java                               | src      |        6 |       13 |       13 |       25 |       57 |
-| common.cache            | RemovalNotification.java                            | src      |        9 |       22 |       13 |       25 |       69 |
-| common.cache            | Striped64.java                                      | src      |       24 |       44 |       73 |      169 |      310 |
-| common.cache            | Weigher.java                                        | src      |        4 |       12 |       13 |        7 |       36 |
-| common.cache            | package-info.java                                   | src      |        2 |       17 |       13 |        3 |       35 |
-+-------------------------+-----------------------------------------------------+----------+----------+----------+----------+----------+----------+
-| common.collect          | AbstractBiMap.java                                  | src      |       77 |       13 |       42 |      353 |      485 |
-| common.collect          | AbstractIndexedListIterator.java                    | src      |       13 |       24 |       15 |       50 |      102 |
-| common.collect          | AbstractIterator.java                               | src      |       16 |       73 |       17 |       68 |      174 |
-| common.collect          | AbstractListMultimap.java                           | src      |       15 |       53 |       16 |       57 |      141 |
-| common.collect          | AbstractMapBasedMultimap.java                       | src      |      236 |      152 |       53 |     1198 |     1639 |
-| common.collect          | AbstractMapBasedMultiset.java                       | src      |       44 |       21 |       31 |      242 |      338 |
-| common.collect          | AbstractMapEntry.java                               | src      |        9 |        6 |       15 |       36 |       66 |
-| common.collect          | AbstractMultimap.java                               | src      |       45 |       19 |       18 |      183 |      265 |
-| common.collect          | AbstractMultiset.java                               | src      |       36 |       40 |       20 |      135 |      231 |
-| common.collect          | AbstractNavigableMap.java                           | src      |       28 |        5 |       15 |      121 |      169 |
-| common.collect          | AbstractRangeSet.java                               | src      |       17 |        5 |       13 |       65 |      100 |
-| common.collect          | AbstractSequentialIterator.java                     | src      |        7 |       28 |       15 |       28 |       78 |
-| common.collect          | AbstractSetMultimap.java                            | src      |       16 |       58 |       16 |       62 |      152 |
-| common.collect          | AbstractSortedKeySortedSetMultimap.java             | src      |        8 |        8 |       15 |       28 |       59 |
-| common.collect          | AbstractSortedMultiset.java                         | src      |       21 |        9 |       15 |      102 |      147 |
-| common.collect          | AbstractSortedSetMultimap.java                      | src      |       14 |       57 |       16 |       61 |      148 |
-| common.collect          | AbstractTable.java                                  | src      |       39 |        5 |       13 |      185 |      242 |
-| common.collect          | AllEqualOrdering.java                               | src      |       10 |        5 |       15 |       34 |       64 |
-| common.collect          | ArrayListMultimap.java                              | src      |       16 |       68 |       16 |       71 |      171 |
-| common.collect          | ArrayListMultimapGwtSerializationDependencies.java  | src      |        3 |        9 |       16 |       11 |       39 |
-| common.collect          | ArrayTable.java                                     | src      |       94 |      217 |       37 |      429 |      777 |
-| common.collect          | BaseImmutableMultimap.java                          | src      |        2 |        4 |       15 |        4 |       25 |
-| common.collect          | BiMap.java                                          | src      |       10 |       59 |       18 |       21 |      108 |
-| common.collect          | BoundType.java                                      | src      |        7 |        7 |       13 |       19 |       46 |
-| common.collect          | ByFunctionOrdering.java                             | src      |       10 |        4 |       15 |       40 |       69 |
-| common.collect          | CartesianList.java                                  | src      |       15 |        5 |       13 |       91 |      124 |
-| common.collect          | ClassToInstanceMap.java                             | src      |        4 |       31 |       15 |       12 |       62 |
-| common.collect          | CollectCollectors.java                              | src      |       14 |        0 |       19 |      101 |      134 |
-| common.collect          | CollectPreconditions.java                           | src      |        9 |        4 |       15 |       37 |       65 |
-| common.collect          | CollectSpliterators.java                            | src      |       33 |        8 |       15 |      234 |      290 |
-| common.collect          | Collections2.java                                   | src      |       75 |      170 |       24 |      425 |      694 |
-| common.collect          | CompactHashMap.java                                 | src      |      109 |       93 |       40 |      603 |      845 |
-| common.collect          | CompactHashSet.java                                 | src      |       63 |       96 |       31 |      376 |      566 |
-| common.collect          | CompactLinkedHashMap.java                           | src      |       36 |       47 |       18 |      186 |      287 |
-| common.collect          | CompactLinkedHashSet.java                           | src      |       32 |       56 |       18 |      128 |      234 |
-| common.collect          | ComparatorOrdering.java                             | src      |       10 |        0 |       15 |       38 |       63 |
-| common.collect          | Comparators.java                                    | src      |       11 |       90 |       18 |       72 |      191 |
-| common.collect          | ComparisonChain.java                                | src      |       37 |       80 |       15 |      118 |      250 |
-| common.collect          | CompoundOrdering.java                               | src      |       10 |        0 |       15 |       46 |       71 |
-| common.collect          | ComputationException.java                           | src      |        4 |        6 |       15 |       11 |       36 |
-| common.collect          | ConcurrentHashMultiset.java                         | src      |       57 |       97 |       73 |      375 |      602 |
-| common.collect          | ConsumingQueueIterator.java                         | src      |        7 |        4 |       13 |       21 |       45 |
-| common.collect          | ContiguousSet.java                                  | src      |       27 |       93 |       18 |      120 |      258 |
-| common.collect          | Count.java                                          | src      |       12 |        5 |       13 |       40 |       70 |
-| common.collect          | Cut.java                                            | src      |       86 |        9 |       29 |      346 |      470 |
-| common.collect          | DenseImmutableTable.java                            | src      |       45 |        0 |       18 |      214 |      277 |
-| common.collect          | DescendingImmutableSortedMultiset.java              | src      |       14 |        5 |       13 |       51 |       83 |
-| common.collect          | DescendingImmutableSortedSet.java                   | src      |       19 |        5 |       15 |       80 |      119 |
-| common.collect          | DescendingMultiset.java                             | src      |       26 |        6 |       15 |      110 |      157 |
-| common.collect          | DiscreteDomain.java                                 | src      |       48 |       84 |       15 |      175 |      322 |
-| common.collect          | EmptyContiguousSet.java                             | src      |       28 |        5 |       13 |      122 |      168 |
-| common.collect          | EmptyImmutableListMultimap.java                     | src      |        6 |        5 |       15 |       13 |       39 |
-| common.collect          | EmptyImmutableSetMultimap.java                      | src      |        6 |        5 |       15 |       13 |       39 |
-| common.collect          | EnumBiMap.java                                      | src      |       16 |       29 |       15 |       84 |      144 |
-| common.collect          | EnumHashBiMap.java                                  | src      |       15 |       30 |       16 |       66 |      127 |
-| common.collect          | EnumMultiset.java                                   | src      |       30 |       33 |       16 |      239 |      318 |
-| common.collect          | EvictingQueue.java                                  | src      |       17 |       39 |       16 |       70 |      142 |
-| common.collect          | ExplicitOrdering.java                               | src      |       11 |        0 |       15 |       44 |       70 |
-| common.collect          | FilteredEntryMultimap.java                          | src      |       52 |        6 |       16 |      342 |      416 |
-| common.collect          | FilteredEntrySetMultimap.java                       | src      |       10 |        5 |       15 |       36 |       66 |
-| common.collect          | FilteredKeyListMultimap.java                        | src      |        7 |        5 |       15 |       28 |       55 |
-| common.collect          | FilteredKeyMultimap.java                            | src      |       33 |        5 |       14 |      168 |      220 |
-| common.collect          | FilteredKeySetMultimap.java                         | src      |       12 |        5 |       15 |       47 |       79 |
-| common.collect          | FilteredMultimap.java                               | src      |        4 |        5 |       15 |        9 |       33 |
-| common.collect          | FilteredMultimapValues.java                         | src      |       12 |        5 |       15 |       63 |       95 |
-| common.collect          | FilteredSetMultimap.java                            | src      |        3 |        5 |       15 |        7 |       30 |
-| common.collect          | FluentIterable.java                                 | src      |       53 |      523 |       25 |      250 |      851 |
-| common.collect          | ForwardingBlockingDeque.java                        | src      |       20 |       23 |       15 |       74 |      132 |
-| common.collect          | ForwardingCollection.java                           | src      |       29 |       98 |       16 |      113 |      256 |
-| common.collect          | ForwardingConcurrentMap.java                        | src      |        9 |       15 |       15 |       32 |       71 |
-| common.collect          | ForwardingDeque.java                                | src      |       22 |       17 |       15 |       89 |      143 |
-| common.collect          | ForwardingImmutableCollection.java                  | src      |        3 |        5 |       15 |        6 |       29 |
-| common.collect          | ForwardingImmutableList.java                        | src      |        3 |        5 |       15 |        6 |       29 |
-| common.collect          | ForwardingImmutableMap.java                         | src      |        3 |        5 |       15 |        6 |       29 |
-| common.collect          | ForwardingImmutableSet.java                         | src      |        3 |        5 |       15 |        6 |       29 |
-| common.collect          | ForwardingIterator.java                             | src      |        8 |       15 |       15 |       24 |       62 |
-| common.collect          | ForwardingList.java                                 | src      |       27 |       95 |       16 |      102 |      240 |
-| common.collect          | ForwardingListIterator.java                         | src      |       11 |       15 |       15 |       37 |       78 |
-| common.collect          | ForwardingListMultimap.java                         | src      |        8 |       12 |       15 |       27 |       62 |
-| common.collect          | ForwardingMap.java                                  | src      |       32 |      121 |       16 |      136 |      305 |
-| common.collect          | ForwardingMapEntry.java                             | src      |       13 |       44 |       16 |       51 |      124 |
-| common.collect          | ForwardingMultimap.java                             | src      |       25 |       12 |       15 |      101 |      153 |
-| common.collect          | ForwardingMultiset.java                             | src      |       32 |      138 |       15 |      129 |      314 |
-| common.collect          | ForwardingNavigableMap.java                         | src      |       50 |      136 |       15 |      206 |      407 |
-| common.collect          | ForwardingNavigableSet.java                         | src      |       29 |       86 |       15 |      105 |      235 |
-| common.collect          | ForwardingObject.java                               | src      |        7 |       30 |       15 |       15 |       67 |
-| common.collect          | ForwardingQueue.java                                | src      |       13 |       40 |       15 |       56 |      124 |
-| common.collect          | ForwardingSet.java                                  | src      |       11 |       42 |       16 |       31 |      100 |
-| common.collect          | ForwardingSetMultimap.java                          | src      |        8 |       12 |       15 |       30 |       65 |
-| common.collect          | ForwardingSortedMap.java                            | src      |       16 |       46 |       18 |       73 |      153 |
-| common.collect          | ForwardingSortedMultiset.java                       | src      |       22 |       81 |       13 |      110 |      226 |
-| common.collect          | ForwardingSortedSet.java                            | src      |       15 |       48 |       18 |       81 |      162 |
-| common.collect          | ForwardingSortedSetMultimap.java                    | src      |        9 |       12 |       15 |       29 |       65 |
-| common.collect          | ForwardingTable.java                                | src      |       25 |        8 |       15 |       99 |      147 |
-| common.collect          | GeneralRange.java                                   | src      |       33 |       24 |       15 |      223 |      295 |
-| common.collect          | GwtTransient.java                                   | src      |        4 |        5 |       15 |       12 |       36 |
-| common.collect          | HashBasedTable.java                                 | src      |       20 |       37 |       16 |       72 |      145 |
-| common.collect          | HashBiMap.java                                      | src      |       99 |       30 |       19 |      605 |      753 |
-| common.collect          | HashMultimap.java                                   | src      |       14 |       55 |       15 |       57 |      141 |
-| common.collect          | HashMultimapGwtSerializationDependencies.java       | src      |        3 |        9 |       15 |       10 |       37 |
-| common.collect          | HashMultiset.java                                   | src      |       11 |       25 |       15 |       42 |       93 |
-| common.collect          | Hashing.java                                        | src      |        9 |        7 |       30 |       29 |       75 |
-| common.collect          | ImmutableAsList.java                                | src      |       13 |        7 |       17 |       48 |       85 |
-| common.collect          | ImmutableBiMap.java                                 | src      |       36 |      175 |       30 |      194 |      435 |
-| common.collect          | ImmutableBiMapFauxverideShim.java                   | src      |        4 |       23 |       15 |       21 |       63 |
-| common.collect          | ImmutableClassToInstanceMap.java                    | src      |       20 |       72 |       16 |       84 |      192 |
-| common.collect          | ImmutableCollection.java                            | src      |       34 |      246 |       25 |      165 |      470 |
-| common.collect          | ImmutableEntry.java                                 | src      |        8 |        0 |       15 |       27 |       50 |
-| common.collect          | ImmutableEnumMap.java                               | src      |       21 |        5 |       19 |       89 |      134 |
-| common.collect          | ImmutableEnumSet.java                               | src      |       23 |        5 |       28 |      100 |      156 |
-| common.collect          | ImmutableList.java                                  | src      |       89 |      290 |       28 |      462 |      869 |
-| common.collect          | ImmutableListMultimap.java                          | src      |       46 |      164 |       20 |      281 |      511 |
-| common.collect          | ImmutableMap.java                                   | src      |       96 |      284 |       45 |      502 |      927 |
-| common.collect          | ImmutableMapEntry.java                              | src      |       16 |       19 |       16 |       61 |      112 |
-| common.collect          | ImmutableMapEntrySet.java                           | src      |       23 |        6 |       15 |       92 |      136 |
-| common.collect          | ImmutableMapKeySet.java                             | src      |       17 |        6 |       15 |       61 |       99 |
-| common.collect          | ImmutableMapValues.java                             | src      |       20 |        6 |       15 |       83 |      124 |
-| common.collect          | ImmutableMultimap.java                              | src      |       90 |      199 |       22 |      441 |      752 |
-| common.collect          | ImmutableMultiset.java                              | src      |       73 |      196 |       16 |      359 |      644 |
-| common.collect          | ImmutableMultisetGwtSerializationDependencies.java  | src      |        3 |       18 |       15 |        4 |       40 |
-| common.collect          | ImmutableRangeMap.java                              | src      |       42 |       63 |       13 |      293 |      411 |
-| common.collect          | ImmutableRangeSet.java                              | src      |       89 |      152 |       19 |      571 |      831 |
-| common.collect          | ImmutableSet.java                                   | src      |       87 |      203 |       39 |      505 |      834 |
-| common.collect          | ImmutableSetMultimap.java                           | src      |       62 |      200 |       21 |      369 |      652 |
-| common.collect          | ImmutableSortedAsList.java                          | src      |       13 |        6 |       25 |       51 |       95 |
-| common.collect          | ImmutableSortedMap.java                             | src      |       87 |      292 |       42 |      528 |      949 |
-| common.collect          | ImmutableSortedMapFauxverideShim.java               | src      |       12 |       84 |       16 |       50 |      162 |
-| common.collect          | ImmutableSortedMultiset.java                        | src      |       46 |      251 |       18 |      278 |      593 |
-| common.collect          | ImmutableSortedMultisetFauxverideShim.java          | src      |       13 |      108 |       28 |       50 |      199 |
-| common.collect          | ImmutableSortedSet.java                             | src      |       74 |      311 |       45 |      413 |      843 |
-| common.collect          | ImmutableSortedSetFauxverideShim.java               | src      |       13 |      104 |       33 |       46 |      196 |
-| common.collect          | ImmutableTable.java                                 | src      |       62 |      151 |       20 |      332 |      565 |
-| common.collect          | IndexedImmutableSet.java                            | src      |       12 |        0 |       15 |       52 |       79 |
-| common.collect          | Interner.java                                       | src      |        3 |       19 |       15 |       10 |       47 |
-| common.collect          | Interners.java                                      | src      |       25 |       42 |       22 |       99 |      188 |
-| common.collect          | Iterables.java                                      | src      |       77 |      483 |       25 |      445 |     1030 |
-| common.collect          | Iterators.java                                      | src      |      121 |      459 |       48 |      753 |     1381 |
-| common.collect          | JdkBackedImmutableBiMap.java                        | src      |       14 |        4 |       15 |       88 |      121 |
-| common.collect          | JdkBackedImmutableMap.java                          | src      |       13 |        9 |       15 |       56 |       93 |
-| common.collect          | JdkBackedImmutableMultiset.java                     | src      |       12 |        6 |       13 |       59 |       90 |
-| common.collect          | JdkBackedImmutableSet.java                          | src      |        8 |        7 |       13 |       29 |       57 |
-| common.collect          | LexicographicalOrdering.java                        | src      |        9 |        0 |       15 |       52 |       76 |
-| common.collect          | LinkedHashMultimap.java                             | src      |       73 |      113 |       23 |      405 |      614 |
-| common.collect          | LinkedHashMultimapGwtSerializationDependencies.java | src      |        3 |        9 |       15 |       11 |       38 |
-| common.collect          | LinkedHashMultiset.java                             | src      |       11 |       33 |       15 |       43 |      102 |
-| common.collect          | LinkedListMultimap.java                             | src      |       92 |      141 |       33 |      588 |      854 |
-| common.collect          | ListMultimap.java                                   | src      |        7 |       53 |       15 |       22 |       97 |
-| common.collect          | Lists.java                                          | src      |      123 |      358 |       27 |      646 |     1154 |
-| common.collect          | MapDifference.java                                  | src      |       13 |       53 |       15 |       26 |      107 |
-| common.collect          | MapMaker.java                                       | src      |       25 |      141 |       16 |      128 |      310 |
-| common.collect          | MapMakerInternalMap.java                            | src      |      415 |      244 |      142 |     2148 |     2949 |
-| common.collect          | Maps.java                                           | src      |      489 |     1216 |       59 |     2506 |     4270 |
-| common.collect          | MinMaxPriorityQueue.java                            | src      |       86 |      235 |       65 |      570 |      956 |
-| common.collect          | MoreCollectors.java                                 | src      |       18 |       22 |       19 |      111 |      170 |
-| common.collect          | Multimap.java                                       | src      |       29 |      287 |       20 |       50 |      386 |
-| common.collect          | MultimapBuilder.java                                | src      |       56 |      126 |       24 |      263 |      469 |
-| common.collect          | Multimaps.java                                      | src      |      211 |      839 |       25 |     1122 |     2197 |
-| common.collect          | Multiset.java                                       | src      |       35 |      331 |       22 |       87 |      475 |
-| common.collect          | Multisets.java                                      | src      |      128 |      234 |       36 |      780 |     1178 |
-| common.collect          | MutableClassToInstanceMap.java                      | src      |       27 |       23 |       15 |      116 |      181 |
-| common.collect          | NaturalOrdering.java                                | src      |       13 |        0 |       16 |       48 |       77 |
-| common.collect          | NullsFirstOrdering.java                             | src      |       12 |        0 |       16 |       58 |       86 |
-| common.collect          | NullsLastOrdering.java                              | src      |       12 |        0 |       16 |       58 |       86 |
-| common.collect          | ObjectArrays.java                                   | src      |       19 |       89 |       17 |      104 |      229 |
-| common.collect          | Ordering.java                                       | src      |       66 |      545 |       64 |      283 |      958 |
-| common.collect          | PeekingIterator.java                                | src      |        5 |       35 |       15 |       14 |       69 |
-| common.collect          | Platform.java                                       | src      |       15 |       32 |       17 |       49 |      113 |
-| common.collect          | Queues.java                                         | src      |       32 |      168 |       31 |      193 |      424 |
-| common.collect          | Range.java                                          | src      |       59 |      348 |       17 |      285 |      709 |
-| common.collect          | RangeGwtSerializationDependencies.java              | src      |        3 |        9 |       15 |        5 |       32 |
-| common.collect          | RangeMap.java                                       | src      |       16 |       97 |       15 |       35 |      163 |
-| common.collect          | RangeSet.java                                       | src      |       29 |      176 |       18 |       53 |      276 |
-| common.collect          | RegularContiguousSet.java                           | src      |       34 |        5 |       15 |      184 |      238 |
-| common.collect          | RegularImmutableAsList.java                         | src      |       14 |        6 |       15 |       55 |       90 |
-| common.collect          | RegularImmutableBiMap.java                          | src      |       43 |        9 |       16 |      237 |      305 |
-| common.collect          | RegularImmutableList.java                           | src      |       15 |        5 |       19 |       53 |       92 |
-| common.collect          | RegularImmutableMap.java                            | src      |       45 |       29 |       29 |      210 |      313 |
-| common.collect          | RegularImmutableMultiset.java                       | src      |       23 |       19 |       13 |      140 |      195 |
-| common.collect          | RegularImmutableSet.java                            | src      |       17 |        5 |       17 |       83 |      122 |
-| common.collect          | RegularImmutableSortedMultiset.java                 | src      |       20 |        5 |       13 |       95 |      133 |
-| common.collect          | RegularImmutableSortedSet.java                      | src      |       44 |        7 |       27 |      247 |      325 |
-| common.collect          | RegularImmutableTable.java                          | src      |       22 |        5 |       26 |      133 |      186 |
-| common.collect          | ReverseNaturalOrdering.java                         | src      |       20 |        0 |       17 |       64 |      101 |
-| common.collect          | ReverseOrdering.java                                | src      |       20 |        0 |       16 |       75 |      111 |
-| common.collect          | RowSortedTable.java                                 | src      |        4 |       22 |       15 |       13 |       54 |
-| common.collect          | Serialization.java                                  | src      |       18 |       63 |       17 |      121 |      219 |
-| common.collect          | SetMultimap.java                                    | src      |        8 |       70 |       15 |       25 |      118 |
-| common.collect          | Sets.java                                           | src      |      207 |      732 |       64 |     1124 |     2127 |
-| common.collect          | SingletonImmutableBiMap.java                        | src      |       17 |        6 |       16 |       66 |      105 |
-| common.collect          | SingletonImmutableList.java                         | src      |       13 |        5 |       15 |       44 |       77 |
-| common.collect          | SingletonImmutableSet.java                          | src      |       15 |        6 |       24 |       58 |      103 |
-| common.collect          | SingletonImmutableTable.java                        | src      |       13 |        5 |       15 |       49 |       82 |
-| common.collect          | SortedIterable.java                                 | src      |        4 |       14 |       13 |       10 |       41 |
-| common.collect          | SortedIterables.java                                | src      |        6 |        9 |       14 |       30 |       59 |
-| common.collect          | SortedLists.java                                    | src      |       14 |       92 |       21 |      153 |      280 |
-| common.collect          | SortedMapDifference.java                            | src      |        7 |        6 |       15 |       14 |       42 |
-| common.collect          | SortedMultiset.java                                 | src      |       14 |       89 |       15 |       26 |      144 |
-| common.collect          | SortedMultisetBridge.java                           | src      |        3 |        7 |       15 |        8 |       33 |
-| common.collect          | SortedMultisets.java                                | src      |       28 |        5 |       15 |      123 |      171 |
-| common.collect          | SortedSetMultimap.java                              | src      |        8 |       61 |       16 |       23 |      108 |
-| common.collect          | SparseImmutableTable.java                           | src      |       15 |        0 |       18 |      102 |      135 |
-| common.collect          | StandardRowSortedTable.java                         | src      |       18 |       29 |       20 |       76 |      143 |
-| common.collect          | StandardTable.java                                  | src      |      124 |       51 |       35 |      780 |      990 |
-| common.collect          | Streams.java                                        | src      |       71 |      308 |       29 |      460 |      868 |
-| common.collect          | Synchronized.java                                   | src      |      327 |       12 |       24 |     1799 |     2162 |
-| common.collect          | Table.java                                          | src      |       32 |      168 |       19 |       63 |      282 |
-| common.collect          | Tables.java                                         | src      |       90 |      167 |       25 |      454 |      736 |
-| common.collect          | TopKSelector.java                                   | src      |       26 |       88 |       25 |      132 |      271 |
-| common.collect          | TransformedIterator.java                            | src      |        9 |        6 |       15 |       24 |       54 |
-| common.collect          | TransformedListIterator.java                        | src      |       10 |        6 |       15 |       38 |       69 |
-| common.collect          | TreeBasedTable.java                                 | src      |       46 |       74 |       24 |      208 |      352 |
-| common.collect          | TreeMultimap.java                                   | src      |       20 |       88 |       15 |       99 |      222 |
-| common.collect          | TreeMultiset.java                                   | src      |      106 |       54 |       36 |      832 |     1028 |
-| common.collect          | TreeRangeMap.java                                   | src      |       95 |        9 |       31 |      572 |      707 |
-| common.collect          | TreeRangeSet.java                                   | src      |       99 |       32 |       58 |      737 |      926 |
-| common.collect          | TreeTraverser.java                                  | src      |       28 |       83 |       16 |      164 |      291 |
-| common.collect          | UnmodifiableIterator.java                           | src      |        4 |       16 |       15 |       13 |       48 |
-| common.collect          | UnmodifiableListIterator.java                       | src      |        5 |       18 |       15 |       19 |       57 |
-| common.collect          | UnmodifiableSortedMultiset.java                     | src      |       17 |        7 |       15 |       71 |      110 |
-| common.collect          | UsingToStringOrdering.java                          | src      |        8 |        0 |       16 |       21 |       45 |
-| common.collect          | WellBehavedMap.java                                 | src      |       11 |       14 |       15 |       59 |       99 |
-| common.collect          | package-info.java                                   | src      |        2 |      197 |       15 |        5 |      219 |
-+-------------------------+-----------------------------------------------------+----------+----------+----------+----------+----------+----------+
-| common.escape           | ArrayBasedCharEscaper.java                          | src      |       11 |       61 |       24 |       53 |      149 |
-| common.escape           | ArrayBasedEscaperMap.java                           | src      |        9 |       20 |       20 |       35 |       84 |
-| common.escape           | ArrayBasedUnicodeEscaper.java                       | src      |       12 |       64 |       41 |       86 |      203 |
-| common.escape           | CharEscaper.java                                    | src      |       19 |       57 |       26 |       73 |      175 |
-| common.escape           | CharEscaperBuilder.java                             | src      |       14 |       26 |       19 |       69 |      128 |
-| common.escape           | Escaper.java                                        | src      |        6 |       57 |       14 |       20 |       97 |
-| common.escape           | Escapers.java                                       | src      |       21 |       97 |       32 |      121 |      271 |
-| common.escape           | Platform.java                                       | src      |        5 |       10 |       13 |       17 |       45 |
-| common.escape           | UnicodeEscaper.java                                 | src      |       15 |      139 |       26 |      122 |      302 |
-| common.escape           | package-info.java                                   | src      |        2 |       12 |       13 |        5 |       32 |
-+-------------------------+-----------------------------------------------------+----------+----------+----------+----------+----------+----------+
-| common.eventbus         | AllowConcurrentEvents.java                          | src      |        3 |        9 |       13 |       10 |       35 |
-| common.eventbus         | AsyncEventBus.java                                  | src      |        6 |       30 |       13 |       15 |       64 |
-| common.eventbus         | DeadEvent.java                                      | src      |        9 |       27 |       13 |       23 |       72 |
-| common.eventbus         | Dispatcher.java                                     | src      |       25 |       31 |       31 |      103 |      190 |
-| common.eventbus         | EventBus.java                                       | src      |       22 |      104 |       15 |      112 |      253 |
-| common.eventbus         | Subscribe.java                                      | src      |        3 |       13 |       13 |       10 |       39 |
-| common.eventbus         | Subscriber.java                                     | src      |       20 |       21 |       16 |       91 |      148 |
-| common.eventbus         | SubscriberExceptionContext.java                     | src      |        9 |       16 |       13 |       31 |       69 |
-| common.eventbus         | SubscriberExceptionHandler.java                     | src      |        2 |        5 |       13 |        5 |       25 |
-| common.eventbus         | SubscriberRegistry.java                             | src      |       33 |       28 |       22 |      170 |      253 |
-| common.eventbus         | package-info.java                                   | src      |        2 |      237 |       13 |        5 |      257 |
-+-------------------------+-----------------------------------------------------+----------+----------+----------+----------+----------+----------+
-| common.graph            | AbstractBaseGraph.java                              | src      |       34 |       22 |       20 |      197 |      273 |
-| common.graph            | AbstractDirectedNetworkConnections.java             | src      |       18 |        7 |       17 |       92 |      134 |
-| common.graph            | AbstractGraph.java                                  | src      |        7 |        8 |       15 |       35 |       65 |
-| common.graph            | AbstractGraphBuilder.java                           | src      |        4 |       11 |       15 |       11 |       41 |
-| common.graph            | AbstractNetwork.java                                | src      |       36 |       16 |       20 |      220 |      292 |
-| common.graph            | AbstractUndirectedNetworkConnections.java           | src      |       15 |        7 |       15 |       60 |       97 |
-| common.graph            | AbstractValueGraph.java                             | src      |       21 |       12 |       15 |      108 |      156 |
-| common.graph            | BaseGraph.java                                      | src      |       19 |       96 |       24 |       23 |      162 |
-| common.graph            | ConfigurableMutableGraph.java                       | src      |       11 |       10 |       15 |       39 |       75 |
-| common.graph            | ConfigurableMutableNetwork.java                     | src      |       20 |       18 |       17 |      118 |      173 |
-| common.graph            | ConfigurableMutableValueGraph.java                  | src      |       22 |       18 |       16 |      117 |      173 |
-| common.graph            | ConfigurableNetwork.java                            | src      |       27 |       23 |       19 |      133 |      202 |
-| common.graph            | ConfigurableValueGraph.java                         | src      |       24 |       21 |       16 |      107 |      168 |
-| common.graph            | DirectedGraphConnections.java                       | src      |       25 |       11 |       20 |      195 |      251 |
-| common.graph            | DirectedMultiNetworkConnections.java                | src      |       19 |        7 |       15 |      104 |      145 |
-| common.graph            | DirectedNetworkConnections.java                     | src      |       10 |        7 |       15 |       35 |       67 |
-| common.graph            | EdgesConnecting.java                                | src      |       10 |        9 |       15 |       35 |       69 |
-| common.graph            | ElementOrder.java                                   | src      |       19 |       35 |       15 |       94 |      163 |
-| common.graph            | EndpointPair.java                                   | src      |       36 |       48 |       25 |      143 |      252 |
-| common.graph            | EndpointPairIterator.java                           | src      |       13 |       39 |       16 |       68 |      136 |
-| common.graph            | ForwardingGraph.java                                | src      |       17 |       10 |       15 |       57 |       99 |
-| common.graph            | ForwardingNetwork.java                              | src      |       30 |        7 |       15 |      110 |      162 |
-| common.graph            | ForwardingValueGraph.java                           | src      |       21 |       11 |       15 |       75 |      122 |
-| common.graph            | Graph.java                                          | src      |       22 |      194 |       27 |       42 |      285 |
-| common.graph            | GraphBuilder.java                                   | src      |       13 |       43 |       15 |       47 |      118 |
-| common.graph            | GraphConnections.java                               | src      |       11 |       25 |       15 |       18 |       69 |
-| common.graph            | GraphConstants.java                                 | src      |        8 |        0 |       17 |       34 |       59 |
-| common.graph            | Graphs.java                                         | src      |       80 |       92 |       34 |      421 |      627 |
-| common.graph            | ImmutableGraph.java                                 | src      |       10 |       20 |       18 |       50 |       98 |
-| common.graph            | ImmutableNetwork.java                               | src      |       14 |       21 |       21 |       85 |      141 |
-| common.graph            | ImmutableValueGraph.java                            | src      |       10 |       19 |       18 |       52 |       99 |
-| common.graph            | MapIteratorCache.java                               | src      |       21 |       14 |       20 |       79 |      134 |
-| common.graph            | MapRetrievalCache.java                              | src      |       15 |        6 |       22 |       62 |      105 |
-| common.graph            | MultiEdgesConnecting.java                           | src      |        8 |        9 |       15 |       37 |       69 |
-| common.graph            | MutableGraph.java                                   | src      |        9 |       64 |       15 |       18 |      106 |
-| common.graph            | MutableNetwork.java                                 | src      |        8 |       73 |       15 |       16 |      112 |
-| common.graph            | MutableValueGraph.java                              | src      |        9 |       72 |       15 |       18 |      114 |
-| common.graph            | Network.java                                        | src      |       35 |      314 |       27 |       47 |      423 |
-| common.graph            | NetworkBuilder.java                                 | src      |       16 |       59 |       15 |       66 |      156 |
-| common.graph            | NetworkConnections.java                             | src      |       15 |       25 |       15 |       21 |       76 |
-| common.graph            | PredecessorsFunction.java                           | src      |        4 |       78 |       15 |        6 |      103 |
-| common.graph            | SuccessorsFunction.java                             | src      |        4 |       81 |       15 |        6 |      106 |
-| common.graph            | Traverser.java                                      | src      |       56 |      250 |       22 |      334 |      662 |
-| common.graph            | UndirectedGraphConnections.java                     | src      |       15 |        7 |       15 |       55 |       92 |
-| common.graph            | UndirectedMultiNetworkConnections.java              | src      |       16 |        7 |       15 |       83 |      121 |
-| common.graph            | UndirectedNetworkConnections.java                   | src      |        9 |        7 |       15 |       27 |       58 |
-| common.graph            | ValueGraph.java                                     | src      |       27 |      245 |       27 |       50 |      349 |
-| common.graph            | ValueGraphBuilder.java                              | src      |       13 |       52 |       15 |       46 |      126 |
-| common.graph            | package-info.java                                   | src      |        2 |        7 |       15 |        5 |       29 |
-+-------------------------+-----------------------------------------------------+----------+----------+----------+----------+----------+----------+
-| common.hash             | AbstractByteHasher.java                             | src      |       17 |        6 |       13 |       88 |      124 |
-| common.hash             | AbstractCompositeHashFunction.java                  | src      |       25 |       12 |       14 |      144 |      195 |
-| common.hash             | AbstractHashFunction.java                           | src      |       12 |        5 |       13 |       49 |       79 |
-| common.hash             | AbstractHasher.java                                 | src      |       15 |        6 |       13 |       87 |      121 |
-| common.hash             | AbstractNonStreamingHashFunction.java               | src      |       20 |        7 |       14 |       92 |      133 |
-| common.hash             | AbstractStreamingHasher.java                        | src      |       27 |       34 |       34 |      119 |      214 |
-| common.hash             | BloomFilter.java                                    | src      |       43 |      281 |       39 |      255 |      618 |
-| common.hash             | BloomFilterStrategies.java                          | src      |       29 |       51 |       21 |      183 |      284 |
-| common.hash             | ChecksumHashFunction.java                           | src      |       14 |        5 |       18 |       56 |       93 |
-| common.hash             | Crc32cHashFunction.java                             | src      |       11 |        6 |       15 |       96 |      128 |
-| common.hash             | FarmHashFingerprint64.java                          | src      |       19 |       22 |       21 |      154 |      216 |
-| common.hash             | Funnel.java                                         | src      |        4 |       29 |       13 |        7 |       53 |
-| common.hash             | Funnels.java                                        | src      |       45 |       45 |       13 |      160 |      263 |
-| common.hash             | HashCode.java                                       | src      |       56 |      104 |       19 |      244 |      423 |
-| common.hash             | HashFunction.java                                   | src      |       13 |      176 |       13 |       21 |      223 |
-| common.hash             | Hasher.java                                         | src      |       18 |       64 |       13 |       44 |      139 |
-| common.hash             | Hashing.java                                        | src      |       57 |      330 |       17 |      274 |      678 |
-| common.hash             | HashingInputStream.java                             | src      |       11 |       34 |       13 |       47 |      105 |
-| common.hash             | HashingOutputStream.java                            | src      |        9 |       16 |       20 |       31 |       76 |
-| common.hash             | ImmutableSupplier.java                              | src      |        3 |        4 |       13 |        5 |       25 |
-| common.hash             | LittleEndianByteArray.java                          | src      |       24 |       60 |       41 |      135 |      260 |
-| common.hash             | LongAddable.java                                    | src      |        4 |        5 |       13 |        6 |       28 |
-| common.hash             | LongAddables.java                                   | src      |        8 |        5 |       13 |       45 |       71 |
-| common.hash             | LongAdder.java                                      | src      |       19 |       57 |        9 |       97 |      182 |
-| common.hash             | MacHashFunction.java                                | src      |       19 |        5 |       14 |      101 |      139 |
-| common.hash             | MessageDigestHashFunction.java                      | src      |       24 |        6 |       14 |      119 |      163 |
-| common.hash             | Murmur3_128HashFunction.java                        | src      |       31 |        7 |       23 |      154 |      215 |
-| common.hash             | Murmur3_32HashFunction.java                         | src      |       55 |        9 |       30 |      317 |      411 |
-| common.hash             | PrimitiveSink.java                                  | src      |       15 |       55 |       13 |       29 |      112 |
-| common.hash             | SipHashFunction.java                                | src      |       26 |       13 |       32 |      113 |      184 |
-| common.hash             | Striped64.java                                      | src      |       24 |       44 |       73 |      169 |      310 |
-| common.hash             | package-info.java                                   | src      |        2 |        6 |       14 |        5 |       27 |
-+-------------------------+-----------------------------------------------------+----------+----------+----------+----------+----------+----------+
-| common.html             | HtmlEscapers.java                                   | src      |        6 |       28 |       16 |       21 |       71 |
-| common.html             | package-info.java                                   | src      |        2 |        8 |       13 |        5 |       28 |
-+-------------------------+-----------------------------------------------------+----------+----------+----------+----------+----------+----------+
-| common.io               | AppendableWriter.java                               | src      |       17 |       13 |       22 |       73 |      125 |
-| common.io               | BaseEncoding.java                                   | src      |      124 |      236 |       24 |      776 |     1160 |
-| common.io               | ByteArrayDataInput.java                             | src      |       17 |       12 |       15 |       50 |       94 |
-| common.io               | ByteArrayDataOutput.java                            | src      |       17 |       11 |       13 |       38 |       79 |
-| common.io               | ByteProcessor.java                                  | src      |        4 |       18 |       13 |       13 |       48 |
-| common.io               | ByteSink.java                                       | src      |       17 |       59 |       13 |       68 |      157 |
-| common.io               | ByteSource.java                                     | src      |       79 |      202 |       38 |      420 |      739 |
-| common.io               | ByteStreams.java                                    | src      |       94 |      197 |       31 |      584 |      906 |
-| common.io               | CharSequenceReader.java                             | src      |       18 |        6 |       14 |       92 |      130 |
-| common.io               | CharSink.java                                       | src      |       17 |       83 |       13 |       77 |      190 |
-| common.io               | CharSource.java                                     | src      |       67 |      265 |       15 |      376 |      723 |
-| common.io               | CharStreams.java                                    | src      |       33 |      115 |       20 |      179 |      347 |
-| common.io               | Closeables.java                                     | src      |        7 |       64 |       13 |       46 |      130 |
-| common.io               | Closer.java                                         | src      |       27 |      120 |       20 |      125 |      292 |
-| common.io               | CountingInputStream.java                            | src      |       13 |       11 |       14 |       58 |       96 |
-| common.io               | CountingOutputStream.java                           | src      |       10 |       11 |       16 |       33 |       70 |
-| common.io               | FileBackedOutputStream.java                         | src      |       22 |       38 |       16 |      136 |      212 |
-| common.io               | FileWriteMode.java                                  | src      |        3 |        6 |       13 |        7 |       29 |
-| common.io               | Files.java                                          | src      |       74 |      408 |       30 |      391 |      903 |
-| common.io               | Flushables.java                                     | src      |        6 |       25 |       13 |       31 |       75 |
-| common.io               | InsecureRecursiveDeleteException.java               | src      |        4 |       12 |       15 |       15 |       46 |
-| common.io               | LineBuffer.java                                     | src      |       10 |       34 |       15 |       56 |      115 |
-| common.io               | LineProcessor.java                                  | src      |        5 |       15 |       13 |       13 |       46 |
-| common.io               | LineReader.java                                     | src      |        7 |       17 |       15 |       46 |       85 |
-| common.io               | LittleEndianDataInputStream.java                    | src      |       26 |       80 |       13 |      118 |      237 |
-| common.io               | LittleEndianDataOutputStream.java                   | src      |       17 |       62 |       17 |       77 |      173 |
-| common.io               | MoreFiles.java                                      | src      |       75 |      215 |       78 |      426 |      794 |
-| common.io               | MultiInputStream.java                               | src      |       13 |       12 |       13 |       80 |      118 |
-| common.io               | MultiReader.java                                    | src      |        9 |        6 |       13 |       63 |       91 |
-| common.io               | PatternFilenameFilter.java                          | src      |        7 |       18 |       13 |       24 |       62 |
-| common.io               | ReaderInputStream.java                              | src      |       25 |       47 |       37 |      146 |      255 |
-| common.io               | RecursiveDeleteOption.java                          | src      |        3 |       19 |       15 |       11 |       48 |
-| common.io               | Resources.java                                      | src      |       20 |       87 |       17 |       87 |      211 |
-| common.io               | package-info.java                                   | src      |        2 |       16 |       13 |        5 |       36 |
-+-------------------------+-----------------------------------------------------+----------+----------+----------+----------+----------+----------+
-| common.math             | BigIntegerMath.java                                 | src      |       43 |       74 |       81 |      276 |      474 |
-| common.math             | DoubleMath.java                                     | src      |       34 |      191 |       39 |      264 |      528 |
-| common.math             | DoubleUtils.java                                    | src      |       20 |        5 |       44 |       73 |      142 |
-| common.math             | IntMath.java                                        | src      |       48 |      179 |       84 |      417 |      728 |
-| common.math             | LinearTransformation.java                           | src      |       50 |       67 |       13 |      174 |      304 |
-| common.math             | LongMath.java                                       | src      |       71 |      193 |      183 |      760 |     1207 |
-| common.math             | MathPreconditions.java                              | src      |       14 |        5 |       13 |       74 |      106 |
-| common.math             | PairedStats.java                                    | src      |       24 |      127 |       16 |      153 |      320 |
-| common.math             | PairedStatsAccumulator.java                         | src      |       18 |       85 |       31 |      113 |      247 |
-| common.math             | Quantiles.java                                      | src      |       54 |      273 |       66 |      292 |      685 |
-| common.math             | Stats.java                                          | src      |       36 |      292 |       18 |      240 |      586 |
-| common.math             | StatsAccumulator.java                               | src      |       25 |      165 |       34 |      150 |      374 |
-| common.math             | package-info.java                                   | src      |        2 |        9 |       13 |        5 |       29 |
-+-------------------------+-----------------------------------------------------+----------+----------+----------+----------+----------+----------+
-| common.net              | HostAndPort.java                                    | src      |       27 |      112 |       18 |      161 |      318 |
-| common.net              | HostSpecifier.java                                  | src      |       20 |       53 |       25 |       70 |      168 |
-| common.net              | HttpHeaders.java                                    | src      |       15 |      196 |       17 |      199 |      427 |
-| common.net              | InetAddresses.java                                  | src      |       90 |      387 |       50 |      462 |      989 |
-| common.net              | InternetDomainName.java                             | src      |       70 |      327 |       38 |      202 |      637 |
-| common.net              | MediaType.java                                      | src      |      118 |      410 |       35 |      475 |     1038 |
-| common.net              | PercentEscaper.java                                 | src      |       13 |       52 |       39 |      129 |      233 |
-| common.net              | UrlEscapers.java                                    | src      |       12 |       94 |       15 |       27 |      148 |
-| common.net              | package-info.java                                   | src      |        2 |        9 |       13 |        3 |       27 |
-+-------------------------+-----------------------------------------------------+----------+----------+----------+----------+----------+----------+
-| common.primitives       | Booleans.java                                       | src      |       50 |      178 |       21 |      304 |      553 |
-| common.primitives       | Bytes.java                                          | src      |       35 |      115 |       22 |      226 |      398 |
-| common.primitives       | Chars.java                                          | src      |       53 |      235 |       20 |      330 |      638 |
-| common.primitives       | Doubles.java                                        | src      |       60 |      254 |       33 |      367 |      714 |
-| common.primitives       | Floats.java                                         | src      |       57 |      245 |       26 |      338 |      666 |
-| common.primitives       | ImmutableDoubleArray.java                           | src      |       70 |      164 |       38 |      358 |      630 |
-| common.primitives       | ImmutableIntArray.java                              | src      |       69 |      162 |       37 |      352 |      620 |
-| common.primitives       | ImmutableLongArray.java                             | src      |       69 |      162 |       37 |      354 |      622 |
-| common.primitives       | Ints.java                                           | src      |       64 |      286 |       21 |      371 |      742 |
-| common.primitives       | Longs.java                                          | src      |       69 |      276 |       27 |      417 |      789 |
-| common.primitives       | ParseRequest.java                                   | src      |        7 |        0 |       14 |       34 |       55 |
-| common.primitives       | Primitives.java                                     | src      |       18 |       45 |       16 |       59 |      138 |
-| common.primitives       | Shorts.java                                         | src      |       61 |      249 |       21 |      354 |      685 |
-| common.primitives       | SignedBytes.java                                    | src      |       18 |       91 |       18 |       92 |      219 |
-| common.primitives       | UnsignedBytes.java                                  | src      |       45 |      174 |       48 |      243 |      510 |
-| common.primitives       | UnsignedInteger.java                                | src      |       26 |      104 |       15 |      106 |      251 |
-| common.primitives       | UnsignedInts.java                                   | src      |       30 |      186 |       14 |      160 |      390 |
-| common.primitives       | UnsignedLong.java                                   | src      |       28 |      102 |       14 |      119 |      263 |
-| common.primitives       | UnsignedLongs.java                                  | src      |       38 |      179 |       42 |      241 |      500 |
-| common.primitives       | package-info.java                                   | src      |        2 |       48 |       13 |        5 |       68 |
-+-------------------------+-----------------------------------------------------+----------+----------+----------+----------+----------+----------+
-| common.reflect          | AbstractInvocationHandler.java                      | src      |       10 |       60 |       18 |       57 |      145 |
-| common.reflect          | ClassPath.java                                      | src      |       54 |      139 |       26 |      372 |      591 |
-| common.reflect          | Element.java                                        | src      |       31 |       13 |       13 |      121 |      178 |
-| common.reflect          | ImmutableTypeToInstanceMap.java                     | src      |       20 |       60 |       13 |       80 |      173 |
-| common.reflect          | Invokable.java                                      | src      |       51 |       65 |       26 |      239 |      381 |
-| common.reflect          | MutableTypeToInstanceMap.java                       | src      |       25 |       18 |       13 |      108 |      164 |
-| common.reflect          | Parameter.java                                      | src      |       19 |        6 |       18 |       93 |      136 |
-| common.reflect          | Reflection.java                                     | src      |        9 |       35 |       13 |       34 |       91 |
-| common.reflect          | TypeCapture.java                                    | src      |        5 |        5 |       13 |       12 |       35 |
-| common.reflect          | TypeParameter.java                                  | src      |        9 |       13 |       13 |       31 |       66 |
-| common.reflect          | TypeResolver.java                                   | src      |       56 |       85 |       70 |      394 |      605 |
-| common.reflect          | TypeToInstanceMap.java                              | src      |        7 |       49 |       13 |       14 |       83 |
-| common.reflect          | TypeToken.java                                      | src      |      138 |      326 |       84 |      893 |     1441 |
-| common.reflect          | TypeVisitor.java                                    | src      |       10 |       35 |       14 |       44 |      103 |
-| common.reflect          | Types.java                                          | src      |       86 |       52 |       24 |      512 |      674 |
-| common.reflect          | package-info.java                                   | src      |        2 |        4 |       13 |        5 |       24 |
-+-------------------------+-----------------------------------------------------+----------+----------+----------+----------+----------+----------+
-| common.util.concurrent  | AbstractCatchingFuture.java                         | src      |       23 |        8 |       19 |      164 |      214 |
-| common.util.concurrent  | AbstractCheckedFuture.java                          | src      |        6 |       53 |       15 |       44 |      118 |
-| common.util.concurrent  | AbstractExecutionThreadService.java                 | src      |       25 |       56 |       19 |      143 |      243 |
-| common.util.concurrent  | AbstractFuture.java                                 | src      |       99 |      230 |      164 |      861 |     1354 |
-| common.util.concurrent  | AbstractIdleService.java                            | src      |       25 |       21 |       13 |      136 |      195 |
-| common.util.concurrent  | AbstractListeningExecutorService.java               | src      |        8 |       11 |       13 |       36 |       68 |
-| common.util.concurrent  | AbstractScheduledService.java                       | src      |       54 |      161 |       49 |      334 |      598 |
-| common.util.concurrent  | AbstractService.java                                | src      |       61 |       92 |       30 |      436 |      619 |
-| common.util.concurrent  | AbstractTransformFuture.java                        | src      |       22 |        8 |       74 |      146 |      250 |
-| common.util.concurrent  | AggregateFuture.java                                | src      |       30 |       33 |       50 |      191 |      304 |
-| common.util.concurrent  | AggregateFutureState.java                           | src      |       22 |        9 |       48 |       98 |      177 |
-| common.util.concurrent  | AsyncCallable.java                                  | src      |        3 |       16 |       13 |       10 |       42 |
-| common.util.concurrent  | AsyncFunction.java                                  | src      |        3 |       14 |       13 |        9 |       39 |
-| common.util.concurrent  | AtomicDouble.java                                   | src      |       26 |      113 |       13 |       93 |      245 |
-| common.util.concurrent  | AtomicDoubleArray.java                              | src      |       24 |      113 |       16 |      105 |      258 |
-| common.util.concurrent  | AtomicLongMap.java                                  | src      |       35 |      133 |       15 |      162 |      345 |
-| common.util.concurrent  | Atomics.java                                        | src      |        7 |       30 |       13 |       21 |       71 |
-| common.util.concurrent  | Callables.java                                      | src      |        9 |       32 |       16 |       85 |      142 |
-| common.util.concurrent  | CheckedFuture.java                                  | src      |        5 |       55 |       14 |       17 |       91 |
-| common.util.concurrent  | CollectionFuture.java                               | src      |       16 |        0 |       17 |       78 |      111 |
-| common.util.concurrent  | CombinedFuture.java                                 | src      |       27 |        0 |       13 |      153 |      193 |
-| common.util.concurrent  | CycleDetectingLockFactory.java                      | src      |       94 |      330 |       61 |      484 |      969 |
-| common.util.concurrent  | DirectExecutor.java                                 | src      |        5 |        4 |       13 |       15 |       37 |
-| common.util.concurrent  | ExecutionError.java                                 | src      |        7 |       10 |       13 |       21 |       51 |
-| common.util.concurrent  | ExecutionList.java                                  | src      |       14 |       43 |       35 |       72 |      164 |
-| common.util.concurrent  | ExecutionSequencer.java                             | src      |       17 |       25 |       38 |       87 |      167 |
-| common.util.concurrent  | FakeTimeLimiter.java                                | src      |        8 |       10 |       17 |       62 |       97 |
-| common.util.concurrent  | FluentFuture.java                                   | src      |       17 |      265 |       13 |       78 |      373 |
-| common.util.concurrent  | ForwardingBlockingDeque.java                        | src      |       20 |       21 |       15 |       74 |      130 |
-| common.util.concurrent  | ForwardingBlockingQueue.java                        | src      |       12 |       14 |       13 |       44 |       83 |
-| common.util.concurrent  | ForwardingCheckedFuture.java                        | src      |        9 |       34 |       15 |       38 |       96 |
-| common.util.concurrent  | ForwardingCondition.java                            | src      |       10 |        0 |       13 |       36 |       59 |
-| common.util.concurrent  | ForwardingExecutorService.java                      | src      |       17 |        8 |       13 |       77 |      115 |
-| common.util.concurrent  | ForwardingFluentFuture.java                         | src      |       11 |       10 |       13 |       39 |       73 |
-| common.util.concurrent  | ForwardingFuture.java                               | src      |       12 |       16 |       14 |       48 |       90 |
-| common.util.concurrent  | ForwardingListenableFuture.java                     | src      |        9 |       16 |       14 |       29 |       68 |
-| common.util.concurrent  | ForwardingListeningExecutorService.java             | src      |        7 |        9 |       13 |       25 |       54 |
-| common.util.concurrent  | ForwardingLock.java                                 | src      |        9 |        0 |       13 |       32 |       54 |
-| common.util.concurrent  | FutureCallback.java                                 | src      |        4 |       15 |       13 |       11 |       43 |
-| common.util.concurrent  | Futures.java                                        | src      |       74 |      658 |      108 |      457 |     1297 |
-| common.util.concurrent  | FuturesGetChecked.java                              | src      |       31 |       10 |       42 |      219 |      302 |
-| common.util.concurrent  | GwtFluentFutureCatchingSpecialization.java          | src      |        3 |        5 |       18 |        5 |       31 |
-| common.util.concurrent  | GwtFuturesCatchingSpecialization.java               | src      |        3 |        6 |       18 |        5 |       32 |
-| common.util.concurrent  | ImmediateFuture.java                                | src      |       28 |        0 |       19 |      123 |      170 |
-| common.util.concurrent  | InterruptibleTask.java                              | src      |       12 |       16 |       75 |       96 |      199 |
-| common.util.concurrent  | JdkFutureAdapters.java                              | src      |       18 |       50 |       29 |       74 |      171 |
-| common.util.concurrent  | ListenableFuture.java                               | src      |        3 |      121 |       13 |        7 |      144 |
-| common.util.concurrent  | ListenableFutureTask.java                           | src      |       10 |       30 |       17 |       31 |       88 |
-| common.util.concurrent  | ListenableScheduledFuture.java                      | src      |        3 |        6 |       13 |        7 |       29 |
-| common.util.concurrent  | ListenerCallQueue.java                              | src      |       20 |       58 |       22 |      125 |      225 |
-| common.util.concurrent  | ListeningExecutorService.java                       | src      |        7 |       57 |       13 |       25 |      102 |
-| common.util.concurrent  | ListeningScheduledExecutorService.java              | src      |        7 |        9 |       13 |       25 |       54 |
-| common.util.concurrent  | Monitor.java                                        | src      |       71 |      397 |      122 |      551 |     1141 |
-| common.util.concurrent  | MoreExecutors.java                                  | src      |       77 |      278 |       69 |      572 |      996 |
-| common.util.concurrent  | Partially.java                                      | src      |        4 |       15 |       13 |       17 |       49 |
-| common.util.concurrent  | Platform.java                                       | src      |        4 |        0 |       13 |       12 |       29 |
-| common.util.concurrent  | RateLimiter.java                                    | src      |       34 |      208 |       36 |      154 |      432 |
-| common.util.concurrent  | Runnables.java                                      | src      |        6 |        5 |       13 |       17 |       41 |
-| common.util.concurrent  | SequentialExecutor.java                             | src      |       18 |       38 |       48 |      138 |      242 |
-| common.util.concurrent  | Service.java                                        | src      |       24 |      175 |       13 |       80 |      292 |
-| common.util.concurrent  | ServiceManager.java                                 | src      |       68 |      259 |       44 |      493 |      864 |
-| common.util.concurrent  | SettableFuture.java                                 | src      |        7 |       17 |       13 |       28 |       65 |
-| common.util.concurrent  | SimpleTimeLimiter.java                              | src      |       32 |       19 |       16 |      222 |      289 |
-| common.util.concurrent  | SmoothRateLimiter.java                              | src      |       30 |       91 |      133 |      137 |      391 |
-| common.util.concurrent  | Striped.java                                        | src      |       60 |      150 |       55 |      320 |      585 |
-| common.util.concurrent  | ThreadFactoryBuilder.java                           | src      |       13 |       63 |       17 |       91 |      184 |
-| common.util.concurrent  | TimeLimiter.java                                    | src      |        8 |      116 |       13 |       25 |      162 |
-| common.util.concurrent  | TimeoutFuture.java                                  | src      |       17 |        7 |       54 |      103 |      181 |
-| common.util.concurrent  | TrustedListenableFutureTask.java                    | src      |       27 |       15 |       24 |      114 |      180 |
-| common.util.concurrent  | UncaughtExceptionHandlers.java                      | src      |        9 |       22 |       16 |       34 |       81 |
-| common.util.concurrent  | UncheckedExecutionException.java                    | src      |        7 |       15 |       13 |       21 |       56 |
-| common.util.concurrent  | UncheckedTimeoutException.java                      | src      |        7 |        6 |       13 |       17 |       43 |
-| common.util.concurrent  | Uninterruptibles.java                               | src      |       23 |       77 |       22 |      252 |      374 |
-| common.util.concurrent  | WrappingExecutorService.java                        | src      |       22 |       23 |       15 |      102 |      162 |
-| common.util.concurrent  | WrappingScheduledExecutorService.java               | src      |        8 |        8 |       13 |       35 |       64 |
-| common.util.concurrent  | package-info.java                                   | src      |        2 |       13 |       13 |        5 |       33 |
-+-------------------------+-----------------------------------------------------+----------+----------+----------+----------+----------+----------+
-| common.xml              | XmlEscapers.java                                    | src      |       11 |       62 |       30 |       42 |      145 |
-| common.xml              | package-info.java                                   | src      |        2 |        8 |       13 |        5 |       28 |
-+-------------------------+-----------------------------------------------------+----------+----------+----------+----------+----------+----------+
-| thirdparty.publicsuffix | PublicSuffixPatterns.java                           | src      |        7 |       24 |       16 |       16 |       63 |
-| thirdparty.publicsuffix | PublicSuffixType.java                               | src      |       11 |        8 |       13 |       37 |       69 |
-| thirdparty.publicsuffix | TrieParser.java                                     | src      |       11 |       14 |       20 |       57 |      102 |
-+-------------------------+-----------------------------------------------------+----------+----------+----------+----------+----------+----------+
-| 18 package(s)           | 573 file(s)                                         | java     |    17113 |    43667 |    12878 |    88071 |   161729 |
-+-------------------------+-----------------------------------------------------+----------+----------+----------+----------+----------+----------+
+## for example
+$ cat core/sloc.txt
++----------------------+--------------------------------------------+----------+----------+----------+----------+----------+----------+
+| Package Name         | File Name                                  | Type     | Blank    | JavaDoc  | Comment  | Code     | Total    |
++----------------------+--------------------------------------------+----------+----------+----------+----------+----------+----------+
+| inject.binder        | AnnotatedBindingBuilder.java               | src      |        5 |        5 |       15 |        8 |       33 |
+| inject.binder        | AnnotatedConstantBindingBuilder.java       | src      |        5 |        5 |       15 |        8 |       33 |
+| inject.binder        | AnnotatedElementBuilder.java               | src      |        5 |        6 |       15 |        8 |       34 |
+| inject.binder        | ConstantBindingBuilder.java                | src      |       13 |        5 |       15 |       25 |       58 |
+| inject.binder        | LinkedBindingBuilder.java                  | src      |       14 |       31 |       15 |       26 |       86 |
+| inject.binder        | ScopedBindingBuilder.java                  | src      |        6 |       10 |       15 |       10 |       41 |
+| inject.binder        | package-info.java                          | src      |        1 |        0 |       15 |        2 |       18 |
++----------------------+--------------------------------------------+----------+----------+----------+----------+----------+----------+
+| inject.internal.aop  | AbstractGlueGenerator.java                 | src      |       29 |       42 |       21 |      124 |      216 |
+| inject.internal.aop  | AnonymousClassDefiner.java                 | src      |        6 |        5 |       16 |       20 |       47 |
+| inject.internal.aop  | BytecodeTasks.java                         | src      |       15 |        5 |       16 |      166 |      202 |
+| inject.internal.aop  | ChildClassDefiner.java                     | src      |       14 |        5 |       18 |       51 |       88 |
+| inject.internal.aop  | ClassBuilding.java                         | src      |       41 |       10 |       39 |      214 |      304 |
+| inject.internal.aop  | ClassDefiner.java                          | src      |        3 |        0 |       15 |        6 |       24 |
+| inject.internal.aop  | ClassDefining.java                         | src      |       11 |        5 |       17 |       47 |       80 |
+| inject.internal.aop  | Enhancer.java                              | src      |       69 |       53 |       29 |      272 |      423 |
+| inject.internal.aop  | EnhancerBuilderImpl.java                   | src      |       17 |        5 |       15 |       72 |      109 |
+| inject.internal.aop  | FastClass.java                             | src      |       37 |       45 |       25 |      140 |      247 |
+| inject.internal.aop  | GeneratedClassDefiner.java                 | src      |        6 |        5 |       15 |       12 |       38 |
+| inject.internal.aop  | GlueException.java                         | src      |        3 |        0 |       15 |        8 |       26 |
+| inject.internal.aop  | HiddenClassDefiner.java                    | src      |        7 |        5 |       15 |       47 |       74 |
+| inject.internal.aop  | ImmutableStringTrie.java                   | src      |       53 |       90 |       32 |      160 |      335 |
+| inject.internal.aop  | MethodPartition.java                       | src      |       23 |       17 |       38 |      110 |      188 |
+| inject.internal.aop  | UnsafeClassDefiner.java                    | src      |       33 |        5 |       20 |      158 |      216 |
+| inject.internal.aop  | UnsafeGetter.java                          | src      |        4 |        0 |       17 |       19 |       40 |
++----------------------+--------------------------------------------+----------+----------+----------+----------+----------+----------+
+| inject.internal.util | CallerFinder.java                          | src      |        2 |        4 |        0 |        5 |       11 |
+| inject.internal.util | Classes.java                               | src      |       13 |        4 |       15 |       43 |       75 |
+| inject.internal.util | ContinuousStopwatch.java                   | src      |        7 |       10 |       15 |       25 |       57 |
+| inject.internal.util | LineNumbers.java                           | src      |       34 |       23 |       21 |      186 |      264 |
+| inject.internal.util | NewThrowableFinder.java                    | src      |        2 |        0 |        0 |       16 |       18 |
+| inject.internal.util | SourceProvider.java                        | src      |       16 |        9 |       15 |       61 |      101 |
+| inject.internal.util | StackTraceElements.java                    | src      |       25 |        8 |       15 |      156 |      204 |
++----------------------+--------------------------------------------+----------+----------+----------+----------+----------+----------+
+| inject.internal      | AbstractBindingBuilder.java                | src      |       20 |       15 |       16 |       91 |      142 |
+| inject.internal      | AbstractBindingProcessor.java              | src      |       19 |       24 |       24 |      115 |      182 |
+| inject.internal      | AbstractProcessor.java                     | src      |        8 |        8 |       15 |       34 |       65 |
+| inject.internal      | Annotations.java                           | src      |       49 |       48 |       19 |      342 |      458 |
+| inject.internal      | BindingAlreadySetError.java                | src      |        6 |        0 |        0 |       46 |       52 |
+| inject.internal      | BindingBuilder.java                        | src      |       29 |        5 |       17 |      153 |      204 |
+| inject.internal      | BindingImpl.java                           | src      |       20 |        4 |       15 |       88 |      127 |
+| inject.internal      | BindingProcessor.java                      | src      |       22 |        6 |       24 |      221 |      273 |
+| inject.internal      | BoundProviderFactory.java                  | src      |        9 |        0 |       15 |       58 |       82 |
+| inject.internal      | BytecodeGen.java                           | src      |       19 |       62 |       16 |       82 |      179 |
+| inject.internal      | ChildBindingAlreadySetError.java           | src      |        9 |        4 |        3 |       69 |       85 |
+| inject.internal      | ConstantBindingBuilderImpl.java            | src      |       23 |        5 |       16 |       97 |      141 |
+| inject.internal      | ConstantFactory.java                       | src      |        7 |        0 |       15 |       19 |       41 |
+| inject.internal      | ConstructionContext.java                   | src      |       16 |        5 |       19 |       51 |       91 |
+| inject.internal      | ConstructionProxy.java                     | src      |        7 |        9 |       15 |       17 |       48 |
+| inject.internal      | ConstructionProxyFactory.java              | src      |        3 |        5 |       15 |        5 |       28 |
+| inject.internal      | ConstructorBindingImpl.java                | src      |       39 |        5 |       23 |      236 |      303 |
+| inject.internal      | ConstructorInjector.java                   | src      |       14 |       10 |       21 |       91 |      136 |
+| inject.internal      | ConstructorInjectorStore.java              | src      |       13 |       14 |       15 |       60 |      102 |
+| inject.internal      | CreationListener.java                      | src      |        3 |        0 |       15 |        6 |       24 |
+| inject.internal      | CycleDetectingLock.java                    | src      |       24 |       99 |       37 |      169 |      329 |
+| inject.internal      | DeclaredMembers.java                       | src      |        5 |       11 |       16 |       27 |       59 |
+| inject.internal      | DefaultConstructionProxyFactory.java       | src      |       20 |        5 |       15 |      103 |      143 |
+| inject.internal      | DeferredLookups.java                       | src      |        7 |        6 |       15 |       34 |       62 |
+| inject.internal      | DelayedInitialize.java                     | src      |        3 |        6 |       15 |        5 |       29 |
+| inject.internal      | DelegatingInvocationHandler.java           | src      |        8 |        0 |       19 |       37 |       64 |
+| inject.internal      | DuplicateElementError.java                 | src      |       10 |        4 |        8 |      105 |      127 |
+| inject.internal      | DuplicateMapKeyError.java                  | src      |        8 |        4 |        0 |       58 |       70 |
+| inject.internal      | Element.java                               | src      |        9 |        7 |       15 |       16 |       47 |
+| inject.internal      | EncounterImpl.java                         | src      |       26 |        0 |       16 |      104 |      146 |
+| inject.internal      | ErrorFormatter.java                        | src      |        4 |        3 |        0 |       26 |       33 |
+| inject.internal      | ErrorHandler.java                          | src      |        5 |        5 |       15 |        8 |       33 |
+| inject.internal      | ErrorId.java                               | src      |        2 |        0 |        1 |       64 |       67 |
+| inject.internal      | Errors.java                                | src      |       98 |       40 |       21 |      559 |      718 |
+| inject.internal      | ErrorsException.java                       | src      |        5 |        7 |       17 |       10 |       39 |
+| inject.internal      | ExposedBindingImpl.java                    | src      |       11 |        0 |       17 |       47 |       75 |
+| inject.internal      | ExposedKeyFactory.java                     | src      |        8 |        4 |       19 |       28 |       59 |
+| inject.internal      | ExposureBuilder.java                       | src      |       10 |        0 |       15 |       44 |       69 |
+| inject.internal      | FactoryProxy.java                          | src      |        9 |        4 |       15 |       45 |       73 |
+| inject.internal      | FailableCache.java                         | src      |       10 |        6 |       15 |       60 |       91 |
+| inject.internal      | GenericErrorDetail.java                    | src      |        5 |        0 |        0 |       29 |       34 |
+| inject.internal      | GuiceInternal.java                         | src      |        2 |        7 |        0 |        5 |       14 |
+| inject.internal      | Indexer.java                               | src      |       25 |        9 |       15 |      141 |      190 |
+| inject.internal      | Initializable.java                         | src      |        3 |        5 |       15 |        5 |       28 |
+| inject.internal      | Initializables.java                        | src      |        4 |        0 |       15 |       17 |       36 |
+| inject.internal      | Initializer.java                           | src      |       26 |       41 |       39 |      169 |      275 |
+| inject.internal      | InjectionRequestProcessor.java             | src      |       17 |        7 |       27 |      108 |      159 |
+| inject.internal      | InjectorBindingData.java                   | src      |       39 |       10 |       18 |      202 |      269 |
+| inject.internal      | InjectorImpl.java                          | src      |      141 |       85 |      111 |      907 |     1244 |
+| inject.internal      | InjectorJitBindingData.java                | src      |       17 |       28 |        3 |       58 |      106 |
+| inject.internal      | InjectorOptionsProcessor.java              | src      |       11 |        5 |       15 |       57 |       88 |
+| inject.internal      | InjectorShell.java                         | src      |       52 |       28 |       29 |      250 |      359 |
+| inject.internal      | InstanceBindingImpl.java                   | src      |       17 |        0 |       16 |       88 |      121 |
+| inject.internal      | InterceptorBindingProcessor.java           | src      |        6 |        6 |       15 |       16 |       43 |
+| inject.internal      | InterceptorStackCallback.java              | src      |       16 |       11 |       15 |       81 |      123 |
+| inject.internal      | InternalClassesToSkipSources.java          | src      |        5 |        0 |       15 |       14 |       34 |
+| inject.internal      | InternalContext.java                       | src      |       15 |       20 |       15 |       52 |      102 |
+| inject.internal      | InternalErrorDetail.java                   | src      |        7 |        4 |        1 |       49 |       61 |
+| inject.internal      | InternalFactory.java                       | src      |        4 |       13 |       15 |        6 |       38 |
+| inject.internal      | InternalFactoryToInitializableAdapter.java | src      |        9 |        6 |       15 |       37 |       67 |
+| inject.internal      | InternalFactoryToProviderAdapter.java      | src      |        8 |        0 |       20 |       31 |       59 |
+| inject.internal      | InternalFlags.java                         | src      |       24 |       53 |       15 |      120 |      212 |
+| inject.internal      | InternalInjectorCreator.java               | src      |       55 |       34 |       25 |      242 |      356 |
+| inject.internal      | InternalProviderInstanceBindingImpl.java   | src      |       16 |       39 |        4 |      136 |      195 |
+| inject.internal      | InternalProvisionException.java            | src      |       23 |       38 |       24 |      169 |      254 |
+| inject.internal      | KotlinSupport.java                         | src      |       14 |        4 |        1 |       59 |       78 |
+| inject.internal      | KotlinSupportInterface.java                | src      |        8 |        7 |        0 |       21 |       36 |
+| inject.internal      | LinkedBindingImpl.java                     | src      |       16 |        0 |       15 |       83 |      114 |
+| inject.internal      | LinkedProviderBindingImpl.java             | src      |       19 |        0 |       15 |      117 |      151 |
+| inject.internal      | ListenerBindingProcessor.java              | src      |        6 |        5 |       15 |       18 |       44 |
+| inject.internal      | LookupProcessor.java                       | src      |        8 |        6 |       16 |       33 |       63 |
+| inject.internal      | Lookups.java                               | src      |        5 |        6 |       15 |        9 |       35 |
+| inject.internal      | MembersInjectorImpl.java                   | src      |       14 |        5 |       30 |      140 |      189 |
+| inject.internal      | MembersInjectorStore.java                  | src      |       15 |       18 |       16 |       98 |      147 |
+| inject.internal      | MessageProcessor.java                      | src      |        8 |        6 |       15 |       27 |       56 |
+| inject.internal      | Messages.java                              | src      |       41 |       32 |       22 |      221 |      316 |
+| inject.internal      | MethodAspect.java                          | src      |       11 |       12 |       15 |       40 |       78 |
+| inject.internal      | MissingConstructorError.java               | src      |        8 |        0 |        1 |       73 |       82 |
+| inject.internal      | MissingImplementationError.java            | src      |       11 |        0 |        2 |       70 |       83 |
+| inject.internal      | MissingImplementationErrorHints.java       | src      |       14 |        4 |       17 |       94 |      129 |
+| inject.internal      | ModuleAnnotatedMethodScannerProcessor.java | src      |        5 |        5 |       15 |       12 |       37 |
+| inject.internal      | MoreTypes.java                             | src      |       92 |       42 |       39 |      422 |      595 |
+| inject.internal      | Nullability.java                           | src      |        4 |       14 |       15 |       15 |       48 |
+| inject.internal      | PackageNameCompressor.java                 | src      |       25 |       20 |       62 |      146 |      253 |
+| inject.internal      | PrivateElementProcessor.java               | src      |        7 |        5 |       15 |       20 |       47 |
+| inject.internal      | PrivateElementsImpl.java                   | src      |       26 |        0 |       20 |      100 |      146 |
+| inject.internal      | ProcessedBindingData.java                  | src      |       10 |       16 |       15 |       33 |       74 |
+| inject.internal      | ProvidedByInternalFactory.java             | src      |        9 |        5 |       15 |       64 |       93 |
+| inject.internal      | ProviderInstanceBindingImpl.java           | src      |       18 |        0 |       15 |      111 |      144 |
+| inject.internal      | ProviderInternalFactory.java               | src      |       10 |        9 |       18 |       56 |       93 |
+| inject.internal      | ProviderMethod.java                        | src      |       32 |       22 |       25 |      208 |      287 |
+| inject.internal      | ProviderMethodsModule.java                 | src      |       35 |       14 |       38 |      273 |      360 |
+| inject.internal      | ProviderToInternalFactoryAdapter.java      | src      |        8 |        0 |       18 |       32 |       58 |
+| inject.internal      | ProvidesMethodScanner.java                 | src      |       14 |        7 |       19 |      142 |      182 |
+| inject.internal      | ProvisionListenerCallbackStore.java        | src      |       14 |       21 |       20 |       78 |      133 |
+| inject.internal      | ProvisionListenerStackCallback.java        | src      |       16 |        5 |       20 |       99 |      140 |
+| inject.internal      | ProxyFactory.java                          | src      |       32 |        6 |       19 |      144 |      201 |
+| inject.internal      | RealElement.java                           | src      |       14 |        0 |       16 |       69 |       99 |
+| inject.internal      | RealMapBinder.java                         | src      |      195 |      103 |       79 |     1005 |     1382 |
+| inject.internal      | RealMultibinder.java                       | src      |       84 |       37 |       38 |      454 |      613 |
+| inject.internal      | RealOptionalBinder.java                    | src      |      111 |       37 |       67 |      589 |      804 |
+| inject.internal      | ScopeBindingProcessor.java                 | src      |       10 |        6 |       17 |       31 |       64 |
+| inject.internal      | ScopeNotFoundError.java                    | src      |        8 |        0 |        0 |       39 |       47 |
+| inject.internal      | Scoping.java                               | src      |       52 |       27 |       19 |      225 |      323 |
+| inject.internal      | SingleFieldInjector.java                   | src      |        7 |        0 |       16 |       35 |       58 |
+| inject.internal      | SingleMemberInjector.java                  | src      |        4 |        0 |       15 |        7 |       26 |
+| inject.internal      | SingleMethodInjector.java                  | src      |       10 |        0 |       15 |       70 |       95 |
+| inject.internal      | SingleParameterInjector.java               | src      |       13 |        0 |       17 |       35 |       65 |
+| inject.internal      | SingletonScope.java                        | src      |       21 |      111 |       33 |      145 |      310 |
+| inject.internal      | SourceFormatter.java                       | src      |       16 |        6 |        4 |      143 |      169 |
+| inject.internal      | TypeConverterBindingProcessor.java         | src      |       22 |        6 |       16 |      159 |      203 |
+| inject.internal      | UniqueAnnotations.java                     | src      |       13 |        4 |       15 |       45 |       77 |
+| inject.internal      | UntargettedBindingImpl.java                | src      |       13 |        0 |       15 |       64 |       92 |
+| inject.internal      | UntargettedBindingProcessor.java           | src      |        9 |        5 |       20 |       43 |       77 |
+| inject.internal      | WeakKeySet.java                            | src      |       19 |       13 |       20 |       88 |      140 |
+| inject.internal      | package-info.java                          | src      |        1 |        0 |       15 |        2 |       18 |
++----------------------+--------------------------------------------+----------+----------+----------+----------+----------+----------+
+| inject.matcher       | AbstractMatcher.java                       | src      |        4 |        7 |       18 |       12 |       41 |
+| inject.matcher       | Matcher.java                               | src      |        5 |       13 |       15 |       11 |       44 |
+| inject.matcher       | Matchers.java                              | src      |       98 |       15 |       15 |      347 |      475 |
+| inject.matcher       | package-info.java                          | src      |        1 |        0 |       15 |        2 |       18 |
++----------------------+--------------------------------------------+----------+----------+----------+----------+----------+----------+
+| inject.multibindings | ClassMapKey.java                           | src      |        4 |        5 |       15 |       13 |       37 |
+| inject.multibindings | MapBinder.java                             | src      |       17 |      113 |       17 |       64 |      211 |
+| inject.multibindings | MapBinderBinding.java                      | src      |       11 |       83 |       15 |       20 |      129 |
+| inject.multibindings | MapKey.java                                | src      |        4 |       29 |       15 |       12 |       60 |
+| inject.multibindings | Multibinder.java                           | src      |       18 |      102 |       17 |       59 |      196 |
+| inject.multibindings | MultibinderBinding.java                    | src      |        9 |       54 |       15 |       17 |       95 |
+| inject.multibindings | MultibindingsScanner.java                  | src      |        6 |       22 |       15 |       32 |       75 |
+| inject.multibindings | MultibindingsTargetVisitor.java            | src      |        6 |       15 |       15 |        9 |       45 |
+| inject.multibindings | OptionalBinder.java                        | src      |       14 |      126 |       17 |       39 |      196 |
+| inject.multibindings | OptionalBinderBinding.java                 | src      |        8 |       48 |       15 |       14 |       85 |
+| inject.multibindings | ProvidesIntoMap.java                       | src      |        4 |       27 |       15 |       13 |       59 |
+| inject.multibindings | ProvidesIntoOptional.java                  | src      |        6 |       20 |       15 |       23 |       64 |
+| inject.multibindings | ProvidesIntoSet.java                       | src      |        4 |       20 |       15 |       13 |       52 |
+| inject.multibindings | StringMapKey.java                          | src      |        4 |        5 |       15 |       13 |       37 |
+| inject.multibindings | package-info.java                          | src      |        1 |        4 |       15 |        1 |       21 |
++----------------------+--------------------------------------------+----------+----------+----------+----------+----------+----------+
+| inject.name          | Named.java                                 | src      |        4 |        5 |       15 |       12 |       36 |
+| inject.name          | NamedImpl.java                             | src      |       13 |        0 |       16 |       36 |       65 |
+| inject.name          | Names.java                                 | src      |        8 |        9 |       16 |       30 |       63 |
+| inject.name          | package-info.java                          | src      |        1 |        0 |       15 |        2 |       18 |
++----------------------+--------------------------------------------+----------+----------+----------+----------+----------+----------+
+| inject.spi           | BindingScopingVisitor.java                 | src      |        7 |       22 |       15 |       10 |       54 |
+| inject.spi           | BindingSourceRestriction.java              | src      |       30 |       55 |       21 |      246 |      352 |
+| inject.spi           | BindingTargetVisitor.java                  | src      |       11 |       45 |       15 |       12 |       83 |
+| inject.spi           | ConstructorBinding.java                    | src      |        6 |       19 |       15 |       13 |       53 |
+| inject.spi           | ConvertedConstantBinding.java              | src      |        7 |       16 |       15 |       13 |       51 |
+| inject.spi           | DefaultBindingScopingVisitor.java          | src      |        8 |        9 |       15 |       25 |       57 |
+| inject.spi           | DefaultBindingTargetVisitor.java           | src      |       13 |        9 |       16 |       45 |       83 |
+| inject.spi           | DefaultElementVisitor.java                 | src      |       21 |        9 |       15 |       76 |      121 |
+| inject.spi           | Dependency.java                            | src      |       14 |       23 |       15 |       73 |      125 |
+| inject.spi           | DisableCircularProxiesOption.java          | src      |        8 |        6 |       15 |       21 |       50 |
+| inject.spi           | Element.java                               | src      |        6 |       35 |       15 |        7 |       63 |
+| inject.spi           | ElementSource.java                         | src      |       13 |       61 |       15 |       41 |      130 |
+| inject.spi           | ElementVisitor.java                        | src      |       20 |       45 |       15 |       32 |      112 |
+| inject.spi           | Elements.java                              | src      |       74 |       34 |       45 |      548 |      701 |
+| inject.spi           | ErrorDetail.java                           | src      |       14 |       51 |        1 |       62 |      128 |
+| inject.spi           | ExposedBinding.java                        | src      |        5 |        6 |       15 |       10 |       36 |
+| inject.spi           | HasDependencies.java                       | src      |        4 |       14 |       15 |        5 |       38 |
+| inject.spi           | InjectionListener.java                     | src      |        3 |       13 |       15 |        4 |       35 |
+| inject.spi           | InjectionPoint.java                        | src      |       99 |      198 |       40 |      610 |      947 |
+| inject.spi           | InjectionRequest.java                      | src      |       14 |       27 |       15 |       49 |      105 |
+| inject.spi           | InstanceBinding.java                       | src      |        5 |       12 |       15 |        8 |       40 |
+| inject.spi           | InterceptorBinding.java                    | src      |       11 |       16 |       15 |       50 |       92 |
+| inject.spi           | LinkedKeyBinding.java                      | src      |        4 |       10 |       15 |        6 |       35 |
+| inject.spi           | MembersInjectorLookup.java                 | src      |       17 |       38 |       15 |       71 |      141 |
+| inject.spi           | Message.java                               | src      |       24 |       35 |       15 |      107 |      181 |
+| inject.spi           | ModuleAnnotatedMethodScanner.java          | src      |        5 |       29 |       15 |       10 |       59 |
+| inject.spi           | ModuleAnnotatedMethodScannerBinding.java   | src      |       10 |        6 |       15 |       36 |       67 |
+| inject.spi           | ModuleSource.java                          | src      |       14 |       45 |       15 |       55 |      129 |
+| inject.spi           | PrivateElements.java                       | src      |        7 |       21 |       15 |       13 |       56 |
+| inject.spi           | ProviderBinding.java                       | src      |        4 |       12 |       15 |        7 |       38 |
+| inject.spi           | ProviderInstanceBinding.java               | src      |        6 |       24 |       15 |       10 |       55 |
+| inject.spi           | ProviderKeyBinding.java                    | src      |        4 |       12 |       15 |        6 |       37 |
+| inject.spi           | ProviderLookup.java                        | src      |       19 |       25 |       17 |       90 |      151 |
+| inject.spi           | ProviderWithDependencies.java              | src      |        3 |        6 |       15 |        3 |       27 |
+| inject.spi           | ProviderWithExtensionVisitor.java          | src      |        4 |       35 |       15 |        7 |       61 |
+| inject.spi           | ProvidesMethodBinding.java                 | src      |        7 |       13 |       15 |       14 |       49 |
+| inject.spi           | ProvidesMethodTargetVisitor.java           | src      |        4 |       12 |       15 |        5 |       36 |
+| inject.spi           | ProvisionListener.java                     | src      |        7 |       32 |       15 |       12 |       66 |
+| inject.spi           | ProvisionListenerBinding.java              | src      |       10 |       10 |       15 |       38 |       73 |
+| inject.spi           | RequireAtInjectOnConstructorsOption.java   | src      |        8 |        6 |       15 |       22 |       51 |
+| inject.spi           | RequireExactBindingAnnotationsOption.java  | src      |        8 |        6 |       15 |       21 |       50 |
+| inject.spi           | RequireExplicitBindingsOption.java         | src      |        8 |        6 |       15 |       21 |       50 |
+| inject.spi           | ScopeBinding.java                          | src      |       11 |       12 |       15 |       43 |       81 |
+| inject.spi           | StaticInjectionRequest.java                | src      |       12 |       23 |       15 |       42 |       92 |
+| inject.spi           | Toolable.java                              | src      |        4 |       12 |       15 |       12 |       43 |
+| inject.spi           | TypeConverter.java                         | src      |        4 |        6 |       15 |        6 |       31 |
+| inject.spi           | TypeConverterBinding.java                  | src      |       11 |       12 |       15 |       45 |       83 |
+| inject.spi           | TypeEncounter.java                         | src      |       13 |       68 |       15 |       21 |      117 |
+| inject.spi           | TypeListener.java                          | src      |        4 |       22 |       15 |        5 |       46 |
+| inject.spi           | TypeListenerBinding.java                   | src      |       10 |       11 |       15 |       35 |       71 |
+| inject.spi           | UntargettedBinding.java                    | src      |        3 |        7 |       15 |        3 |       28 |
+| inject.spi           | package-info.java                          | src      |        1 |        0 |       15 |        2 |       18 |
++----------------------+--------------------------------------------+----------+----------+----------+----------+----------+----------+
+| inject.util          | Enhanced.java                              | src      |        5 |        9 |       15 |       13 |       42 |
+| inject.util          | Modules.java                               | src      |       57 |       78 |       27 |      318 |      480 |
+| inject.util          | Providers.java                             | src      |       26 |       29 |       16 |      105 |      176 |
+| inject.util          | Types.java                                 | src      |       15 |       66 |       16 |       51 |      148 |
+| inject.util          | package-info.java                          | src      |        1 |        0 |       15 |        2 |       18 |
++----------------------+--------------------------------------------+----------+----------+----------+----------+----------+----------+
+| inject               | AbstractModule.java                        | src      |       32 |       78 |       15 |      118 |      243 |
+| inject               | Binder.java                                | src      |       33 |      369 |       15 |       56 |      473 |
+| inject               | Binding.java                               | src      |        7 |       53 |       15 |       11 |       86 |
+| inject               | BindingAnnotation.java                     | src      |        4 |       14 |       15 |        8 |       41 |
+| inject               | ConfigurationException.java                | src      |       11 |       14 |       15 |       37 |       77 |
+| inject               | CreationException.java                     | src      |        9 |        6 |       15 |       24 |       54 |
+| inject               | Exposed.java                               | src      |        4 |        7 |       15 |       10 |       36 |
+| inject               | Guice.java                                 | src      |        8 |       48 |       15 |       18 |       89 |
+| inject               | ImplementedBy.java                         | src      |        5 |        5 |       15 |       11 |       36 |
+| inject               | Inject.java                                | src      |        5 |       28 |       15 |       16 |       64 |
+| inject               | Injector.java                              | src      |       23 |      243 |       15 |       30 |      311 |
+| inject               | Key.java                                   | src      |       80 |       99 |       26 |      314 |      519 |
+| inject               | MembersInjector.java                       | src      |        3 |       19 |       15 |        4 |       41 |
+| inject               | Module.java                                | src      |        3 |       19 |       15 |        5 |       42 |
+| inject               | OutOfScopeException.java                   | src      |        5 |        7 |       15 |       12 |       39 |
+| inject               | PrivateBinder.java                         | src      |        8 |       17 |       15 |       12 |       52 |
+| inject               | PrivateModule.java                         | src      |       35 |       87 |       17 |      133 |      272 |
+| inject               | ProvidedBy.java                            | src      |        5 |        5 |       15 |       11 |       36 |
+| inject               | Provider.java                              | src      |        3 |       30 |       15 |        7 |       55 |
+| inject               | Provides.java                              | src      |        4 |        7 |       15 |       12 |       38 |
+| inject               | ProvisionException.java                    | src      |       11 |        7 |       15 |       31 |       64 |
+| inject               | RestrictedBindingSource.java               | src      |        8 |       87 |        0 |       26 |      121 |
+| inject               | Scope.java                                 | src      |        4 |       28 |       15 |        6 |       53 |
+| inject               | ScopeAnnotation.java                       | src      |        4 |       14 |       15 |        8 |       41 |
+| inject               | Scopes.java                                | src      |       23 |       43 |       15 |      121 |      202 |
+| inject               | Singleton.java                             | src      |        4 |        6 |       15 |        9 |       34 |
+| inject               | Stage.java                                 | src      |        5 |       15 |       15 |        7 |       42 |
+| inject               | TypeLiteral.java                           | src      |       40 |       71 |       18 |      211 |      340 |
+| inject               | package-info.java                          | src      |        1 |       22 |       15 |        1 |       39 |
++----------------------+--------------------------------------------+----------+----------+----------+----------+----------+----------+
+| 10 package(s)        | 256 file(s)                                | java     |     4240 |     5590 |     4371 |    20210 |    34411 |
++----------------------+--------------------------------------------+----------+----------+----------+----------+----------+----------+
 
 ## delete sloc.txt files
 $ git clean -n
-Would remove guava-gwt/sloc.txt
-Would remove guava-testlib/sloc.txt
-Would remove guava/sloc.txt
+Would remove core/sloc.txt
+Would remove extensions/assistedinject/sloc.txt
+Would remove extensions/dagger-adapter/sloc.txt
+Would remove extensions/grapher/sloc.txt
+Would remove extensions/jmx/sloc.txt
+Would remove extensions/jndi/sloc.txt
+Would remove extensions/persist/sloc.txt
+Would remove extensions/servlet/sloc.txt
+Would remove extensions/spring/sloc.txt
+Would remove extensions/testlib/sloc.txt
+Would remove extensions/throwingproviders/sloc.txt
 
 $ git clean -f
-Removing guava-gwt/sloc.txt
-Removing guava-testlib/sloc.txt
-Removing guava/sloc.txt
+Removing core/sloc.txt
+Removing extensions/assistedinject/sloc.txt
+Removing extensions/dagger-adapter/sloc.txt
+Removing extensions/grapher/sloc.txt
+Removing extensions/jmx/sloc.txt
+Removing extensions/jndi/sloc.txt
+Removing extensions/persist/sloc.txt
+Removing extensions/servlet/sloc.txt
+Removing extensions/spring/sloc.txt
+Removing extensions/testlib/sloc.txt
+Removing extensions/throwingproviders/sloc.txt
+
+$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+nothing to commit, working tree clean
 ```
