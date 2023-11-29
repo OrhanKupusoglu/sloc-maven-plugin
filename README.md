@@ -2,13 +2,17 @@
 
 This [Apache Maven](https://maven.apache.org/) plugin counts [source lines of code](https://en.wikipedia.org/wiki/Source_lines_of_code) in a given Maven project.
 
-This plugin is available on the [Maven Central Repository](https://central.sonatype.com/artifact/io.github.orhankupusoglu/sloc-maven-plugin).
+This plugin is available on the [Maven Central Repository](https://central.sonatype.com/artifact/io.github.orhankupusoglu/sloc-maven-plugin), and therefore can be called from the root directory Java projects without explicit installation:
+```
+$ cd guava/
+$ mvn io.github.orhankupusoglu:sloc-maven-plugin:sloc
+```
 
 A well-known SLOC tool is [cloc](https://github.com/AlDanial/cloc) by *Al Danial*.
 
 ## Overview
 
-The plugin is a standard Apache Maven [plugin](https://maven.apache.org/plugin-developers/index.html):
+The plugin is a standard [Apache Maven plugin](https://maven.apache.org/plugin-developers/index.html):
 
 ```
 $ cd sloc-maven-plugin
