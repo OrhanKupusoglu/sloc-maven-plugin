@@ -1,6 +1,5 @@
 package kupusoglu.orhan.sloc_maven_plugin.engine;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
 
@@ -8,6 +7,7 @@ import java.io.*;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 
@@ -95,7 +95,7 @@ public class Common {
             String commonPackage = "";
 
             if (trimPkgNames) {
-                commonPackage = StringUtils.getCommonPrefix(packageNames);
+                commonPackage = getCommonPackagePrefix(packageNames);
 
                 // if all package names are identical, trim the last part of the common package name
                 if (commonPackage.length() == longestPName) {
@@ -170,4 +170,24 @@ public class Common {
 
         return sb;
     }
+
+    public static String getCommonPackagePrefix(String[] packages) {
+        if (packages == null || packages.length == 0) {
+            return null;
+        } else if (packages.length == 1) {
+            return packages[0];
+        }
+        List<String> list = Arrays.stream(packages).filter(Objects::nonNull).distinct().collect(Collectors.toList());
+        String firstPackage = list.remove(0);
+        for (int i = 0; i < firstPackage.length(); i++) {
+            char c = firstPackage.charAt(i);
+            for (String pack : list) {
+                if (i == pack.length() || pack.charAt(i) != c) {
+                    return firstPackage.substring(0, i);
+                }
+            }
+        }
+        return firstPackage;
+    }
+
 }
