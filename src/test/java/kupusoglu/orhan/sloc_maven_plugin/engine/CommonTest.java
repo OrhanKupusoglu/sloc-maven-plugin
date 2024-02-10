@@ -72,6 +72,17 @@ public class CommonTest extends AbstractMojo {
         }
     }
 
+    @Test
+    public void getCommonPackagePrefix() {
+        Assert.assertNull(Common.getCommonPackagePrefix(null));
+        Assert.assertNull(Common.getCommonPackagePrefix(new String[0]));
+        Assert.assertEquals("", Common.getCommonPackagePrefix(new String[] {""}));
+        Assert.assertEquals("kupusoglu.orhan", Common.getCommonPackagePrefix(new String[] {"kupusoglu.orhan.a", "kupusoglu.orhan.b", "kupusoglu.orhan"}));
+        Assert.assertEquals("a.b", Common.getCommonPackagePrefix(new String[] {"a.b.c", "a.b", "a.b.c.d"}));
+        Assert.assertEquals("a.b", Common.getCommonPackagePrefix(new String[] {"a.b.c.d", "a.b.c", "a.b"}));
+        Assert.assertEquals("a.b", Common.getCommonPackagePrefix(new String[] {"a.b.c.d", "a.b.c", null, "a.b"}));
+    }
+
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
         // not used

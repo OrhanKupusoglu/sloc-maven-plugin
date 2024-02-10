@@ -7,7 +7,7 @@
     <!-- project coordinates -->
     <groupId>io.github.orhankupusoglu</groupId>
     <artifactId>sloc-maven-plugin</artifactId>
-    <version>1.0.5</version>
+    <version>1.0.6-SNAPSHOT</version>
     <packaging>maven-plugin</packaging>
 
     <!-- meta data -->
@@ -107,11 +107,6 @@
             <groupId>org.codehaus.plexus</groupId>
             <artifactId>plexus-utils</artifactId>
             <version>3.5.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>3.14.0</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
