@@ -1,46 +1,41 @@
 package kupusoglu.orhan.sloc_maven_plugin.engine;
 
-import org.apache.maven.plugin.AbstractMojo;
+import static org.junit.jupiter.api.Assertions.*;
+
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
-import org.junit.Assert;
-import org.junit.Test;
+import org.apache.maven.plugin.logging.SystemStreamLog;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+class CommonTest {
 
-public class CommonTest extends AbstractMojo {
     @Test
-    public void testPackageName() throws Exception {
-        final String packageName = "sampleapp.cli.commands";
-        final String expected = "sampleapp.cli.";
-        final String actual = Common.trimPackageName(packageName);
-
-        Assert.assertEquals("Trim package name - failure", expected, actual);
+    void testTrimPackageName() throws Exception {
+        String packageName = "sampleapp.cli.commands";
+        assertEquals("sampleapp.cli.", Common.trimPackageName(packageName));
     }
 
     @Test
-    public void testCountLines() {
-        Path baseDir = Paths.get(new File(".").getAbsolutePath().toString(), "junit-test").normalize();
-        Path resDir = Paths.get(new File(".").getAbsolutePath().toString(), "src/test/resources").normalize();
+    void testCountLines() throws MojoExecutionException, IOException {
+        Path baseDir = Paths.get(new File(".").getAbsolutePath().toString(), "src/test/resources").normalize();
         String srcMain = "src";
         String fileExt = "java";
         boolean trimPkgNames = true;
         boolean display = true;
         boolean save = false;
 
-        try {
-            // capture output
+        try ( // capture output
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            PrintStream ps = new PrintStream(baos);
-            PrintStream stdOut = System.out;
+            PrintStream ps = new PrintStream(baos)) {
             System.setOut(ps);
 
-            Common.countLines(getLog(),
+            Common.countLines(new SystemStreamLog(),
                               baseDir.toString(),
                               srcMain,
                               fileExt,
@@ -48,43 +43,35 @@ public class CommonTest extends AbstractMojo {
                               display,
                               save);
 
-            System.setOut(stdOut);
+            System.setOut(System.out);
 
             String[] output = baos.toString().split("\r\n|\r|\n");
 
-            if (output.length > 0) {
-                String[] table = Common.removeArrayElement(output, 0);
-                String actual = String.join(System.lineSeparator(), table);
+            assertTrue(output.length > 0);
 
-                System.out.println(System.lineSeparator() + "ACTUAL OUTPUT:" + System.lineSeparator());
-                System.out.println(actual + System.lineSeparator());
+            String[] table = Common.removeArrayElement(output, 0);
+            String actual = String.join(System.lineSeparator(), table);
 
-                String expected = String.join(System.lineSeparator(), Common.readTextFile(Paths.get(resDir.toString(),"sloc.txt")));
-                System.out.println("EXPECTED OUTPUT:" + System.lineSeparator());
-                System.out.println(expected + System.lineSeparator());
+            System.out.println(System.lineSeparator() + "ACTUAL OUTPUT:" + System.lineSeparator());
+            System.out.println(actual + System.lineSeparator());
 
-                Assert.assertEquals("SLOC - failure", expected, actual);
-            } else {
-                Assert.fail();
-            }
-        } catch (MojoExecutionException e) {
-            getLog().error(e.getMessage());
+            String expected = String.join(System.lineSeparator(), Common.readTextFile(Paths.get(baseDir.toString(), "sloc.txt")));
+            System.out.println("EXPECTED OUTPUT:" + System.lineSeparator());
+            System.out.println(expected + System.lineSeparator());
+
+            assertEquals(expected, actual);
         }
     }
 
     @Test
-    public void getCommonPackagePrefix() {
-        Assert.assertNull(Common.getCommonPackagePrefix(null));
-        Assert.assertNull(Common.getCommonPackagePrefix(new String[0]));
-        Assert.assertEquals("", Common.getCommonPackagePrefix(new String[] {""}));
-        Assert.assertEquals("kupusoglu.orhan", Common.getCommonPackagePrefix(new String[] {"kupusoglu.orhan.a", "kupusoglu.orhan.b", "kupusoglu.orhan"}));
-        Assert.assertEquals("a.b", Common.getCommonPackagePrefix(new String[] {"a.b.c", "a.b", "a.b.c.d"}));
-        Assert.assertEquals("a.b", Common.getCommonPackagePrefix(new String[] {"a.b.c.d", "a.b.c", "a.b"}));
-        Assert.assertEquals("a.b", Common.getCommonPackagePrefix(new String[] {"a.b.c.d", "a.b.c", null, "a.b"}));
+    void getCommonPackagePrefix() {
+        assertNull(Common.getCommonPackagePrefix(null));
+        assertNull(Common.getCommonPackagePrefix(new String[0]));
+        assertEquals("", Common.getCommonPackagePrefix(new String[] {""}));
+        assertEquals("kupusoglu.orhan", Common.getCommonPackagePrefix(new String[] {"kupusoglu.orhan.a", "kupusoglu.orhan.b", "kupusoglu.orhan"}));
+        assertEquals("a.b", Common.getCommonPackagePrefix(new String[] {"a.b.c", "a.b", "a.b.c.d"}));
+        assertEquals("a.b", Common.getCommonPackagePrefix(new String[] {"a.b.c.d", "a.b.c", "a.b"}));
+        assertEquals("a.b", Common.getCommonPackagePrefix(new String[] {"a.b.c.d", "a.b.c", null, "a.b"}));
     }
 
-    @Override
-    public void execute() throws MojoExecutionException, MojoFailureException {
-        // not used
-    }
 }

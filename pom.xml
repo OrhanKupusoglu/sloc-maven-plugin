@@ -7,7 +7,7 @@
     <!-- project coordinates -->
     <groupId>io.github.orhankupusoglu</groupId>
     <artifactId>sloc-maven-plugin</artifactId>
-    <version>1.0.6</version>
+    <version>1.0.7-SNAPSHOT</version>
     <packaging>maven-plugin</packaging>
 
     <!-- meta data -->
@@ -78,7 +78,18 @@
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
-    <!-- dependencies -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>5.10.2</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <dependency>
             <groupId>org.apache.maven</groupId>
@@ -108,10 +119,20 @@
             <artifactId>plexus-utils</artifactId>
             <version>3.5.1</version>
         </dependency>
+
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13.2</version>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-launcher</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-engine</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -195,6 +216,12 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.6.3</version>
+                <configuration>
+                    <failOnError>true</failOnError>
+                    <encoding>UTF-8</encoding>
+                    <maxmemory>1024m</maxmemory>
+                    <doclint>none</doclint>
+                </configuration>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
