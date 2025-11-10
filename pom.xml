@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
@@ -7,7 +8,7 @@
     <!-- project coordinates -->
     <groupId>io.github.orhankupusoglu</groupId>
     <artifactId>sloc-maven-plugin</artifactId>
-    <version>1.0.7</version>
+    <version>1.0.8-SNAPSHOT</version>
     <packaging>maven-plugin</packaging>
 
     <!-- meta data -->
@@ -47,10 +48,6 @@
         <system>GitHub Issues</system>
     </issueManagement>
 
-    <mailingLists>
-        <mailingList></mailingList>
-    </mailingLists>
-
     <scm>
         <connection>scm:git:git://github.com/OrhanKupusoglu/sloc-maven-plugin.git</connection>
         <developerConnection>scm:git:ssh://github.com:OrhanKupusoglu/sloc-maven-plugin.git</developerConnection>
@@ -74,75 +71,81 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.junit</groupId>
-                <artifactId>junit-bom</artifactId>
-                <version>5.10.2</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+        <!-- Dependency Versions -->
+        <dep.maven.version>3.9.6</dep.maven.version>
+        <dep.plexus-annotations.version>2.2.0</dep.plexus-annotations.version>
+        <dep.plexus-utils.version>3.6.0</dep.plexus-utils.version>
+        <dep.junit.version>5.14.1</dep.junit.version>
+
+        <!-- Build Plugin Versions -->
+        <dep.plugin.compiler.version>3.14.1</dep.plugin.compiler.version>
+        <dep.plugin.surefire.version>3.5.4</dep.plugin.surefire.version>
+        <dep.plugin.assembly.version>3.7.1</dep.plugin.assembly.version>
+        <dep.plugin.plexus-metadata.version>2.2.0</dep.plugin.plexus-metadata.version>
+        <dep.plugin.plugin.version>3.15.2</dep.plugin.plugin.version>
+        <dep.plugin.source.version>3.3.1</dep.plugin.source.version>
+        <dep.plugin.javadoc.version>3.12.0</dep.plugin.javadoc.version>
+        <dep.plugin.gpg.version>3.2.8</dep.plugin.gpg.version>
+        <dep.plugin.nexus-staging.version>1.7.0</dep.plugin.nexus-staging.version>
+
+        <!-- Reporting Plugin Versions -->
+        <dep.plugin.docck.version>1.2</dep.plugin.docck.version>
+        <dep.plugin.jxr.version>3.6.0</dep.plugin.jxr.version>
+        <dep.plugin.project-info.version>3.9.0</dep.plugin.project-info.version>
+    </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-core</artifactId>
-            <version>3.9.6</version>
+            <version>${dep.maven.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-plugin-api</artifactId>
+            <version>${dep.maven.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.codehaus.plexus</groupId>
             <artifactId>plexus-component-annotations</artifactId>
-            <version>2.2.0</version>
+            <version>${dep.plexus-annotations.version}</version>
             </dependency>
-        <dependency>
-            <groupId>org.apache.maven</groupId>
-            <artifactId>maven-plugin-api</artifactId>
-            <version>3.9.6</version>
-            <scope>provided</scope>
-        </dependency>
         <dependency>
             <groupId>org.apache.maven.plugin-tools</groupId>
             <artifactId>maven-plugin-annotations</artifactId>
-            <version>3.11.0</version>
+            <version>${dep.plugin.plugin.version}</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.codehaus.plexus</groupId>
             <artifactId>plexus-utils</artifactId>
-            <version>3.5.1</version>
+            <version>${dep.plexus-utils.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-launcher</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.platform</groupId>
-            <artifactId>junit-platform-engine</artifactId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${dep.junit.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
 
     <!-- build settings -->
     <build>
+
+        <defaultGoal>clean verify</defaultGoal>
+
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.12.1</version>
+                <version>${dep.plugin.compiler.version}</version>
                 <configuration>
                     <compilerArgument>-Xlint:all</compilerArgument>
                     <showWarnings>true</showWarnings>
@@ -152,12 +155,12 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.6.0</version>
+                <version>${dep.plugin.assembly.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.plexus</groupId>
                 <artifactId>plexus-component-metadata</artifactId>
-                <version>2.2.0</version>
+                <version>${dep.plugin.plexus-metadata.version}</version>
                 <executions>
                     <execution>
                         <goals>
@@ -169,7 +172,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-plugin-plugin</artifactId>
-                <version>3.11.0</version>
+                <version>${dep.plugin.plugin.version}</version>
                 <executions>
                     <execution>
                         <id>mojo-descriptor</id>
@@ -188,7 +191,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <version>3.3.0</version>
+                <version>${dep.plugin.source.version}</version>
                 <configuration>
                     <archive>
                         <addMavenDescriptor>false</addMavenDescriptor>
@@ -215,7 +218,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.6.3</version>
+                <version>${dep.plugin.javadoc.version}</version>
                 <configuration>
                     <failOnError>true</failOnError>
                     <encoding>UTF-8</encoding>
@@ -235,7 +238,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>${dep.plugin.gpg.version}</version>
                 <executions>
                     <execution>
                         <id>sign-artifacts</id>
@@ -255,20 +258,13 @@
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.13</version>
+                <version>${dep.plugin.nexus-staging.version}</version>
                 <extensions>true</extensions>
                 <configuration>
                     <serverId>ossrh</serverId>
                     <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
                     <autoReleaseAfterClose>true</autoReleaseAfterClose>
                 </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.apache.httpcomponents</groupId>
-                        <artifactId>httpcore</artifactId>
-                        <version>4.4.16</version>
-                    </dependency>
-                </dependencies>
             </plugin>
         </plugins>
     </build>
@@ -278,12 +274,12 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-plugin-plugin</artifactId>
-                <version>3.5.2</version>
+                <version>${dep.plugin.plugin.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.6.3</version>
+                <version>${dep.plugin.javadoc.version}</version>
                 <configuration>
                     <show>protected</show>
                     <nohelp>true</nohelp>
@@ -292,21 +288,23 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-docck-plugin</artifactId>
-                <version>1.2</version>
+                <version>${dep.plugin.docck.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jxr-plugin</artifactId>
-                <version>3.3.2</version>
+                <version>${dep.plugin.jxr.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>3.5.0</version>
+                <version>${dep.plugin.project-info.version}</version>
                 <configuration>
                     <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
                 </configuration>
             </plugin>
         </plugins>
     </reporting>
+
 </project>
+
