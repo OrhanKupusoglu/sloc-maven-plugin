@@ -79,7 +79,7 @@
         <!-- Dependency Versions -->
         <dep.maven.version>3.9.6</dep.maven.version>
         <dep.plexus-annotations.version>2.2.0</dep.plexus-annotations.version>
-        <dep.plexus-utils.version>3.6.0</dep.plexus-utils.version>
+        <dep.plexus-utils.version>4.0.3</dep.plexus-utils.version>
         <dep.junit.version>5.14.1</dep.junit.version>
 
         <!-- Build Plugin Versions -->
