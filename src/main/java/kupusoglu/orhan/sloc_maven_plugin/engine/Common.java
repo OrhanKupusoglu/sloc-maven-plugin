@@ -97,19 +97,11 @@ public class Common {
             if (trimPkgNames) {
                 commonPackage = getCommonPackagePrefix(packageNames);
 
-                // if all package names are identical, trim the last part of the common package name
-                if (commonPackage.length() == longestPName) {
+                // if some package names would be eliminated completely, trim the last part of the common package name
+                if (packageData.contains(commonPackage)) {
                     commonPackage = Common.trimPackageName(commonPackage);
-                }
-
-                // if some packagae names will be eliminated completely, trim the last part of the common package name
-                final String tempCommonPackage = commonPackage;
-                Optional<String> result = Arrays.stream(packageNames)
-                        .filter(s -> s.replace(tempCommonPackage, "").isEmpty())
-                        .findAny();
-
-                if (result.isPresent()) {
-                    commonPackage = Common.trimPackageName(commonPackage);
+                } else if (!commonPackage.isEmpty()) {
+                    commonPackage += ".";
                 }
             }
 
@@ -135,7 +127,7 @@ public class Common {
 
             String[] fields = locData.firstKey().split(":");
 
-            String commonPackageName = trimPkgNames ? fields[0].replace(commonPackage, "") : fields[0];
+            String commonPackageName = fields[0].substring(commonPackage.length());
 
             for (String key : keys) {
                 int[] counters = locData.get(key);
@@ -143,7 +135,7 @@ public class Common {
 
                 fields = key.split(":");
 
-                String packageName = trimPkgNames ? fields[0].replace(commonPackage, "") : fields[0];
+                String packageName = fields[0].substring(commonPackage.length());
                 String className = fields[1];
                 String classType = fields[2];
 
@@ -178,16 +170,15 @@ public class Common {
             return packages[0];
         }
         List<String> list = Arrays.stream(packages).filter(Objects::nonNull).distinct().collect(Collectors.toList());
-        String firstPackage = list.remove(0);
-        for (int i = 0; i < firstPackage.length(); i++) {
-            char c = firstPackage.charAt(i);
-            for (String pack : list) {
-                if (i == pack.length() || pack.charAt(i) != c) {
-                    return firstPackage.substring(0, i);
-                }
+        String prefix = list.remove(0);
+        for (String pack : list) {
+            // shorten the prefix by whole segments, so that "a.b" and "a.bc" share "a" and not "a.b"
+            while (!prefix.isEmpty() && !pack.equals(prefix) && !pack.startsWith(prefix + ".")) {
+                int last = prefix.lastIndexOf('.');
+                prefix = last < 0 ? "" : prefix.substring(0, last);
             }
         }
-        return firstPackage;
+        return prefix;
     }
 
 }
