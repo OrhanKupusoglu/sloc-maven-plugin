@@ -114,17 +114,12 @@ public class CountSLOC extends SimpleFileVisitor<Path> {
     }
 
     private boolean isComment(String line) {
-        if (line.endsWith("*/")) {
-            if (this.isblockComment) {
+        if (this.isblockComment) {
+            if (line.endsWith("*/")) {
                 this.isblockComment = false;
-                return true;
-            } else {
-                return false;
             }
-        } else if (this.isblockComment) {
             return true;
         } else if (line.startsWith("//")) {
-            this.isblockComment = false;
             return true;
         } else if (line.startsWith("/*") && !line.contains("*/")) {
             this.isblockComment = true;
@@ -138,14 +133,10 @@ public class CountSLOC extends SimpleFileVisitor<Path> {
     }
 
     private boolean isJavaDoc(String line) {
-        if (line.endsWith("*/")) {
-            if (this.isblockDoc) {
+        if (this.isblockDoc) {
+            if (line.endsWith("*/")) {
                 this.isblockDoc = false;
-                return true;
-            } else {
-                return false;
             }
-        } else if (this.isblockDoc) {
             return true;
         } else if (line.startsWith("/**") && !line.contains("*/")) {
             this.isblockDoc = true;
