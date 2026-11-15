@@ -87,6 +87,7 @@ public class CountSLOC extends SimpleFileVisitor<Path> {
         isblockComment = false;
         isblockDoc = false;
         isPackageFound = false;
+        packageName = null;
 
         for (String line : lines) {
             trimmedLine = line.trim();

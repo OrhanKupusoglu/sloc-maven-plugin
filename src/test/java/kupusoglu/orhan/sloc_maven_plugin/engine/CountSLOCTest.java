@@ -3,6 +3,7 @@ package kupusoglu.orhan.sloc_maven_plugin.engine;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.apache.maven.plugin.logging.SystemStreamLog;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -34,6 +35,20 @@ class CountSLOCTest {
         assertEquals(Arrays.asList(blank, javaDoc, comment, code), Arrays.asList(row).subList(3, 7));
     }
 
+    @Test
+    void processSource_defaultPackageAfterNamedPackage_noPackageName() throws IOException {
+        writeSource("src/p/A.java", "package p;", "class A {}");
+        writeSource("src/Z.java", "class Z {}");
+
+        // the order of a file tree walk is not defined, so visit the files explicitly
+        CountSLOC countSLOC = new CountSLOC(new SystemStreamLog(), baseDir.toString(), "src", "java", false, false, true);
+        countSLOC.processSource(baseDir.resolve("src/p/A.java"));
+        countSLOC.processSource(baseDir.resolve("src/Z.java"));
+        countSLOC.done();
+
+        assertEquals("", findRow(readSavedTable(), "Z.java")[0]);
+    }
+
     /**
      * Writes a source file below the base directory.
      *
@@ -55,7 +70,14 @@ class CountSLOCTest {
         CountSLOC countSLOC = new CountSLOC(new SystemStreamLog(), baseDir.toString(), "src", "java", false, false, true);
         Files.walkFileTree(baseDir.resolve("src"), countSLOC);
         countSLOC.done();
-        return findRow(Common.readTextFile(baseDir.resolve(Common.OUTPUT_SLOC_FILE)).toArray(new String[0]), fileName);
+        return findRow(readSavedTable(), fileName);
+    }
+
+    /**
+     * Reads the SLOC table saved to the base directory.
+     */
+    private String[] readSavedTable() {
+        return Common.readTextFile(baseDir.resolve(Common.OUTPUT_SLOC_FILE)).toArray(new String[0]);
     }
 
     /**
