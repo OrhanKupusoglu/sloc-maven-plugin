@@ -162,11 +162,17 @@ public class CountSLOC extends SimpleFileVisitor<Path> {
     }
 
     private String getFileType(Path path) {
-        String pathStr = path.toString();
+        // only look at directories below the source root, the project itself may live in a directory named "test"
+        Path srcRoot = Paths.get(baseDir, srcMain).toAbsolutePath().normalize();
+        Path relativeDir = path.startsWith(srcRoot) ? srcRoot.relativize(path).getParent() : path.getParent();
+        List<String> dirNames = new ArrayList<>();
+        if (relativeDir != null) {
+            relativeDir.forEach(dir -> dirNames.add(dir.toString()));
+        }
 
-        if (pathStr.contains("/test/")) {
+        if (dirNames.contains("test")) {
             return "test";
-        } else if (pathStr.contains("/integration-test/")) {
+        } else if (dirNames.contains("integration-test")) {
             return "int-test";
         } else {
             return "src";

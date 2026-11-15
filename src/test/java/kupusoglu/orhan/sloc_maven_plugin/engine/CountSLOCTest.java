@@ -35,6 +35,20 @@ class CountSLOCTest {
         assertEquals(Arrays.asList(blank, javaDoc, comment, code), Arrays.asList(row).subList(3, 7));
     }
 
+    // the base directory itself lies below a directory named "test"
+    @ParameterizedTest
+    @CsvSource({
+        "src/main/java/A.java,             src",
+        "src/test/java/A.java,             test",
+        "src/integration-test/java/A.java, int-test"
+    })
+    void processSource_baseDirBelowTestDir_fileTypeFromSourcePath(String relativePath, String expected) throws IOException {
+        baseDir = Files.createDirectories(baseDir.resolve("test/project"));
+        writeSource(relativePath, "class A {}");
+
+        assertEquals(expected, countAndFindRow("A.java")[2]);
+    }
+
     @Test
     void processSource_defaultPackageAfterNamedPackage_noPackageName() throws IOException {
         writeSource("src/p/A.java", "package p;", "class A {}");
