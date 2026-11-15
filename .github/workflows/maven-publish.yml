@@ -26,6 +26,9 @@ jobs:
           gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
 
+      - name: Set version from release tag
+        run: mvn -B org.codehaus.mojo:versions-maven-plugin:2.25.2:set -DnewVersion="${GITHUB_REF_NAME#v}" -DgenerateBackupPoms=false
+
       - name: Publish package
         run: mvn -B -Prelease clean deploy
         env:
