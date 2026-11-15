@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.SystemStreamLog;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -12,6 +14,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.TreeMap;
 
 class CommonTest {
 
@@ -72,6 +75,24 @@ class CommonTest {
         assertEquals("a.b", Common.getCommonPackagePrefix(new String[] {"a.b.c", "a.b", "a.b.c.d"}));
         assertEquals("a.b", Common.getCommonPackagePrefix(new String[] {"a.b.c.d", "a.b.c", "a.b"}));
         assertEquals("a.b", Common.getCommonPackagePrefix(new String[] {"a.b.c.d", "a.b.c", null, "a.b"}));
+        assertEquals("com", Common.getCommonPackagePrefix(new String[] {"com.foo.a", "com.foobar.b"}));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+        "foo.bar,   foo.bar.baz, bar,   bar.baz",
+        "com.foo.a, com.foobar.b, foo.a, foobar.b",
+        "a.b.a.c,   a.x,          b.a.c, x"
+    })
+    void processSLOCData_trimPkgNames_commonPrefixRemoved(String package1, String package2, String expected1, String expected2) {
+        TreeMap<String, int[]> locData = new TreeMap<>();
+        locData.put(package1 + ":A.java:src", new int[4]);
+        locData.put(package2 + ":B.java:src", new int[4]);
+
+        String[] table = Common.processSLOCData(locData, "java", true).toString().split("\n");
+
+        assertEquals(expected1, CountSLOCTest.findRow(table, "A.java")[0]);
+        assertEquals(expected2, CountSLOCTest.findRow(table, "B.java")[0]);
     }
 
 }

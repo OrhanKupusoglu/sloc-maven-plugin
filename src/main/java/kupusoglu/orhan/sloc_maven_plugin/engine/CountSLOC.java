@@ -87,6 +87,7 @@ public class CountSLOC extends SimpleFileVisitor<Path> {
         isblockComment = false;
         isblockDoc = false;
         isPackageFound = false;
+        packageName = null;
 
         for (String line : lines) {
             trimmedLine = line.trim();
@@ -114,17 +115,12 @@ public class CountSLOC extends SimpleFileVisitor<Path> {
     }
 
     private boolean isComment(String line) {
-        if (line.endsWith("*/")) {
-            if (this.isblockComment) {
+        if (this.isblockComment) {
+            if (line.endsWith("*/")) {
                 this.isblockComment = false;
-                return true;
-            } else {
-                return false;
             }
-        } else if (this.isblockComment) {
             return true;
         } else if (line.startsWith("//")) {
-            this.isblockComment = false;
             return true;
         } else if (line.startsWith("/*") && !line.contains("*/")) {
             this.isblockComment = true;
@@ -138,14 +134,10 @@ public class CountSLOC extends SimpleFileVisitor<Path> {
     }
 
     private boolean isJavaDoc(String line) {
-        if (line.endsWith("*/")) {
-            if (this.isblockDoc) {
+        if (this.isblockDoc) {
+            if (line.endsWith("*/")) {
                 this.isblockDoc = false;
-                return true;
-            } else {
-                return false;
             }
-        } else if (this.isblockDoc) {
             return true;
         } else if (line.startsWith("/**") && !line.contains("*/")) {
             this.isblockDoc = true;
@@ -170,11 +162,17 @@ public class CountSLOC extends SimpleFileVisitor<Path> {
     }
 
     private String getFileType(Path path) {
-        String pathStr = path.toString();
+        // only look at directories below the source root, the project itself may live in a directory named "test"
+        Path srcRoot = Paths.get(baseDir, srcMain).toAbsolutePath().normalize();
+        Path relativeDir = path.startsWith(srcRoot) ? srcRoot.relativize(path).getParent() : path.getParent();
+        List<String> dirNames = new ArrayList<>();
+        if (relativeDir != null) {
+            relativeDir.forEach(dir -> dirNames.add(dir.toString()));
+        }
 
-        if (pathStr.contains("/test/")) {
+        if (dirNames.contains("test")) {
             return "test";
-        } else if (pathStr.contains("/integration-test/")) {
+        } else if (dirNames.contains("integration-test")) {
             return "int-test";
         } else {
             return "src";
