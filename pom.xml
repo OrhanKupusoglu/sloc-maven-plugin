@@ -20,7 +20,7 @@
     <licenses>
         <license>
             <name>MIT License</name>
-            <url>http://www.opensource.org/licenses/mit-license.php</url>
+            <url>https://opensource.org/licenses/MIT</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
@@ -33,7 +33,6 @@
         <developer>
             <id>orhan.kupusoglu</id>
             <name>Orhan Kupusoglu</name>
-            <email>orhan.kupusoglu@example.com</email>
             <url>https://github.com/OrhanKupusoglu</url>
             <roles>
                 <role>architect</role>
@@ -49,8 +48,8 @@
     </issueManagement>
 
     <scm>
-        <connection>scm:git:git://github.com/OrhanKupusoglu/sloc-maven-plugin.git</connection>
-        <developerConnection>scm:git:ssh://github.com:OrhanKupusoglu/sloc-maven-plugin.git</developerConnection>
+        <connection>scm:git:https://github.com/OrhanKupusoglu/sloc-maven-plugin.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/OrhanKupusoglu/sloc-maven-plugin.git</developerConnection>
         <url>https://github.com/OrhanKupusoglu/sloc-maven-plugin</url>
     </scm>
 
