@@ -79,6 +79,45 @@ class CommonTest {
         assertEquals("com", Common.getCommonPackagePrefix(new String[] {"com.foo.a", "com.foobar.b"}));
     }
 
+    @Test
+    void getCommonPackagePrefix_prefersPrefixSharedByMostPackages() {
+        assertEquals("kupusoglu.orhan.sloc_maven_plugin", Common.getCommonPackagePrefix(
+            new String[] {"foo.bar", "kupusoglu.orhan.sloc_maven_plugin.engine", "kupusoglu.orhan.sloc_maven_plugin.goal"}));
+        assertEquals("com.google.common", Common.getCommonPackagePrefix(
+            new String[] {"", "com.google.common.base", "com.google.common.collect"}));
+    }
+
+    @Test
+    void getCommonPackagePrefix_withoutPrefixSharedByTwoPackages() {
+        assertEquals("", Common.getCommonPackagePrefix(new String[] {"a.b", "c.d"}));
+        assertEquals("", Common.getCommonPackagePrefix(new String[] {"", "com.google.common"}));
+    }
+
+    @Test
+    void getCommonPackagePrefix_prefersCoverageOverDepth() {
+        // "a" covers three packages, the deeper "b.c.d" covers only two
+        assertEquals("a", Common.getCommonPackagePrefix(
+            new String[] {"a.x", "a.y", "a.z", "b.c.d.e", "b.c.d.f"}));
+    }
+
+    @Test
+    void getCommonPackagePrefix_tieOnCoverageAndLength() {
+        // two clusters of equal size and depth, the alphabetically first prefix wins
+        assertEquals("a", Common.getCommonPackagePrefix(new String[] {"a.x", "a.y", "b.c", "b.d"}));
+    }
+
+    @Test
+    void getCommonPackagePrefix_deeperHierarchiesWithDifferentRoots() {
+        assertEquals("com.acme", Common.getCommonPackagePrefix(
+            new String[] {"com.acme.app.core", "com.acme.app.web", "com.acme.lib.util", "org.other.stuff"}));
+    }
+
+    @Test
+    void getCommonPackagePrefix_singleSegmentCommonPackage() {
+        // the caller backs off from "x" because it would eliminate the package "x" completely
+        assertEquals("x", Common.getCommonPackagePrefix(new String[] {"x", "x.y", "o.z"}));
+    }
+
     @ParameterizedTest
     @CsvSource({
         "foo.bar,   foo.bar.baz, bar,   bar.baz",
@@ -94,6 +133,59 @@ class CommonTest {
 
         assertEquals(expected1, CountSLOCTest.findRow(table, "A.java")[0]);
         assertEquals(expected2, CountSLOCTest.findRow(table, "B.java")[0]);
+    }
+
+    @Test
+    void processSLOCData_trimPkgNames_unrelatedPackageDisplayedInFull() {
+        TreeMap<String, int[]> locData = new TreeMap<>();
+        locData.put("out.pkg:A.java:src", new int[4]);
+        locData.put("com.foo.b:B.java:src", new int[4]);
+        locData.put("com.foo.c:C.java:src", new int[4]);
+
+        String[] table = Common.processSLOCData(locData, "java", true).toString().split("\n");
+
+        assertEquals("out.pkg", CountSLOCTest.findRow(table, "A.java")[0]);
+        assertEquals("b", CountSLOCTest.findRow(table, "B.java")[0]);
+        assertEquals("c", CountSLOCTest.findRow(table, "C.java")[0]);
+    }
+
+    @Test
+    void processSLOCData_trimPkgNames_outlierWithCommonPackageInSet() {
+        TreeMap<String, int[]> locData = new TreeMap<>();
+        locData.put("o.z:A.java:src", new int[4]);
+        locData.put("p.q:B.java:src", new int[4]);
+        locData.put("p.q.r:C.java:src", new int[4]);
+
+        String[] table = Common.processSLOCData(locData, "java", true).toString().split("\n");
+
+        assertEquals("o.z", CountSLOCTest.findRow(table, "A.java")[0]);
+        assertEquals("q", CountSLOCTest.findRow(table, "B.java")[0]);
+        assertEquals("q.r", CountSLOCTest.findRow(table, "C.java")[0]);
+    }
+
+    @Test
+    void processSLOCData_trimPkgNames_tableAlignedWithFullLengthOutlier() {
+        TreeMap<String, int[]> locData = new TreeMap<>();
+        locData.put("org.example.a.very.long.outlier.package:A.java:src", new int[4]);
+        locData.put("com.foo.b:B.java:src", new int[4]);
+        locData.put("com.foo.c:C.java:src", new int[4]);
+
+        String[] lines = Common.processSLOCData(locData, "java", true).toString().split("\n");
+
+        // every table line has the same width, a long outlier package name does not break the layout
+        assertEquals(1, Arrays.stream(lines).map(String::length).distinct().count());
+    }
+
+    @Test
+    void processSLOCData_trimPkgNamesFalse_allPackagesInFull() {
+        TreeMap<String, int[]> locData = new TreeMap<>();
+        locData.put("out.pkg:A.java:src", new int[4]);
+        locData.put("com.foo.b:B.java:src", new int[4]);
+
+        String[] table = Common.processSLOCData(locData, "java", false).toString().split("\n");
+
+        assertEquals("out.pkg", CountSLOCTest.findRow(table, "A.java")[0]);
+        assertEquals("com.foo.b", CountSLOCTest.findRow(table, "B.java")[0]);
     }
 
     @Test

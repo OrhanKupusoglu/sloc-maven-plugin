@@ -61,6 +61,14 @@ public class Common {
         return packageName.substring(0, last + 1);
     }
 
+    /**
+     * Returns the package name as displayed in the table: the common package name removed,
+     * or the full package name if it does not start with the common package name.
+     */
+    public static String displayPackageName(String packageName, String commonPackage) {
+        return packageName.startsWith(commonPackage) ? packageName.substring(commonPackage.length()) : packageName;
+    }
+
     public static String[] removeArrayElement(String[] src, int index) {
         List<String> dst = new LinkedList<String>(Arrays.asList(src));
         dst.remove(index);
@@ -77,7 +85,6 @@ public class Common {
             keys.addAll(locData.keySet());
 
             Set<String> packageData = new TreeSet<>();
-            int longestPName = 0;
             int longestCName = 0;
 
             for (String key : keys) {
@@ -88,7 +95,6 @@ public class Common {
 
                 packageData.add(packageName);
 
-                longestPName = Math.max(packageName.length(), longestPName);
                 longestCName = Math.max(className.length(), longestCName);
             }
 
@@ -108,10 +114,17 @@ public class Common {
                 }
             }
 
+            // packages that do not start with the common package name are displayed in full
+            int longestPNameDisplayed = 0;
+
+            for (String packageName : packageData) {
+                longestPNameDisplayed = Math.max(displayPackageName(packageName, commonPackage).length(), longestPNameDisplayed);
+            }
+
             String packageLine = packageData.size() + " package(s)";
             String classLine = locData.size() + " file(s)";
 
-            int headerP = Math.max(longestPName - commonPackage.length(), packageLine.length());
+            int headerP = Math.max(longestPNameDisplayed, packageLine.length());
             int headerC = Math.max(longestCName, classLine.length());
 
             // MIN_HEADER_LEN is longer than the minimum headers.: "1 package(s)" & "1 file(s)"
@@ -130,7 +143,7 @@ public class Common {
 
             String[] fields = keys.first().split(":");
 
-            String commonPackageName = fields[0].substring(commonPackage.length());
+            String commonPackageName = displayPackageName(fields[0], commonPackage);
 
             for (String key : keys) {
                 int[] counters = locData.get(key);
@@ -138,7 +151,7 @@ public class Common {
 
                 fields = key.split(":");
 
-                String packageName = fields[0].substring(commonPackage.length());
+                String packageName = displayPackageName(fields[0], commonPackage);
                 String className = fields[1];
                 String classType = fields[2];
 
@@ -166,22 +179,53 @@ public class Common {
         return sb;
     }
 
+    /**
+     * Returns the package name prefix that is shared by the most packages, the longest such prefix on equal counts.
+     * A package that shares no prefix with the others, such as an unrelated root or the default package,
+     * therefore does not disable the trimming, it is merely displayed in full.
+     * Returns an empty string if no prefix is shared by at least two packages.
+     */
     public static String getCommonPackagePrefix(String[] packages) {
         if (packages == null || packages.length == 0) {
             return null;
-        } else if (packages.length == 1) {
-            return packages[0];
         }
+
         List<String> list = Arrays.stream(packages).filter(Objects::nonNull).distinct().collect(Collectors.toList());
-        String prefix = list.remove(0);
+
+        if (list.isEmpty()) {
+            return "";
+        } else if (list.size() == 1) {
+            return list.get(0);
+        }
+
+        String commonPackage = "";
+        int mostPackages = 2;
+
         for (String pack : list) {
-            // shorten the prefix by whole segments, so that "a.b" and "a.bc" share "a" and not "a.b"
-            while (!prefix.isEmpty() && !pack.equals(prefix) && !pack.startsWith(prefix + ".")) {
-                int last = prefix.lastIndexOf('.');
-                prefix = last < 0 ? "" : prefix.substring(0, last);
+            // try every whole-segment prefix of the package, the package name itself included
+            for (int dot = pack.indexOf('.'); ; dot = pack.indexOf('.', dot + 1)) {
+                String prefix = dot < 0 ? pack : pack.substring(0, dot);
+                int packagesCovered = 0;
+
+                for (String other : list) {
+                    // compare whole segments, so that "a.b" and "a.bc" share "a" and not "a.b"
+                    if (other.equals(prefix) || other.startsWith(prefix + ".")) {
+                        packagesCovered++;
+                    }
+                }
+
+                if (packagesCovered > mostPackages || (packagesCovered == mostPackages && prefix.length() > commonPackage.length())) {
+                    commonPackage = prefix;
+                    mostPackages = packagesCovered;
+                }
+
+                if (dot < 0) {
+                    break;
+                }
             }
         }
-        return prefix;
+
+        return commonPackage;
     }
 
 }
