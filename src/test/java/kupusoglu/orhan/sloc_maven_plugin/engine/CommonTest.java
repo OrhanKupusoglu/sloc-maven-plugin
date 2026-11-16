@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.TreeMap;
 
 class CommonTest {
@@ -93,6 +94,24 @@ class CommonTest {
 
         assertEquals(expected1, CountSLOCTest.findRow(table, "A.java")[0]);
         assertEquals(expected2, CountSLOCTest.findRow(table, "B.java")[0]);
+    }
+
+    @Test
+    void processSLOCData_subpackage_listedAfterParent() {
+        TreeMap<String, int[]> locData = new TreeMap<>();
+        locData.put("a.b.c:A.java:src", new int[4]);
+        locData.put("a.b:B.java:src", new int[4]);
+        locData.put("a.b:C.java:test", new int[4]);
+        locData.put("a.bc:D.java:src", new int[4]);
+
+        String[] table = Common.processSLOCData(locData, "java", false).toString().split("\n");
+        String[] files = Arrays.stream(table)
+            .map(line -> line.split("\\|"))
+            .filter(cells -> cells.length > 2 && cells[2].trim().endsWith(".java"))
+            .map(cells -> cells[2].trim())
+            .toArray(String[]::new);
+
+        assertArrayEquals(new String[] {"B.java", "C.java", "A.java", "D.java"}, files);
     }
 
 }
