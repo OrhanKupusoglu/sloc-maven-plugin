@@ -7,7 +7,6 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
-import org.apache.maven.plugins.annotations.ResolutionScope;
 import org.apache.maven.project.MavenProject;
 
 
@@ -26,8 +25,7 @@ import org.apache.maven.project.MavenProject;
  */
 @Mojo(
     name = "sloc",
-    defaultPhase = LifecyclePhase.VALIDATE,
-    requiresDependencyResolution = ResolutionScope.TEST
+    defaultPhase = LifecyclePhase.VALIDATE
 )
 public class GoalSLOC extends AbstractMojo {
     @Parameter(defaultValue = "${project}", required = true, readonly = true)
