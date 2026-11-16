@@ -40,11 +40,11 @@ $ mvn io.github.orhankupusoglu:sloc-maven-plugin:sloc
 [INFO] Scanning for projects...
 [INFO] 
 [INFO] -------------< io.github.orhankupusoglu:sloc-maven-plugin >-------------
-[INFO] Building sloc-maven-plugin 1.0.8-SNAPSHOT
+[INFO] Building sloc-maven-plugin 1.1.0-SNAPSHOT
 [INFO]   from pom.xml
 [INFO] ----------------------------[ maven-plugin ]----------------------------
 [INFO] 
-[INFO] --- sloc:1.0.8-SNAPSHOT:sloc (default-cli) @ sloc-maven-plugin ---
+[INFO] --- sloc:1.1.0-SNAPSHOT:sloc (default-cli) @ sloc-maven-plugin ---
 [INFO] SLOC - directory: /home/orhanku/ME/Dev/sloc-maven-plugin/src
 +------------------+--------------------+----------+----------+----------+----------+----------+----------+
 | Package Name     | File Name          | Type     | Blank    | JavaDoc  | Comment  | Code     | Total    |
@@ -65,8 +65,8 @@ $ mvn io.github.orhankupusoglu:sloc-maven-plugin:sloc
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  0.180 s
-[INFO] Finished at: 2026-11-16T19:52:35+01:00
+[INFO] Total time:  0.206 s
+[INFO] Finished at: 2026-11-16T20:02:18+01:00
 [INFO] ------------------------------------------------------------------------
 ```
 
@@ -78,11 +78,11 @@ $ mvn io.github.orhankupusoglu:sloc-maven-plugin:sloc -DtrimPkgNames=false
 [INFO] Scanning for projects...
 [INFO] 
 [INFO] -------------< io.github.orhankupusoglu:sloc-maven-plugin >-------------
-[INFO] Building sloc-maven-plugin 1.0.8-SNAPSHOT
+[INFO] Building sloc-maven-plugin 1.1.0-SNAPSHOT
 [INFO]   from pom.xml
 [INFO] ----------------------------[ maven-plugin ]----------------------------
 [INFO] 
-[INFO] --- sloc:1.0.8-SNAPSHOT:sloc (default-cli) @ sloc-maven-plugin ---
+[INFO] --- sloc:1.1.0-SNAPSHOT:sloc (default-cli) @ sloc-maven-plugin ---
 [INFO] SLOC - directory: /home/orhanku/ME/Dev/sloc-maven-plugin/src
 +------------------------------------------+--------------------+----------+----------+----------+----------+----------+----------+
 | Package Name                             | File Name          | Type     | Blank    | JavaDoc  | Comment  | Code     | Total    |
@@ -103,8 +103,8 @@ $ mvn io.github.orhankupusoglu:sloc-maven-plugin:sloc -DtrimPkgNames=false
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  0.214 s
-[INFO] Finished at: 2026-11-16T19:52:37+01:00
+[INFO] Total time:  0.212 s
+[INFO] Finished at: 2026-11-16T20:02:19+01:00
 [INFO] ------------------------------------------------------------------------
 ```
 
