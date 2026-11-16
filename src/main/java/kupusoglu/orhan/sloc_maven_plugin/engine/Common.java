@@ -71,7 +71,10 @@ public class Common {
         StringBuilder sb = new StringBuilder();
 
         if (locData.size() > 0) {
-            SortedSet<String> keys = new TreeSet<>(locData.keySet());
+            // sort by package first, a plain string sort would put "a.b.c:X.java" before "a.b:Y.java"
+            SortedSet<String> keys = new TreeSet<>(Comparator.comparing((String key) -> key.split(":")[0])
+                    .thenComparing(key -> key.substring(key.indexOf(':') + 1)));
+            keys.addAll(locData.keySet());
 
             Set<String> packageData = new TreeSet<>();
             int longestPName = 0;
@@ -125,7 +128,7 @@ public class Common {
                     "Package Name", "File Name", "Type", "Blank", "JavaDoc", "Comment", "Code", "Total"));
             sb.append(lineHeader);
 
-            String[] fields = locData.firstKey().split(":");
+            String[] fields = keys.first().split(":");
 
             String commonPackageName = fields[0].substring(commonPackage.length());
 
