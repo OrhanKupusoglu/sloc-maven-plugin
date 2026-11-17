@@ -63,6 +63,13 @@ public class GoalSLOC extends AbstractMojo {
     private boolean trimPkgNames;
 
     /**
+     * table border, ascii or unicode, auto selects unicode if the console can display it
+     * @parameter
+     */
+    @Parameter(property = "border", defaultValue = "auto")
+    private String border;
+
+    /**
      * output SLOC data to stdout
      * @parameter
      */
@@ -84,10 +91,22 @@ public class GoalSLOC extends AbstractMojo {
                               fileExt,
                               getCharset(),
                               trimPkgNames,
+                              getBorder(),
                               display,
                               save);
         } catch (MojoExecutionException e) {
             getLog().error(e.getMessage());
+        }
+    }
+
+    /**
+     * Returns the configured table border.
+     */
+    private Common.Border getBorder() throws MojoExecutionException {
+        try {
+            return Common.Border.forName(border);
+        } catch (IllegalArgumentException e) {
+            throw new MojoExecutionException(e.getMessage(), e);
         }
     }
 

@@ -21,6 +21,104 @@ public class Common {
     public final static Pattern PACKAGE_DECLARATION = Pattern.compile("\\bpackage\\s+(?:/\\*.*?\\*/\\s*)?([\\p{javaJavaIdentifierPart}.]+)");
     public final static String OUTPUT_SLOC_FILE = "sloc.txt";
 
+    /**
+     * Characters to draw the table border with.
+     */
+    public enum Border {
+        ASCII('-', '|', "+++++++++"),
+        UNICODE('\u2500', '\u2502', "\u250c\u252c\u2510\u251c\u253c\u2524\u2514\u2534\u2518");
+
+        private final char   horizontal;
+        private final char   vertical;
+        // left, inner and right junction of the top, middle and bottom line
+        private final String junctions;
+
+        /**
+         * Creates a border of the given characters.
+         *
+         * @param horizontal  character of the horizontal lines
+         * @param vertical    character of the vertical lines
+         * @param junctions   left, inner and right junction of the top, middle and bottom line
+         */
+        Border(char horizontal, char vertical, String junctions) {
+            this.horizontal = horizontal;
+            this.vertical = vertical;
+            this.junctions = junctions;
+        }
+
+        /**
+         * Returns the border of the given name, ignoring case. The name auto selects the border
+         * that the console can display.
+         *
+         * @throws IllegalArgumentException if there is no border of that name
+         */
+        public static Border forName(String name) {
+            if ("auto".equalsIgnoreCase(name.trim())) {
+                return forCharset(consoleCharset());
+            }
+
+            for (Border border : values()) {
+                if (border.name().equalsIgnoreCase(name.trim())) {
+                    return border;
+                }
+            }
+            throw new IllegalArgumentException(String.format("Unsupported border: %s, use auto, ascii or unicode", name));
+        }
+
+        /**
+         * Returns the unicode border if the given charset can encode its characters, the ascii border otherwise.
+         */
+        public static Border forCharset(Charset charset) {
+            String characters = UNICODE.horizontal + "" + UNICODE.vertical + UNICODE.junctions;
+            return charset.canEncode() && charset.newEncoder().canEncode(characters) ? UNICODE : ASCII;
+        }
+
+        /**
+         * Returns the charset of the standard output, as far as the running Java version tells it.
+         */
+        private static Charset consoleCharset() {
+            // stdout.encoding exists since Java 19, sun.stdout.encoding on Windows consoles before
+            for (String property : new String[] {"stdout.encoding", "sun.stdout.encoding", "native.encoding"}) {
+                String name = System.getProperty(property);
+                try {
+                    if (name != null && Charset.isSupported(name)) {
+                        return Charset.forName(name);
+                    }
+                } catch (IllegalArgumentException e) {
+                    // an illegal charset name, try the next property
+                }
+            }
+            return Charset.defaultCharset();
+        }
+
+        /**
+         * Returns a horizontal line of the table, terminated by a line break.
+         *
+         * @param position  0 for the top line, 1 for a line inside the table, 2 for the bottom line
+         * @param widths    widths of the column contents
+         */
+        String line(int position, int... widths) {
+            String left = String.valueOf(junctions.charAt(3 * position));
+            String inner = String.valueOf(junctions.charAt(3 * position + 1));
+            String right = junctions.charAt(3 * position + 2) + "\n";
+            StringJoiner line = new StringJoiner(inner, left, right);
+
+            for (int width : widths) {
+                // one blank on either side of the content
+                line.add(new String(new char[width + 2]).replace('\0', horizontal));
+            }
+
+            return line.toString();
+        }
+
+        /**
+         * Returns the row format with the vertical lines of this border.
+         */
+        String row(String format) {
+            return format.replace('|', vertical);
+        }
+    }
+
     private Common() {
         // no instance required, use static factory methods
     }
@@ -51,9 +149,9 @@ public class Common {
         return lines;
     }
 
-    public static void countLines(Log log, String rootDir, String srcMain, String fileExt, Charset charset, boolean trimPkgNames, boolean display, boolean save)
-            throws MojoExecutionException {
-        CountLines countLines = new CountLines(log, rootDir, srcMain, fileExt, charset, trimPkgNames, display, save);
+    public static void countLines(Log log, String rootDir, String srcMain, String fileExt, Charset charset, boolean trimPkgNames, Border border,
+            boolean display, boolean save) throws MojoExecutionException {
+        CountLines countLines = new CountLines(log, rootDir, srcMain, fileExt, charset, trimPkgNames, border, display, save);
         countLines.execute();
     }
 
@@ -70,6 +168,13 @@ public class Common {
         return packageName.startsWith(commonPackage) ? packageName.substring(commonPackage.length()) : packageName;
     }
 
+    /**
+     * Returns the count followed by the noun, in plural unless the count is one.
+     */
+    public static String countNoun(int count, String noun) {
+        return count + " " + noun + (count == 1 ? "" : "s");
+    }
+
     public static String[] removeArrayElement(String[] src, int index) {
         List<String> dst = new LinkedList<String>(Arrays.asList(src));
         dst.remove(index);
@@ -77,6 +182,13 @@ public class Common {
     }
 
     public static StringBuilder processSLOCData(TreeMap<String, int[]> locData, String fileExt, boolean trimPkgNames) {
+        return processSLOCData(locData, fileExt, trimPkgNames, Border.ASCII);
+    }
+
+    /**
+     * Returns the SLOC table of the given data, drawn with the given border.
+     */
+    public static StringBuilder processSLOCData(TreeMap<String, int[]> locData, String fileExt, boolean trimPkgNames, Border border) {
         StringBuilder sb = new StringBuilder();
 
         if (locData.size() > 0) {
@@ -122,8 +234,8 @@ public class Common {
                 longestPNameDisplayed = Math.max(displayPackageName(packageName, commonPackage).length(), longestPNameDisplayed);
             }
 
-            String packageLine = packageData.size() + " package(s)";
-            String classLine = locData.size() + " file(s)";
+            String packageLine = countNoun(packageData.size(), "package");
+            String classLine = countNoun(locData.size(), "file");
 
             // when the package names are shortened, the header marks them as such
             String packageHeader = trimPkgNames && !commonPackage.isEmpty() ? "Short Package Name" : "Package Name";
@@ -131,19 +243,23 @@ public class Common {
             int headerP = Math.max(Math.max(longestPNameDisplayed, packageLine.length()), packageHeader.length());
             int headerC = Math.max(longestCName, classLine.length());
 
-            // MIN_HEADER_LEN is longer than the minimum headers.: "1 package(s)" & "1 file(s)"
+            // MIN_HEADER_LEN is longer than the shortest footers: "1 package" & "1 file"
             headerP = Math.max(MIN_HEADER_LEN, headerP);
             headerC = Math.max(MIN_HEADER_LEN, headerC);
 
-            String lineHeader = String.format("+%0" + (headerP + 2) + "d+%0" + (headerC + 2) + "d+%010d+%010d+%010d+%010d+%010d+%010d+\n",
-                    0, 0, 0, 0, 0, 0, 0, 0).replace('0', '-');
+            int[] widths = {headerP, headerC, 8, 8, 8, 8, 8, 8};
+            String lineTop = border.line(0, widths);
+            String lineMiddle = border.line(1, widths);
+            String lineBottom = border.line(2, widths);
+
+            String rowHeader = border.row("| %-" + headerP + "s | %-" + headerC + "s | %-8s | %8s | %8s | %8s | %8s | %8s |\n");
+            String rowData = border.row("| %-" + headerP + "s | %-" + headerC + "s | %-8s | %8d | %8d | %8d | %8d | %8d |\n");
 
             int[] totals = new int[5];
 
-            sb.append(lineHeader);
-            sb.append(String.format("| %-" + headerP + "s | %-" + headerC + "s | %-8s | %-8s | %-8s | %-8s | %-8s | %-8s |\n",
-                    packageHeader, "File Name", "Type", "Blank", "JavaDoc", "Comment", "Code", "Total"));
-            sb.append(lineHeader);
+            sb.append(lineTop);
+            sb.append(String.format(rowHeader, packageHeader, "File Name", "Type", "Blank", "Javadoc", "Comment", "Code", "Total"));
+            sb.append(lineMiddle);
 
             String[] fields = keys.first().split(":");
 
@@ -160,12 +276,11 @@ public class Common {
                 String classType = fields[2];
 
                 if (!packageName.equals(commonPackageName)) {
-                    sb.append(lineHeader);
+                    sb.append(lineMiddle);
                     commonPackageName = packageName;
                 }
 
-                sb.append(String.format("| %-" + headerP + "s | %-" + headerC + "s | %-8s | %8d | %8d | %8d | %8d | %8d |\n",
-                        packageName, className, classType, counters[0], counters[1], counters[2], counters[3], total));
+                sb.append(String.format(rowData, packageName, className, classType, counters[0], counters[1], counters[2], counters[3], total));
 
                 totals[0] += counters[0];
                 totals[1] += counters[1];
@@ -174,10 +289,9 @@ public class Common {
                 totals[4] += total;
             }
 
-            sb.append(lineHeader);
-            sb.append(String.format("| %-" + headerP + "s | %-" + headerC + "s | %-8s | %8d | %8d | %8d | %8d | %8d |\n",
-                    packageLine, classLine, fileExt, totals[0], totals[1], totals[2], totals[3], totals[4]));
-            sb.append(lineHeader);
+            sb.append(lineMiddle);
+            sb.append(String.format(rowData, packageLine, classLine, fileExt, totals[0], totals[1], totals[2], totals[3], totals[4]));
+            sb.append(lineBottom);
         }
 
         return sb;

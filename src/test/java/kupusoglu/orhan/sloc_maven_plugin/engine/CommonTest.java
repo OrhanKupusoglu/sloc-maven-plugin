@@ -13,6 +13,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -48,6 +49,7 @@ class CommonTest {
                               fileExt,
                               StandardCharsets.UTF_8,
                               trimPkgNames,
+                              Common.Border.ASCII,
                               display,
                               save);
 
@@ -252,6 +254,79 @@ class CommonTest {
             .toArray(String[]::new);
 
         assertArrayEquals(new String[] {"B.java", "C.java", "A.java", "D.java"}, files);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+        "0, file,    0 files",
+        "1, file,    1 file",
+        "1, package, 1 package",
+        "2, package, 2 packages"
+    })
+    void countNoun_count_pluralUnlessOne(int count, String noun, String expected) {
+        assertEquals(expected, Common.countNoun(count, noun));
+    }
+
+    @Test
+    void processSLOCData_singleFile_footerInSingular() {
+        TreeMap<String, int[]> locData = new TreeMap<>();
+        locData.put("a.b:A.java:src", new int[4]);
+
+        String[] table = Common.processSLOCData(locData, "java", false).toString().split("\n");
+
+        assertEquals("1 package", CountSLOCTest.findRow(table, "1 file")[0]);
+    }
+
+    @Test
+    void processSLOCData_numberColumns_headersRightAligned() {
+        TreeMap<String, int[]> locData = new TreeMap<>();
+        locData.put("a.b:A.java:src", new int[4]);
+
+        String[] table = Common.processSLOCData(locData, "java", false).toString().split("\n");
+
+        assertTrue(table[1].endsWith("|    Blank |  Javadoc |  Comment |     Code |    Total |"), table[1]);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+        "ascii,     ASCII",
+        "UNICODE,   UNICODE",
+        "' Unicode', UNICODE"
+    })
+    void borderForName_name_caseIgnored(String name, Common.Border expected) {
+        assertEquals(expected, Common.Border.forName(name));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+        "UTF-8,        UNICODE",
+        "IBM437,       UNICODE",
+        "windows-1252, ASCII",
+        "ISO-8859-1,   ASCII",
+        "US-ASCII,     ASCII"
+    })
+    void borderForCharset_charset_unicodeIfEncodable(String charset, Common.Border expected) {
+        assertEquals(expected, Common.Border.forCharset(Charset.forName(charset)));
+    }
+
+    @Test
+    void borderForName_unknownName_exception() {
+        assertThrows(IllegalArgumentException.class, () -> Common.Border.forName("double"));
+    }
+
+    @Test
+    void processSLOCData_unicodeBorder_boxDrawn() {
+        TreeMap<String, int[]> locData = new TreeMap<>();
+        locData.put("a.b:A.java:src", new int[4]);
+        locData.put("a.c:B.java:src", new int[4]);
+
+        String[] lines = Common.processSLOCData(locData, "java", false, Common.Border.UNICODE).toString().split("\n");
+
+        assertTrue(lines[0].matches("\u250c\u2500+(\u252c\u2500+)+\u2510"), lines[0]);
+        assertTrue(lines[1].matches("\u2502.*\u2502") && !lines[1].contains("|"), lines[1]);
+        assertTrue(lines[2].matches("\u251c\u2500+(\u253c\u2500+)+\u2524"), lines[2]);
+        assertTrue(lines[lines.length - 1].matches("\u2514\u2500+(\u2534\u2500+)+\u2518"), lines[lines.length - 1]);
+        assertEquals(1, Arrays.stream(lines).map(String::length).distinct().count());
     }
 
 }

@@ -24,7 +24,7 @@ The plugin finds each pom.xml's source codes and reports for each source file:
 - File name
 - Type: [src, test, int-test]
 - Blank lines
-- JavaDoc lines
+- Javadoc lines
 - Comment lines
 - Code lines
 - Total lines
@@ -32,6 +32,8 @@ The plugin finds each pom.xml's source codes and reports for each source file:
 The output is displayed in a formatted table, similar to [MySQL Shell](https://dev.mysql.com/doc/refman/8.0/en/selecting-all.html)'s table outputs.
 
 The package names can be shortened by removing the package name prefix shared by the most packages, in order to prevent too much repetition. A package that shares no prefix with the others is displayed in full. The feature is disabled by default and can be enabled with **-DtrimPkgNames=true**; the header of the first column then reads **Short Package Name** to mark the shortened names.
+
+The table is drawn with box drawing characters if the console encoding supports them, such as UTF-8, and with **+**, **-** and **|** otherwise. **-Dborder=unicode** or **-Dborder=ascii** selects the border explicitly.
 
 It can be tested right away on its own source code:
 
@@ -47,7 +49,7 @@ $ mvn io.github.orhankupusoglu:sloc-maven-plugin:sloc
 [INFO] --- sloc:1.1.0:sloc (default-cli) @ sloc-maven-plugin ---
 [INFO] SLOC - directory: /home/orhanku/ME/Dev/sloc-maven-plugin/src
 +------------------------------------------+--------------------+----------+----------+----------+----------+----------+----------+
-| Package Name                             | File Name          | Type     | Blank    | JavaDoc  | Comment  | Code     | Total    |
+| Package Name                             | File Name          | Type     |    Blank |  Javadoc |  Comment |     Code |    Total |
 +------------------------------------------+--------------------+----------+----------+----------+----------+----------+----------+
 | foo.bar                                  | HelloWorld.java    | test     |        4 |        3 |       10 |        9 |       26 |
 +------------------------------------------+--------------------+----------+----------+----------+----------+----------+----------+
@@ -59,7 +61,7 @@ $ mvn io.github.orhankupusoglu:sloc-maven-plugin:sloc
 +------------------------------------------+--------------------+----------+----------+----------+----------+----------+----------+
 | kupusoglu.orhan.sloc_maven_plugin.goal   | GoalSLOC.java      | src      |       10 |       33 |        0 |       39 |       82 |
 +------------------------------------------+--------------------+----------+----------+----------+----------+----------+----------+
-| 3 package(s)                             | 7 file(s)          | java     |      173 |       81 |       26 |      681 |      961 |
+| 3 packages                               | 7 files            | java     |      173 |       81 |       26 |      681 |      961 |
 +------------------------------------------+--------------------+----------+----------+----------+----------+----------+----------+
 
 [INFO] ------------------------------------------------------------------------
@@ -85,7 +87,7 @@ $ mvn io.github.orhankupusoglu:sloc-maven-plugin:sloc -DtrimPkgNames=true
 [INFO] --- sloc:1.1.0:sloc (default-cli) @ sloc-maven-plugin ---
 [INFO] SLOC - directory: /home/orhanku/ME/Dev/sloc-maven-plugin/src
 +--------------------+--------------------+----------+----------+----------+----------+----------+----------+
-| Short Package Name | File Name          | Type     | Blank    | JavaDoc  | Comment  | Code     | Total    |
+| Short Package Name | File Name          | Type     |    Blank |  Javadoc |  Comment |     Code |    Total |
 +--------------------+--------------------+----------+----------+----------+----------+----------+----------+
 | foo.bar            | HelloWorld.java    | test     |        4 |        3 |       10 |        9 |       26 |
 +--------------------+--------------------+----------+----------+----------+----------+----------+----------+
@@ -97,7 +99,7 @@ $ mvn io.github.orhankupusoglu:sloc-maven-plugin:sloc -DtrimPkgNames=true
 +--------------------+--------------------+----------+----------+----------+----------+----------+----------+
 | goal               | GoalSLOC.java      | src      |       10 |       33 |        0 |       39 |       82 |
 +--------------------+--------------------+----------+----------+----------+----------+----------+----------+
-| 3 package(s)       | 7 file(s)          | java     |      173 |       81 |       26 |      681 |      961 |
+| 3 packages         | 7 files            | java     |      173 |       81 |       26 |      681 |      961 |
 +--------------------+--------------------+----------+----------+----------+----------+----------+----------+
 
 [INFO] ------------------------------------------------------------------------
@@ -128,6 +130,7 @@ For example: **Project Reports > Plugin Documentation > sloc:sloc**
 | fileExt        | java          | count SLOC of files with this extension                               |
 | encoding       | UTF-8         | file encoding, **project.build.sourceEncoding** if set                |
 | trimPkgNames   | false         | trim common prefixes of the package names to remove clutter           |
+| border         | auto          | **unicode** if the console can display it, otherwise **ascii**        |
 | display        | true          | write SLOC data to **stdout**                                         |
 | save           | false         | write SLOC data to **sloc.txt** to base dir where **pom.xml** resides |
 
@@ -177,7 +180,7 @@ nothing added to commit but untracked files present (use "git add" to track)
 ## the guava module alone contains 19 packages and 611 files
 $ cat guava/sloc.txt
 +------------------------------------+--------------------------------------------+----------+----------+----------+----------+----------+----------+
-| Package Name                       | File Name                                  | Type     | Blank    | JavaDoc  | Comment  | Code     | Total    |
+| Package Name                       | File Name                                  | Type     |    Blank |  Javadoc |  Comment |     Code |    Total |
 +------------------------------------+--------------------------------------------+----------+----------+----------+----------+----------+----------+
 |                                    | module-info.java                           | src      |        2 |        1 |       15 |       24 |       42 |
 +------------------------------------+--------------------------------------------+----------+----------+----------+----------+----------+----------+
@@ -809,7 +812,7 @@ $ cat guava/sloc.txt
 | com.google.thirdparty.publicsuffix | PublicSuffixTrie.java                      | src      |       31 |       76 |       22 |      141 |      270 |
 | com.google.thirdparty.publicsuffix | PublicSuffixType.java                      | src      |       10 |       13 |       13 |       29 |       65 |
 +------------------------------------+--------------------------------------------+----------+----------+----------+----------+----------+----------+
-| 19 package(s)                      | 611 file(s)                                | java     |    18564 |    51891 |    15495 |    97303 |   183253 |
+| 19 packages                        | 611 files                                  | java     |    18564 |    51891 |    15495 |    97303 |   183253 |
 +------------------------------------+--------------------------------------------+----------+----------+----------+----------+----------+----------+
 ```
 
@@ -820,7 +823,7 @@ $ mvn io.github.orhankupusoglu:sloc-maven-plugin:sloc -Ddisplay=false -Dsave=tru
 
 $ cat guava-testlib/sloc.txt
 +--------------------------+---------------------------------------------+----------+----------+----------+----------+----------+----------+
-| Short Package Name       | File Name                                   | Type     | Blank    | JavaDoc  | Comment  | Code     | Total    |
+| Short Package Name       | File Name                                   | Type     |    Blank |  Javadoc |  Comment |     Code |    Total |
 +--------------------------+---------------------------------------------+----------+----------+----------+----------+----------+----------+
 |                          | module-info.java                            | src      |        2 |        1 |       13 |       15 |       31 |
 +--------------------------+---------------------------------------------+----------+----------+----------+----------+----------+----------+
@@ -1129,17 +1132,17 @@ $ cat guava-testlib/sloc.txt
 | util.concurrent.testing  | SameThreadScheduledExecutorService.java     | src      |       26 |        8 |       15 |      138 |      187 |
 | util.concurrent.testing  | TestingExecutors.java                       | src      |       22 |       48 |       15 |       87 |      172 |
 +--------------------------+---------------------------------------------+----------+----------+----------+----------+----------+----------+
-| 9 package(s)             | 298 file(s)                                 | java     |     4405 |     3850 |     5034 |    26178 |    39467 |
+| 9 packages               | 298 files                                   | java     |     4405 |     3850 |     5034 |    26178 |    39467 |
 +--------------------------+---------------------------------------------+----------+----------+----------+----------+----------+----------+
 
 $ cat guava-gwt/sloc.txt
 +--------------------+--------------------------------------+----------+----------+----------+----------+----------+----------+
-| Short Package Name | File Name                            | Type     | Blank    | JavaDoc  | Comment  | Code     | Total    |
+| Short Package Name | File Name                            | Type     |    Blank |  Javadoc |  Comment |     Code |    Total |
 +--------------------+--------------------------------------+----------+----------+----------+----------+----------+----------+
 | common             | DummyJavadocClass.java               | src      |        2 |        6 |       15 |        2 |       25 |
 | common             | ForceGuavaCompilationEntryPoint.java | src      |        3 |        5 |       15 |        6 |       29 |
 +--------------------+--------------------------------------+----------+----------+----------+----------+----------+----------+
-| 1 package(s)       | 2 file(s)                            | java     |        5 |       11 |       30 |        8 |       54 |
+| 1 package          | 2 files                              | java     |        5 |       11 |       30 |        8 |       54 |
 +--------------------+--------------------------------------+----------+----------+----------+----------+----------+----------+
 
 ## delete sloc.txt files

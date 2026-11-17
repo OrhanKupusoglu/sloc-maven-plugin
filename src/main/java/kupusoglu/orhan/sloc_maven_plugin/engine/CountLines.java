@@ -17,6 +17,7 @@ public class CountLines {
     private String fileExt;
     private Charset charset;
     private boolean trimPkgNames;
+    private Common.Border border;
     private boolean display;
     private boolean save;
 
@@ -25,7 +26,7 @@ public class CountLines {
         super();
     }
 
-    public CountLines(Log log, String baseDir, String srcMain, String fileExt, Charset charset, boolean trimPkgNames, boolean display, boolean save) {
+    public CountLines(Log log, String baseDir, String srcMain, String fileExt, Charset charset, boolean trimPkgNames, Common.Border border, boolean display, boolean save) {
         this();
 
         this.log = log;
@@ -34,6 +35,7 @@ public class CountLines {
         this.fileExt = fileExt;
         this.charset = charset;
         this.trimPkgNames = trimPkgNames;
+        this.border = border;
         this.display = display;
         this.save = save;
     }
@@ -41,7 +43,7 @@ public class CountLines {
     public void execute() throws MojoExecutionException {
         try {
             if (Files.exists(Paths.get(baseDir + File.separator + srcMain).toAbsolutePath())) {
-                CountSLOC countSLOC = new CountSLOC(log, baseDir, srcMain, fileExt, charset, trimPkgNames, display, save);
+                CountSLOC countSLOC = new CountSLOC(log, baseDir, srcMain, fileExt, charset, trimPkgNames, border, display, save);
 
                 java.nio.file.Files.walkFileTree(Paths.get(baseDir + File.separator + srcMain).toAbsolutePath(), countSLOC);
                 countSLOC.done();
