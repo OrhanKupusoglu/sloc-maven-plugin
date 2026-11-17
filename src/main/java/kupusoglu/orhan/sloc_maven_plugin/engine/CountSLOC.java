@@ -155,7 +155,7 @@ public class CountSLOC extends SimpleFileVisitor<Path> {
         isPackageFound = matcher.find();
 
         if (isPackageFound) {
-            packageName = matcher.group(Common.PACKAGE_INDEX);
+            packageName = matcher.group(1);
         }
 
         return isPackageFound;
