@@ -7,6 +7,7 @@ import org.apache.maven.plugin.logging.SystemStreamLog;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -16,6 +17,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.TreeMap;
+import java.util.regex.Matcher;
 
 class CommonTest {
 
@@ -77,6 +79,30 @@ class CommonTest {
         assertEquals("a.b", Common.getCommonPackagePrefix(new String[] {"a.b.c.d", "a.b.c", "a.b"}));
         assertEquals("a.b", Common.getCommonPackagePrefix(new String[] {"a.b.c.d", "a.b.c", null, "a.b"}));
         assertEquals("com", Common.getCommonPackagePrefix(new String[] {"com.foo.a", "com.foobar.b"}));
+    }
+
+    @ParameterizedTest
+    @CsvSource(delimiter = '|', value = {
+        "package a.b;               | a.b",
+        "package a.b                | a.b",
+        "package a.b // comment     | a.b",
+        "package a.b; // comment    | a.b",
+        "package /* comment */ a.b; | a.b",
+        "package /* comment */a.b   | a.b",
+        "package a.v2_api.$gen;     | a.v2_api.$gen",
+        "@Deprecated package a.b;   | a.b"
+    })
+    void packageDeclaration_javaOrGroovy_packageNameFound(String line, String expected) {
+        Matcher matcher = Common.PACKAGE_DECLARATION.matcher(line);
+
+        assertTrue(matcher.find());
+        assertEquals(expected, matcher.group(1));
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"import a.b;", "subpackage a.b;", "packages a.b;", "package;"})
+    void packageDeclaration_noDeclaration_notFound(String line) {
+        assertFalse(Common.PACKAGE_DECLARATION.matcher(line).find());
     }
 
     @ParameterizedTest

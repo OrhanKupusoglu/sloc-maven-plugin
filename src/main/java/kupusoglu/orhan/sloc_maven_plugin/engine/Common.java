@@ -16,8 +16,8 @@ import java.util.stream.IntStream;
  */
 public class Common {
     public final static int MIN_HEADER_LEN = 16;
-    public final static Pattern PACKAGE_DECLARATION = Pattern.compile("(package)(\\s+)(/\\*.*\\*/)?(\\s+)?(.+)(;)");
-    public final static int PACKAGE_INDEX = 5;
+    // the semicolon is optional in Groovy, the only group is the package name
+    public final static Pattern PACKAGE_DECLARATION = Pattern.compile("\\bpackage\\s+(?:/\\*.*?\\*/\\s*)?([\\p{javaJavaIdentifierPart}.]+)");
     public final static String OUTPUT_SLOC_FILE = "sloc.txt";
 
     private Common() {
