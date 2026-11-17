@@ -49,7 +49,7 @@ public class GoalSLOC extends AbstractMojo {
      * trim package names
      * @parameter
      */
-    @Parameter(property = "trimPkgNames", defaultValue = "true")
+    @Parameter(property = "trimPkgNames", defaultValue = "false")
     private boolean trimPkgNames;
 
     /**
