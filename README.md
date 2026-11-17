@@ -33,6 +33,8 @@ The output is displayed in a formatted table, similar to [MySQL Shell](https://d
 
 The package names can be shortened by removing the package name prefix shared by the most packages, in order to prevent too much repetition. A package that shares no prefix with the others is displayed in full. The feature is disabled by default and can be enabled with **-DtrimPkgNames=true**; the header of the first column then reads **Short Package Name** to mark the shortened names.
 
+The table is drawn with box drawing characters if the console encoding supports them, such as UTF-8, and with **+**, **-** and **|** otherwise. **-Dborder=unicode** or **-Dborder=ascii** selects the border explicitly.
+
 It can be tested right away on its own source code:
 
 ```
@@ -128,6 +130,7 @@ For example: **Project Reports > Plugin Documentation > sloc:sloc**
 | fileExt        | java          | count SLOC of files with this extension                               |
 | encoding       | UTF-8         | file encoding, **project.build.sourceEncoding** if set                |
 | trimPkgNames   | false         | trim common prefixes of the package names to remove clutter           |
+| border         | auto          | **unicode** if the console can display it, otherwise **ascii**        |
 | display        | true          | write SLOC data to **stdout**                                         |
 | save           | false         | write SLOC data to **sloc.txt** to base dir where **pom.xml** resides |
 
