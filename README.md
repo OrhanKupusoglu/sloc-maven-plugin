@@ -40,11 +40,11 @@ $ mvn io.github.orhankupusoglu:sloc-maven-plugin:sloc
 [INFO] Scanning for projects...
 [INFO] 
 [INFO] -------------< io.github.orhankupusoglu:sloc-maven-plugin >-------------
-[INFO] Building sloc-maven-plugin 1.1.0-SNAPSHOT
+[INFO] Building sloc-maven-plugin 1.1.0
 [INFO]   from pom.xml
 [INFO] ----------------------------[ maven-plugin ]----------------------------
 [INFO] 
-[INFO] --- sloc:1.1.0-SNAPSHOT:sloc (default-cli) @ sloc-maven-plugin ---
+[INFO] --- sloc:1.1.0:sloc (default-cli) @ sloc-maven-plugin ---
 [INFO] SLOC - directory: /home/orhanku/ME/Dev/sloc-maven-plugin/src
 +------------------------------------------+--------------------+----------+----------+----------+----------+----------+----------+
 | Package Name                             | File Name          | Type     | Blank    | JavaDoc  | Comment  | Code     | Total    |
@@ -78,11 +78,11 @@ $ mvn io.github.orhankupusoglu:sloc-maven-plugin:sloc -DtrimPkgNames=true
 [INFO] Scanning for projects...
 [INFO] 
 [INFO] -------------< io.github.orhankupusoglu:sloc-maven-plugin >-------------
-[INFO] Building sloc-maven-plugin 1.1.0-SNAPSHOT
+[INFO] Building sloc-maven-plugin 1.1.0
 [INFO]   from pom.xml
 [INFO] ----------------------------[ maven-plugin ]----------------------------
 [INFO] 
-[INFO] --- sloc:1.1.0-SNAPSHOT:sloc (default-cli) @ sloc-maven-plugin ---
+[INFO] --- sloc:1.1.0:sloc (default-cli) @ sloc-maven-plugin ---
 [INFO] SLOC - directory: /home/orhanku/ME/Dev/sloc-maven-plugin/src
 +--------------------+--------------------+----------+----------+----------+----------+----------+----------+
 | Short Package Name | File Name          | Type     | Blank    | JavaDoc  | Comment  | Code     | Total    |
