@@ -9,6 +9,9 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+
 
 /**
  * Goal <strong>loc</strong>
@@ -46,6 +49,13 @@ public class GoalSLOC extends AbstractMojo {
     private String fileExt;
 
     /**
+     * encoding of the source files, UTF-8 if not set
+     * @parameter
+     */
+    @Parameter(property = "encoding", defaultValue = "${project.build.sourceEncoding}")
+    private String encoding;
+
+    /**
      * trim package names
      * @parameter
      */
@@ -72,11 +82,27 @@ public class GoalSLOC extends AbstractMojo {
                               project.getBasedir().getAbsolutePath(),
                               srcMain,
                               fileExt,
+                              getCharset(),
                               trimPkgNames,
                               display,
                               save);
         } catch (MojoExecutionException e) {
             getLog().error(e.getMessage());
+        }
+    }
+
+    /**
+     * Returns the charset of the configured encoding, UTF-8 if none is configured.
+     */
+    private Charset getCharset() throws MojoExecutionException {
+        if (encoding == null || encoding.trim().isEmpty()) {
+            return StandardCharsets.UTF_8;
+        }
+
+        try {
+            return Charset.forName(encoding.trim());
+        } catch (IllegalArgumentException e) {
+            throw new MojoExecutionException(String.format("Unsupported encoding: %s", encoding), e);
         }
     }
 }

@@ -126,6 +126,7 @@ For example: **Project Reports > Plugin Documentation > sloc:sloc**
 | :------------- | ------------- | --------------------------------------------------------------------- |
 | srcMain        | src           | start in this directory and check files recursively                   |
 | fileExt        | java          | count SLOC of files with this extension                               |
+| encoding       | UTF-8         | file encoding, **project.build.sourceEncoding** if set                |
 | trimPkgNames   | false         | trim common prefixes of the package names to remove clutter           |
 | display        | true          | write SLOC data to **stdout**                                         |
 | save           | false         | write SLOC data to **sloc.txt** to base dir where **pom.xml** resides |

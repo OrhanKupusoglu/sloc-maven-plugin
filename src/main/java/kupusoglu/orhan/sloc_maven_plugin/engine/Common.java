@@ -4,6 +4,7 @@ import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -24,7 +25,7 @@ public class Common {
         // no instance required, use static factory methods
     }
 
-    public static List<String> readTextFile(Path absolutePath) {
+    public static List<String> readTextFile(Path absolutePath, Charset charset) {
         File file = new File(absolutePath.toString());
         List<String> lines = new ArrayList<>();
 
@@ -33,7 +34,7 @@ public class Common {
                 InputStream inputStream = new FileInputStream(file);
 
                 try (
-                    BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))
+                    BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, charset))
                 ) {
                     String line;
                     while ((line = br.readLine()) != null) {
@@ -50,9 +51,9 @@ public class Common {
         return lines;
     }
 
-    public static void countLines(Log log, String rootDir, String srcMain, String fileExt, boolean trimPkgNames, boolean display, boolean save)
+    public static void countLines(Log log, String rootDir, String srcMain, String fileExt, Charset charset, boolean trimPkgNames, boolean display, boolean save)
             throws MojoExecutionException {
-        CountLines countLines = new CountLines(log, rootDir, srcMain, fileExt, trimPkgNames, display, save);
+        CountLines countLines = new CountLines(log, rootDir, srcMain, fileExt, charset, trimPkgNames, display, save);
         countLines.execute();
     }
 

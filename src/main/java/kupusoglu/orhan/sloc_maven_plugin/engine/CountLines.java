@@ -5,6 +5,7 @@ import org.apache.maven.plugin.logging.Log;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -14,6 +15,7 @@ public class CountLines {
     private String baseDir;
     private String srcMain;
     private String fileExt;
+    private Charset charset;
     private boolean trimPkgNames;
     private boolean display;
     private boolean save;
@@ -23,13 +25,14 @@ public class CountLines {
         super();
     }
 
-    public CountLines(Log log, String baseDir, String srcMain, String fileExt, boolean trimPkgNames, boolean display, boolean save) {
+    public CountLines(Log log, String baseDir, String srcMain, String fileExt, Charset charset, boolean trimPkgNames, boolean display, boolean save) {
         this();
 
         this.log = log;
         this.baseDir = baseDir;
         this.srcMain = srcMain;
         this.fileExt = fileExt;
+        this.charset = charset;
         this.trimPkgNames = trimPkgNames;
         this.display = display;
         this.save = save;
@@ -38,7 +41,7 @@ public class CountLines {
     public void execute() throws MojoExecutionException {
         try {
             if (Files.exists(Paths.get(baseDir + File.separator + srcMain).toAbsolutePath())) {
-                CountSLOC countSLOC = new CountSLOC(log, baseDir, srcMain, fileExt, trimPkgNames, display, save);
+                CountSLOC countSLOC = new CountSLOC(log, baseDir, srcMain, fileExt, charset, trimPkgNames, display, save);
 
                 java.nio.file.Files.walkFileTree(Paths.get(baseDir + File.separator + srcMain).toAbsolutePath(), countSLOC);
                 countSLOC.done();
