@@ -7,8 +7,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -55,12 +57,27 @@ class CountSLOCTest {
         writeSource("src/Z.java", "class Z {}");
 
         // the order of a file tree walk is not defined, so visit the files explicitly
-        CountSLOC countSLOC = new CountSLOC(new SystemStreamLog(), baseDir.toString(), "src", "java", false, false, true);
+        CountSLOC countSLOC = new CountSLOC(new SystemStreamLog(), baseDir.toString(), "src", "java", StandardCharsets.UTF_8, false, false, true);
         countSLOC.processSource(baseDir.resolve("src/p/A.java"));
         countSLOC.processSource(baseDir.resolve("src/Z.java"));
         countSLOC.done();
 
         assertEquals("", findRow(readSavedTable(), "Z.java")[0]);
+    }
+
+    // the saved table is UTF-8 whatever the encoding of the sources
+    @ParameterizedTest
+    @ValueSource(strings = {"UTF-8", "ISO-8859-1"})
+    void processSource_nonAsciiPackage_readInSourceEncoding(String encoding) throws IOException {
+        Charset charset = Charset.forName(encoding);
+        Path file = Files.createDirectories(baseDir.resolve("src")).resolve("A.java");
+        Files.write(file, Arrays.asList("package de.b\u00fccher;", "class A {}"), charset);
+
+        CountSLOC countSLOC = new CountSLOC(new SystemStreamLog(), baseDir.toString(), "src", "java", charset, false, false, true);
+        countSLOC.processSource(file);
+        countSLOC.done();
+
+        assertEquals("de.b\u00fccher", findRow(readSavedTable(), "A.java")[0]);
     }
 
     /**
@@ -81,7 +98,7 @@ class CountSLOCTest {
      * @param fileName  name of the file to look up
      */
     private String[] countAndFindRow(String fileName) throws IOException {
-        CountSLOC countSLOC = new CountSLOC(new SystemStreamLog(), baseDir.toString(), "src", "java", false, false, true);
+        CountSLOC countSLOC = new CountSLOC(new SystemStreamLog(), baseDir.toString(), "src", "java", StandardCharsets.UTF_8, false, false, true);
         Files.walkFileTree(baseDir.resolve("src"), countSLOC);
         countSLOC.done();
         return findRow(readSavedTable(), fileName);
@@ -91,7 +108,7 @@ class CountSLOCTest {
      * Reads the SLOC table saved to the base directory.
      */
     private String[] readSavedTable() {
-        return Common.readTextFile(baseDir.resolve(Common.OUTPUT_SLOC_FILE)).toArray(new String[0]);
+        return Common.readTextFile(baseDir.resolve(Common.OUTPUT_SLOC_FILE), StandardCharsets.UTF_8).toArray(new String[0]);
     }
 
     /**

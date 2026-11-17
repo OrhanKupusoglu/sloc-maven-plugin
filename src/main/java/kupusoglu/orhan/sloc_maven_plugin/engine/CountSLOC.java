@@ -3,8 +3,12 @@ package kupusoglu.orhan.sloc_maven_plugin.engine;
 import org.apache.maven.plugin.logging.Log;
 
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
@@ -22,6 +26,7 @@ public class CountSLOC extends SimpleFileVisitor<Path> {
     private String baseDir;
     private String srcMain;
     private String fileExt;
+    private Charset charset;
     private boolean trimPkgNames;
     private boolean display;
     private boolean save;
@@ -37,13 +42,14 @@ public class CountSLOC extends SimpleFileVisitor<Path> {
         super();
     }
 
-    public CountSLOC(Log log, String baseDir, String srcMain, String fileExt, boolean trimPkgNames, boolean display, boolean save) {
+    public CountSLOC(Log log, String baseDir, String srcMain, String fileExt, Charset charset, boolean trimPkgNames, boolean display, boolean save) {
         this();
 
         this.log = log;
         this.baseDir = baseDir;
         this.srcMain = srcMain;
         this.fileExt = fileExt;
+        this.charset = charset;
         this.trimPkgNames = trimPkgNames;
         this.display = display;
         this.save = save;
@@ -80,7 +86,7 @@ public class CountSLOC extends SimpleFileVisitor<Path> {
         int fileCounterJavaDoc = 0;
         String trimmedLine;
 
-        List<String> lines = Common.readTextFile(absolutePath);
+        List<String> lines = Common.readTextFile(absolutePath, charset);
 
         fileCounterTotal = lines.size();
 
@@ -192,10 +198,10 @@ public class CountSLOC extends SimpleFileVisitor<Path> {
 
         if (save) {
             File file = new File(baseDir + File.separator + Common.OUTPUT_SLOC_FILE);
-            FileWriter writer = null;
+            Writer writer = null;
 
             try {
-                writer = new FileWriter(file);
+                writer = new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8);
                 writer.append(data);
                 writer.flush();
             } catch (IOException e) {

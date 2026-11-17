@@ -13,6 +13,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -45,6 +46,7 @@ class CommonTest {
                               baseDir.toString(),
                               srcMain,
                               fileExt,
+                              StandardCharsets.UTF_8,
                               trimPkgNames,
                               display,
                               save);
@@ -61,7 +63,7 @@ class CommonTest {
             System.out.println(System.lineSeparator() + "ACTUAL OUTPUT:" + System.lineSeparator());
             System.out.println(actual + System.lineSeparator());
 
-            String expected = String.join(System.lineSeparator(), Common.readTextFile(Paths.get(baseDir.toString(), "sloc.txt")));
+            String expected = String.join(System.lineSeparator(), Common.readTextFile(Paths.get(baseDir.toString(), "sloc.txt"), StandardCharsets.UTF_8));
             System.out.println("EXPECTED OUTPUT:" + System.lineSeparator());
             System.out.println(expected + System.lineSeparator());
 
