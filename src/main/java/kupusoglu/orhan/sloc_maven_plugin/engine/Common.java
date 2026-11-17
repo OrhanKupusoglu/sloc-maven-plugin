@@ -70,6 +70,13 @@ public class Common {
         return packageName.startsWith(commonPackage) ? packageName.substring(commonPackage.length()) : packageName;
     }
 
+    /**
+     * Returns the count followed by the noun, in plural unless the count is one.
+     */
+    public static String countNoun(int count, String noun) {
+        return count + " " + noun + (count == 1 ? "" : "s");
+    }
+
     public static String[] removeArrayElement(String[] src, int index) {
         List<String> dst = new LinkedList<String>(Arrays.asList(src));
         dst.remove(index);
@@ -122,8 +129,8 @@ public class Common {
                 longestPNameDisplayed = Math.max(displayPackageName(packageName, commonPackage).length(), longestPNameDisplayed);
             }
 
-            String packageLine = packageData.size() + " package(s)";
-            String classLine = locData.size() + " file(s)";
+            String packageLine = countNoun(packageData.size(), "package");
+            String classLine = countNoun(locData.size(), "file");
 
             // when the package names are shortened, the header marks them as such
             String packageHeader = trimPkgNames && !commonPackage.isEmpty() ? "Short Package Name" : "Package Name";
@@ -131,7 +138,7 @@ public class Common {
             int headerP = Math.max(Math.max(longestPNameDisplayed, packageLine.length()), packageHeader.length());
             int headerC = Math.max(longestCName, classLine.length());
 
-            // MIN_HEADER_LEN is longer than the minimum headers.: "1 package(s)" & "1 file(s)"
+            // MIN_HEADER_LEN is longer than the shortest footers: "1 package" & "1 file"
             headerP = Math.max(MIN_HEADER_LEN, headerP);
             headerC = Math.max(MIN_HEADER_LEN, headerC);
 
@@ -141,8 +148,8 @@ public class Common {
             int[] totals = new int[5];
 
             sb.append(lineHeader);
-            sb.append(String.format("| %-" + headerP + "s | %-" + headerC + "s | %-8s | %-8s | %-8s | %-8s | %-8s | %-8s |\n",
-                    packageHeader, "File Name", "Type", "Blank", "JavaDoc", "Comment", "Code", "Total"));
+            sb.append(String.format("| %-" + headerP + "s | %-" + headerC + "s | %-8s | %8s | %8s | %8s | %8s | %8s |\n",
+                    packageHeader, "File Name", "Type", "Blank", "Javadoc", "Comment", "Code", "Total"));
             sb.append(lineHeader);
 
             String[] fields = keys.first().split(":");

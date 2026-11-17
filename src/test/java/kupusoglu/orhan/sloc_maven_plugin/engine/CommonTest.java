@@ -254,4 +254,35 @@ class CommonTest {
         assertArrayEquals(new String[] {"B.java", "C.java", "A.java", "D.java"}, files);
     }
 
+    @ParameterizedTest
+    @CsvSource({
+        "0, file,    0 files",
+        "1, file,    1 file",
+        "1, package, 1 package",
+        "2, package, 2 packages"
+    })
+    void countNoun_count_pluralUnlessOne(int count, String noun, String expected) {
+        assertEquals(expected, Common.countNoun(count, noun));
+    }
+
+    @Test
+    void processSLOCData_singleFile_footerInSingular() {
+        TreeMap<String, int[]> locData = new TreeMap<>();
+        locData.put("a.b:A.java:src", new int[4]);
+
+        String[] table = Common.processSLOCData(locData, "java", false).toString().split("\n");
+
+        assertEquals("1 package", CountSLOCTest.findRow(table, "1 file")[0]);
+    }
+
+    @Test
+    void processSLOCData_numberColumns_headersRightAligned() {
+        TreeMap<String, int[]> locData = new TreeMap<>();
+        locData.put("a.b:A.java:src", new int[4]);
+
+        String[] table = Common.processSLOCData(locData, "java", false).toString().split("\n");
+
+        assertTrue(table[1].endsWith("|    Blank |  Javadoc |  Comment |     Code |    Total |"), table[1]);
+    }
+
 }
