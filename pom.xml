@@ -64,10 +64,10 @@
         <dep.junit.version>5.14.1</dep.junit.version>
 
         <!-- Build Plugin Versions -->
-        <dep.plugin.compiler.version>3.14.1</dep.plugin.compiler.version>
-        <dep.plugin.surefire.version>3.5.4</dep.plugin.surefire.version>
-        <dep.plugin.plugin.version>3.15.2</dep.plugin.plugin.version>
-        <dep.plugin.source.version>3.3.1</dep.plugin.source.version>
+        <dep.plugin.compiler.version>3.16.0</dep.plugin.compiler.version>
+        <dep.plugin.surefire.version>3.6.1</dep.plugin.surefire.version>
+        <dep.plugin.plugin.version>3.16.0</dep.plugin.plugin.version>
+        <dep.plugin.source.version>3.4.0</dep.plugin.source.version>
         <dep.plugin.javadoc.version>3.12.0</dep.plugin.javadoc.version>
         <dep.plugin.gpg.version>3.2.8</dep.plugin.gpg.version>
         <dep.plugin.central-publishing.version>0.12.0</dep.plugin.central-publishing.version>
