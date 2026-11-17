@@ -124,7 +124,10 @@ public class Common {
             String packageLine = packageData.size() + " package(s)";
             String classLine = locData.size() + " file(s)";
 
-            int headerP = Math.max(longestPNameDisplayed, packageLine.length());
+            // when the package names are shortened, the header marks them as such
+            String packageHeader = trimPkgNames && !commonPackage.isEmpty() ? "Short Package Name" : "Package Name";
+
+            int headerP = Math.max(Math.max(longestPNameDisplayed, packageLine.length()), packageHeader.length());
             int headerC = Math.max(longestCName, classLine.length());
 
             // MIN_HEADER_LEN is longer than the minimum headers.: "1 package(s)" & "1 file(s)"
@@ -138,7 +141,7 @@ public class Common {
 
             sb.append(lineHeader);
             sb.append(String.format("| %-" + headerP + "s | %-" + headerC + "s | %-8s | %-8s | %-8s | %-8s | %-8s | %-8s |\n",
-                    "Package Name", "File Name", "Type", "Blank", "JavaDoc", "Comment", "Code", "Total"));
+                    packageHeader, "File Name", "Type", "Blank", "JavaDoc", "Comment", "Code", "Total"));
             sb.append(lineHeader);
 
             String[] fields = keys.first().split(":");

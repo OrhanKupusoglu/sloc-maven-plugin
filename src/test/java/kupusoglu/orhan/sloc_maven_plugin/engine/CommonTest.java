@@ -15,6 +15,7 @@ import java.io.PrintStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.TreeMap;
 
 class CommonTest {
@@ -186,6 +187,22 @@ class CommonTest {
 
         assertEquals("out.pkg", CountSLOCTest.findRow(table, "A.java")[0]);
         assertEquals("com.foo.b", CountSLOCTest.findRow(table, "B.java")[0]);
+    }
+
+    @Test
+    void processSLOCData_trimPkgNames_headerMarkedShort() {
+        TreeMap<String, int[]> locData = new TreeMap<>();
+        locData.put("com.foo.b:A.java:src", new int[4]);
+        locData.put("com.foo.c:B.java:src", new int[4]);
+
+        String[] trimmed = Common.processSLOCData(locData, "java", true).toString().split("\n");
+        String[] untrimmed = Common.processSLOCData(locData, "java", false).toString().split("\n");
+        String[] withoutCommonPrefix = Common.processSLOCData(
+            new TreeMap<>(Map.of("a.b:A.java:src", new int[4], "c.d:B.java:src", new int[4])), "java", true).toString().split("\n");
+
+        assertEquals("Short Package Name", trimmed[1].split("\\|")[1].trim());
+        assertEquals("Package Name", untrimmed[1].split("\\|")[1].trim());
+        assertEquals("Package Name", withoutCommonPrefix[1].split("\\|")[1].trim());
     }
 
     @Test
