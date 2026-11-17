@@ -4,6 +4,7 @@ name: Publish package to the Maven Central Repository
 on:
   release:
     types: [created]
+  workflow_dispatch:
 
 jobs:
   publish:
@@ -27,11 +28,19 @@ jobs:
           gpg-passphrase-env-var: MAVEN_GPG_PASSPHRASE
 
       - name: Set version from release tag
+        if: github.event_name == 'release'
         run: mvn -B org.codehaus.mojo:versions-maven-plugin:2.25.2:set -DnewVersion="${GITHUB_REF_NAME#v}" -DgenerateBackupPoms=false
 
       - name: Publish package
+        if: github.event_name == 'release'
         run: mvn -B -Prelease clean deploy
         env:
           MAVEN_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
           MAVEN_CENTRAL_TOKEN: ${{ secrets.CENTRAL_TOKEN }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
+
+      - name: Verify package (manual run)
+        if: github.event_name != 'release'
+        run: mvn -B -Prelease clean verify
+        env:
           MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
