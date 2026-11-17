@@ -16,7 +16,6 @@ import java.io.PrintStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 
@@ -223,8 +222,12 @@ class CommonTest {
 
         String[] trimmed = Common.processSLOCData(locData, "java", true).toString().split("\n");
         String[] untrimmed = Common.processSLOCData(locData, "java", false).toString().split("\n");
-        String[] withoutCommonPrefix = Common.processSLOCData(
-            new TreeMap<>(Map.of("a.b:A.java:src", new int[4], "c.d:B.java:src", new int[4])), "java", true).toString().split("\n");
+
+        TreeMap<String, int[]> withoutCommonPrefixData = new TreeMap<>();
+        withoutCommonPrefixData.put("a.b:A.java:src", new int[4]);
+        withoutCommonPrefixData.put("c.d:B.java:src", new int[4]);
+
+        String[] withoutCommonPrefix = Common.processSLOCData(withoutCommonPrefixData, "java", true).toString().split("\n");
 
         assertEquals("Short Package Name", trimmed[1].split("\\|")[1].trim());
         assertEquals("Package Name", untrimmed[1].split("\\|")[1].trim());
