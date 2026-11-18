@@ -57,7 +57,7 @@ class CountSLOCTest {
         writeSource("src/Z.java", "class Z {}");
 
         // the order of a file tree walk is not defined, so visit the files explicitly
-        CountSLOC countSLOC = new CountSLOC(new SystemStreamLog(), baseDir.toString(), "src", "java", StandardCharsets.UTF_8, false, Common.Border.ASCII, false, true);
+        CountSLOC countSLOC = new CountSLOC(new SystemStreamLog(), baseDir.toString(), "src", "java", StandardCharsets.UTF_8, false, Common.Border.ASCII, Common.DEFAULT_MAX_FILE_NAME_LEN, false, true);
         countSLOC.processSource(baseDir.resolve("src/p/A.java"));
         countSLOC.processSource(baseDir.resolve("src/Z.java"));
         countSLOC.done();
@@ -73,7 +73,7 @@ class CountSLOCTest {
         Path file = Files.createDirectories(baseDir.resolve("src")).resolve("A.java");
         Files.write(file, Arrays.asList("package de.b\u00fccher;", "class A {}"), charset);
 
-        CountSLOC countSLOC = new CountSLOC(new SystemStreamLog(), baseDir.toString(), "src", "java", charset, false, Common.Border.ASCII, false, true);
+        CountSLOC countSLOC = new CountSLOC(new SystemStreamLog(), baseDir.toString(), "src", "java", charset, false, Common.Border.ASCII, Common.DEFAULT_MAX_FILE_NAME_LEN, false, true);
         countSLOC.processSource(file);
         countSLOC.done();
 
@@ -98,7 +98,7 @@ class CountSLOCTest {
      * @param fileName  name of the file to look up
      */
     private String[] countAndFindRow(String fileName) throws IOException {
-        CountSLOC countSLOC = new CountSLOC(new SystemStreamLog(), baseDir.toString(), "src", "java", StandardCharsets.UTF_8, false, Common.Border.ASCII, false, true);
+        CountSLOC countSLOC = new CountSLOC(new SystemStreamLog(), baseDir.toString(), "src", "java", StandardCharsets.UTF_8, false, Common.Border.ASCII, Common.DEFAULT_MAX_FILE_NAME_LEN, false, true);
         Files.walkFileTree(baseDir.resolve("src"), countSLOC);
         countSLOC.done();
         return findRow(readSavedTable(), fileName);

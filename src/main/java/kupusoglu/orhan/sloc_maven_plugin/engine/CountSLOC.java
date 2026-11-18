@@ -29,6 +29,7 @@ public class CountSLOC extends SimpleFileVisitor<Path> {
     private Charset charset;
     private boolean trimPkgNames;
     private Common.Border border;
+    private int maxFileNameLen;
     private boolean display;
     private boolean save;
 
@@ -43,7 +44,7 @@ public class CountSLOC extends SimpleFileVisitor<Path> {
         super();
     }
 
-    public CountSLOC(Log log, String baseDir, String srcMain, String fileExt, Charset charset, boolean trimPkgNames, Common.Border border, boolean display, boolean save) {
+    public CountSLOC(Log log, String baseDir, String srcMain, String fileExt, Charset charset, boolean trimPkgNames, Common.Border border, int maxFileNameLen, boolean display, boolean save) {
         this();
 
         this.log = log;
@@ -53,6 +54,7 @@ public class CountSLOC extends SimpleFileVisitor<Path> {
         this.charset = charset;
         this.trimPkgNames = trimPkgNames;
         this.border = border;
+        this.maxFileNameLen = maxFileNameLen;
         this.display = display;
         this.save = save;
 
@@ -188,7 +190,7 @@ public class CountSLOC extends SimpleFileVisitor<Path> {
     }
 
     public void done() {
-        String data = Common.processSLOCData(locData, fileExt, trimPkgNames, border).toString();
+        String data = Common.processSLOCData(locData, fileExt, trimPkgNames, border, maxFileNameLen).toString();
 
         if (display) {
             if (data.length() > 0) {

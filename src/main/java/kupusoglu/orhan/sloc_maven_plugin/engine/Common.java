@@ -17,6 +17,9 @@ import java.util.stream.IntStream;
  */
 public class Common {
     public final static int MIN_HEADER_LEN = 16;
+    // longer package and file names are abbreviated
+    public final static int MAX_PKG_NAME_LEN = 40;
+    public final static int DEFAULT_MAX_FILE_NAME_LEN = 45;
     // the semicolon is optional in Groovy, the only group is the package name
     public final static Pattern PACKAGE_DECLARATION = Pattern.compile("\\bpackage\\s+(?:/\\*.*?\\*/\\s*)?([\\p{javaJavaIdentifierPart}.]+)");
     public final static String OUTPUT_SLOC_FILE = "sloc.txt";
@@ -150,8 +153,8 @@ public class Common {
     }
 
     public static void countLines(Log log, String rootDir, String srcMain, String fileExt, Charset charset, boolean trimPkgNames, Border border,
-            boolean display, boolean save) throws MojoExecutionException {
-        CountLines countLines = new CountLines(log, rootDir, srcMain, fileExt, charset, trimPkgNames, border, display, save);
+            int maxFileNameLen, boolean display, boolean save) throws MojoExecutionException {
+        CountLines countLines = new CountLines(log, rootDir, srcMain, fileExt, charset, trimPkgNames, border, maxFileNameLen, display, save);
         countLines.execute();
     }
 
@@ -166,6 +169,42 @@ public class Common {
      */
     public static String displayPackageName(String packageName, String commonPackage) {
         return packageName.startsWith(commonPackage) ? packageName.substring(commonPackage.length()) : packageName;
+    }
+
+    /**
+     * Returns the package name, abbreviated to the given length by replacing its leading segments with "..".
+     * The end of a package name tells the packages apart. A last segment too long by itself is cut anywhere.
+     */
+    public static String abbreviatePackageName(String packageName, int maxLength) {
+        if (packageName.length() <= maxLength) {
+            return packageName;
+        }
+
+        int start = packageName.length() - maxLength + 2;
+        int dot = packageName.indexOf('.', start - 1);
+
+        return ".." + packageName.substring(dot < 0 ? start : dot + 1);
+    }
+
+    /**
+     * Returns the file name, abbreviated to the given length by replacing the middle of its base name with "..".
+     * Start and end of the base name tell the files apart, the extension is kept.
+     */
+    public static String abbreviateFileName(String fileName, int maxLength) {
+        if (fileName.length() <= maxLength) {
+            return fileName;
+        }
+
+        int dot = fileName.lastIndexOf('.');
+        String extension = dot > 0 ? fileName.substring(dot) : "";
+        String baseName = fileName.substring(0, fileName.length() - extension.length());
+        int kept = maxLength - extension.length() - 2;
+
+        if (kept < 2) {
+            return fileName.substring(0, maxLength - 2) + "..";
+        }
+
+        return baseName.substring(0, kept - kept / 2) + ".." + baseName.substring(baseName.length() - kept / 2) + extension;
     }
 
     /**
@@ -189,6 +228,13 @@ public class Common {
      * Returns the SLOC table of the given data, drawn with the given border.
      */
     public static StringBuilder processSLOCData(TreeMap<String, int[]> locData, String fileExt, boolean trimPkgNames, Border border) {
+        return processSLOCData(locData, fileExt, trimPkgNames, border, DEFAULT_MAX_FILE_NAME_LEN);
+    }
+
+    /**
+     * Returns the SLOC table of the given data, drawn with the given border, longer file names abbreviated.
+     */
+    public static StringBuilder processSLOCData(TreeMap<String, int[]> locData, String fileExt, boolean trimPkgNames, Border border, int maxFileNameLen) {
         StringBuilder sb = new StringBuilder();
 
         if (locData.size() > 0) {
@@ -199,16 +245,22 @@ public class Common {
 
             Set<String> packageData = new TreeSet<>();
             int longestCName = 0;
+            int longestType = 0;
+            int grandTotal = 0;
+            boolean fileNamesShortened = false;
 
             for (String key : keys) {
                 String[] fields = key.split(":");
 
                 String packageName = fields[0];
-                String className = fields[1];
+                String className = abbreviateFileName(fields[1], maxFileNameLen);
 
                 packageData.add(packageName);
 
+                fileNamesShortened |= !className.equals(fields[1]);
                 longestCName = Math.max(className.length(), longestCName);
+                longestType = Math.max(fields[2].length(), longestType);
+                grandTotal += IntStream.of(locData.get(key)).sum();
             }
 
             String[] packageNames = packageData.stream()
@@ -231,7 +283,7 @@ public class Common {
             int longestPNameDisplayed = 0;
 
             for (String packageName : packageData) {
-                longestPNameDisplayed = Math.max(displayPackageName(packageName, commonPackage).length(), longestPNameDisplayed);
+                longestPNameDisplayed = Math.max(abbreviatePackageName(displayPackageName(packageName, commonPackage), MAX_PKG_NAME_LEN).length(), longestPNameDisplayed);
             }
 
             String packageLine = countNoun(packageData.size(), "package");
@@ -239,6 +291,8 @@ public class Common {
 
             // when the package names are shortened, the header marks them as such
             String packageHeader = trimPkgNames && !commonPackage.isEmpty() ? "Short Package Name" : "Package Name";
+            // "Short File Name" is shorter than MIN_HEADER_LEN, so it does not widen the column
+            String fileHeader = fileNamesShortened ? "Short File Name" : "File Name";
 
             int headerP = Math.max(Math.max(longestPNameDisplayed, packageLine.length()), packageHeader.length());
             int headerC = Math.max(longestCName, classLine.length());
@@ -247,19 +301,25 @@ public class Common {
             headerP = Math.max(MIN_HEADER_LEN, headerP);
             headerC = Math.max(MIN_HEADER_LEN, headerC);
 
-            int[] widths = {headerP, headerC, 8, 8, 8, 8, 8, 8};
+            int headerT = Math.max(Math.max(longestType, fileExt.length()), "Type".length());
+
+            // the number columns share one width, wide enough for the longest header and the grand total
+            int headerN = Math.max("Javadoc".length(), String.valueOf(grandTotal).length());
+
+            int[] widths = {headerP, headerC, headerT, headerN, headerN, headerN, headerN, headerN};
             String lineTop = border.line(0, widths);
             String lineMiddle = border.line(1, widths);
             String lineBottom = border.line(2, widths);
 
-            String rowHeader = border.row("| %-" + headerP + "s | %-" + headerC + "s | %-8s | %8s | %8s | %8s | %8s | %8s |\n");
-            String rowData = border.row("| %-" + headerP + "s | %-" + headerC + "s | %-8s | %8d | %8d | %8d | %8d | %8d |\n");
+            // the numbers are right-aligned like their headers, %s formats them like %d
+            String numbers = String.join("", Collections.nCopies(5, " | %" + headerN + "s"));
+            String row = border.row("| %-" + headerP + "s | %-" + headerC + "s | %-" + headerT + "s" + numbers + " |\n");
 
             int[] totals = new int[5];
 
-            sb.append(lineTop);
-            sb.append(String.format(rowHeader, packageHeader, "File Name", "Type", "Blank", "Javadoc", "Comment", "Code", "Total"));
-            sb.append(lineMiddle);
+            sb.append(lineTop)
+                    .append(String.format(row, packageHeader, fileHeader, "Type", "Blank", "Javadoc", "Comment", "Code", "Total"))
+                    .append(lineMiddle);
 
             String[] fields = keys.first().split(":");
 
@@ -272,7 +332,7 @@ public class Common {
                 fields = key.split(":");
 
                 String packageName = displayPackageName(fields[0], commonPackage);
-                String className = fields[1];
+                String className = abbreviateFileName(fields[1], maxFileNameLen);
                 String classType = fields[2];
 
                 if (!packageName.equals(commonPackageName)) {
@@ -280,7 +340,7 @@ public class Common {
                     commonPackageName = packageName;
                 }
 
-                sb.append(String.format(rowData, packageName, className, classType, counters[0], counters[1], counters[2], counters[3], total));
+                sb.append(String.format(row, abbreviatePackageName(packageName, MAX_PKG_NAME_LEN), className, classType, counters[0], counters[1], counters[2], counters[3], total));
 
                 totals[0] += counters[0];
                 totals[1] += counters[1];
@@ -289,9 +349,9 @@ public class Common {
                 totals[4] += total;
             }
 
-            sb.append(lineMiddle);
-            sb.append(String.format(rowData, packageLine, classLine, fileExt, totals[0], totals[1], totals[2], totals[3], totals[4]));
-            sb.append(lineBottom);
+            sb.append(lineMiddle)
+                    .append(String.format(row, packageLine, classLine, fileExt, totals[0], totals[1], totals[2], totals[3], totals[4]))
+                    .append(lineBottom);
         }
 
         return sb;

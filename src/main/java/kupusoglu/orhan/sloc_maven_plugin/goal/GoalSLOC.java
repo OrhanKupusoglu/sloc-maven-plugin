@@ -70,6 +70,13 @@ public class GoalSLOC extends AbstractMojo {
     private String border;
 
     /**
+     * abbreviate file names longer than this, at least 16
+     * @parameter
+     */
+    @Parameter(property = "maxFileNameLen", defaultValue = "45")
+    private int maxFileNameLen;
+
+    /**
      * output SLOC data to stdout
      * @parameter
      */
@@ -92,6 +99,7 @@ public class GoalSLOC extends AbstractMojo {
                               getCharset(),
                               trimPkgNames,
                               getBorder(),
+                              getMaxFileNameLen(),
                               display,
                               save);
         } catch (MojoExecutionException e) {
@@ -108,6 +116,16 @@ public class GoalSLOC extends AbstractMojo {
         } catch (IllegalArgumentException e) {
             throw new MojoExecutionException(e.getMessage(), e);
         }
+    }
+
+    /**
+     * Returns the configured maximum length of the file names.
+     */
+    private int getMaxFileNameLen() throws MojoExecutionException {
+        if (maxFileNameLen < Common.MIN_HEADER_LEN) {
+            throw new MojoExecutionException(String.format("maxFileNameLen must be at least %d: %d", Common.MIN_HEADER_LEN, maxFileNameLen));
+        }
+        return maxFileNameLen;
     }
 
     /**
