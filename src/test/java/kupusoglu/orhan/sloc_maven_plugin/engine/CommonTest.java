@@ -18,9 +18,11 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 
+@SuppressWarnings({"checkstyle:MethodName", "PMD.LinguisticNaming"})
 class CommonTest {
 
     @Test
@@ -31,15 +33,15 @@ class CommonTest {
 
     @Test
     void testCountLines() throws MojoExecutionException, IOException {
-        Path baseDir = Paths.get(new File(".").getAbsolutePath().toString(), "src/test/resources").normalize();
+        Path baseDir = Paths.get(new File(".").getAbsolutePath(), "src/test/resources").normalize();
         String srcMain = "src";
         String fileExt = "java";
         boolean trimPkgNames = true;
         boolean display = true;
         boolean save = false;
 
-        try ( // capture output
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        // capture output
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
             PrintStream ps = new PrintStream(baos)) {
             System.setOut(ps);
 
@@ -156,7 +158,7 @@ class CommonTest {
         "a.b.a.c,   a.x,          b.a.c, x"
     })
     void processSLOCData_trimPkgNames_commonPrefixRemoved(String package1, String package2, String expected1, String expected2) {
-        TreeMap<String, int[]> locData = new TreeMap<>();
+        Map<String, int[]> locData = new TreeMap<>();
         locData.put(package1 + ":A.java:src", new int[4]);
         locData.put(package2 + ":B.java:src", new int[4]);
 
@@ -168,7 +170,7 @@ class CommonTest {
 
     @Test
     void processSLOCData_trimPkgNames_unrelatedPackageDisplayedInFull() {
-        TreeMap<String, int[]> locData = new TreeMap<>();
+        Map<String, int[]> locData = new TreeMap<>();
         locData.put("out.pkg:A.java:src", new int[4]);
         locData.put("com.foo.b:B.java:src", new int[4]);
         locData.put("com.foo.c:C.java:src", new int[4]);
@@ -182,7 +184,7 @@ class CommonTest {
 
     @Test
     void processSLOCData_trimPkgNames_outlierWithCommonPackageInSet() {
-        TreeMap<String, int[]> locData = new TreeMap<>();
+        Map<String, int[]> locData = new TreeMap<>();
         locData.put("o.z:A.java:src", new int[4]);
         locData.put("p.q:B.java:src", new int[4]);
         locData.put("p.q.r:C.java:src", new int[4]);
@@ -196,7 +198,7 @@ class CommonTest {
 
     @Test
     void processSLOCData_trimPkgNames_tableAlignedWithFullLengthOutlier() {
-        TreeMap<String, int[]> locData = new TreeMap<>();
+        Map<String, int[]> locData = new TreeMap<>();
         locData.put("org.example.a.very.long.outlier.package:A.java:src", new int[4]);
         locData.put("com.foo.b:B.java:src", new int[4]);
         locData.put("com.foo.c:C.java:src", new int[4]);
@@ -209,7 +211,7 @@ class CommonTest {
 
     @Test
     void processSLOCData_trimPkgNamesFalse_allPackagesInFull() {
-        TreeMap<String, int[]> locData = new TreeMap<>();
+        Map<String, int[]> locData = new TreeMap<>();
         locData.put("out.pkg:A.java:src", new int[4]);
         locData.put("com.foo.b:B.java:src", new int[4]);
 
@@ -221,14 +223,14 @@ class CommonTest {
 
     @Test
     void processSLOCData_trimPkgNames_headerMarkedShort() {
-        TreeMap<String, int[]> locData = new TreeMap<>();
+        Map<String, int[]> locData = new TreeMap<>();
         locData.put("com.foo.b:A.java:src", new int[4]);
         locData.put("com.foo.c:B.java:src", new int[4]);
 
         String[] trimmed = Common.processSLOCData(locData, "java", true).toString().split("\n");
         String[] untrimmed = Common.processSLOCData(locData, "java", false).toString().split("\n");
 
-        TreeMap<String, int[]> withoutCommonPrefixData = new TreeMap<>();
+        Map<String, int[]> withoutCommonPrefixData = new TreeMap<>();
         withoutCommonPrefixData.put("a.b:A.java:src", new int[4]);
         withoutCommonPrefixData.put("c.d:B.java:src", new int[4]);
 
@@ -245,7 +247,7 @@ class CommonTest {
         "16, Short File Name"
     })
     void processSLOCData_maxFileNameLen_headerMarkedShortIfAbbreviated(int maxFileNameLen, String expected) {
-        TreeMap<String, int[]> locData = new TreeMap<>();
+        Map<String, int[]> locData = new TreeMap<>();
         locData.put("a.b:AVeryLongClassName.java:src", new int[4]);
 
         String[] table = Common.processSLOCData(locData, "java", false, Common.Border.ASCII, maxFileNameLen).toString().split("\n");
@@ -256,7 +258,7 @@ class CommonTest {
 
     @Test
     void processSLOCData_subpackage_listedAfterParent() {
-        TreeMap<String, int[]> locData = new TreeMap<>();
+        Map<String, int[]> locData = new TreeMap<>();
         locData.put("a.b.c:A.java:src", new int[4]);
         locData.put("a.b:B.java:src", new int[4]);
         locData.put("a.b:C.java:test", new int[4]);
@@ -285,7 +287,7 @@ class CommonTest {
 
     @Test
     void processSLOCData_singleFile_footerInSingular() {
-        TreeMap<String, int[]> locData = new TreeMap<>();
+        Map<String, int[]> locData = new TreeMap<>();
         locData.put("a.b:A.java:src", new int[4]);
 
         String[] table = Common.processSLOCData(locData, "java", false).toString().split("\n");
@@ -295,7 +297,7 @@ class CommonTest {
 
     @Test
     void processSLOCData_numberColumns_headersRightAligned() {
-        TreeMap<String, int[]> locData = new TreeMap<>();
+        Map<String, int[]> locData = new TreeMap<>();
         locData.put("a.b:A.java:src", new int[4]);
 
         String[] table = Common.processSLOCData(locData, "java", false).toString().split("\n");
@@ -305,7 +307,7 @@ class CommonTest {
 
     @Test
     void processSLOCData_largeTotal_numberColumnsWidened() {
-        TreeMap<String, int[]> locData = new TreeMap<>();
+        Map<String, int[]> locData = new TreeMap<>();
         locData.put("a.b:A.java:src", new int[] {0, 0, 0, 12345678});
 
         String[] table = Common.processSLOCData(locData, "java", false).toString().split("\n");
@@ -316,7 +318,7 @@ class CommonTest {
 
     @Test
     void processSLOCData_longFileExt_typeColumnWidened() {
-        TreeMap<String, int[]> locData = new TreeMap<>();
+        Map<String, int[]> locData = new TreeMap<>();
         locData.put("a.b:A.groovy:src", new int[4]);
 
         String[] table = Common.processSLOCData(locData, "groovy", false).toString().split("\n");
@@ -354,7 +356,7 @@ class CommonTest {
     void processSLOCData_longNames_abbreviated() {
         String longPackage = "com.example.some.very.deeply.nested.package.name";
         String longFile = "AnExtremelyLongClassNameThatGoesOnAndOnForever.java";
-        TreeMap<String, int[]> locData = new TreeMap<>();
+        Map<String, int[]> locData = new TreeMap<>();
         locData.put(longPackage + ":" + longFile + ":src", new int[4]);
 
         String[] lines = Common.processSLOCData(locData, "java", false).toString().split("\n");
@@ -371,7 +373,7 @@ class CommonTest {
         "60, AnExtremelyLongClassNameThatGoesOnAndOnForever.java"
     })
     void processSLOCData_maxFileNameLen_fileNameAbbreviated(int maxFileNameLen, String expected) {
-        TreeMap<String, int[]> locData = new TreeMap<>();
+        Map<String, int[]> locData = new TreeMap<>();
         locData.put("a.b:AnExtremelyLongClassNameThatGoesOnAndOnForever.java:src", new int[4]);
 
         String[] lines = Common.processSLOCData(locData, "java", false, Common.Border.ASCII, maxFileNameLen).toString().split("\n");
@@ -408,7 +410,7 @@ class CommonTest {
 
     @Test
     void processSLOCData_unicodeBorder_boxDrawn() {
-        TreeMap<String, int[]> locData = new TreeMap<>();
+        Map<String, int[]> locData = new TreeMap<>();
         locData.put("a.b:A.java:src", new int[4]);
         locData.put("a.c:B.java:src", new int[4]);
 

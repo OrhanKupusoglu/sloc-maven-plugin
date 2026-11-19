@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module PUBLIC
+    "-//Checkstyle//DTD Checkstyle Configuration 1.3//EN"
+    "https://checkstyle.org/dtds/configuration_1_3.dtd">
+
+<module name="Checker">
+    <property name="fileExtensions" value="java, properties, xml"/>
+    <property name="tabWidth" value="4"/>
+
+    <module name="FileTabCharacter"/>
+    <module name="LineLength">
+        <property name="fileExtensions" value="java"/>
+        <property name="max" value="200"/>
+        <property name="ignorePattern" value="@version|@see|@todo|TODO"/>
+    </module>
+    <module name="NewlineAtEndOfFile"/>
+    <module name="RegexpMultiline">
+        <property name="format" value="(?s:(\r\n|\r).*)"/>
+        <property name="message" value="Line has CRLF or CR line ending."/>
+    </module>
+    <module name="RegexpMultiline">
+        <property name="format" value="\n{3,}"/>
+        <property name="message" value="Do not leave more than one open line."/>
+    </module>
+    <module name="RegexpMultiline">
+        <property name="format"
+                  value="@(?:Parameterized)?Test(?:\s*\(.*?\))?\s+(?:@[a-zA-Z]+(?:\s*\(.*?\))?\s+)*@DisplayName"/>
+        <property name="message"
+                  value="Annotation order violation: @DisplayName must come BEFORE @Test/@ParameterizedTest"/>
+    </module>
+    <module name="RegexpSingleline">
+        <property name="format" value="\s+$"/>
+        <property name="minimum" value="0"/>
+        <property name="maximum" value="0"/>
+        <property name="message" value="Line has trailing spaces."/>
+    </module>
+    <module name="Translation"/>
+    <module name="UniqueProperties"/>
+
+    <!-- Excludes all 'module-info.java' files -->
+    <module name="BeforeExecutionExclusionFileFilter">
+        <property name="fileNamePattern" value="module\-info\.java$"/>
+    </module>
+    <module name="SuppressionSingleFilter">
+        <property name="checks" value="JavadocMethod|MissingJavadocMethod|MissingJavadocType"/>
+        <property name="files" value="[\\/]src[\\/]test[\\/]"/>
+    </module>
+    <module name="SuppressWarningsFilter"/>
+
+    <module name="TreeWalker">
+        <module name="ArrayTypeStyle"/>
+        <module name="AvoidNestedBlocks"/>
+        <!-- module name="AvoidStarImport"/ -->
+        <module name="CatchParameterName">
+            <property name="format" value="^(ex[a-zA-Z0-9]*)|([a-z][a-zA-Z0-9]+Exception|ignored)$"/>
+        </module>
+        <module name="ConstantName"/>
+        <!-- module name="CyclomaticComplexity">
+            <property name="switchBlockAsSingleDecisionPoint" value="true"/>
+        </module -->
+        <!-- module name="DeclarationOrder"/ -->
+        <module name="EmptyBlock"/>
+        <module name="EmptyForInitializerPad"/>
+        <module name="EmptyForIteratorPad"/>
+        <module name="EmptyStatement"/>
+        <module name="EqualsAvoidNull"/>
+        <module name="EqualsHashCode"/>
+        <module name="FinalClass"/>
+        <module name="GenericWhitespace"/>
+        <!-- module name="HiddenField"/ -->
+        <module name="HideUtilityClassConstructor"/>
+        <module name="IllegalImport"/>
+        <module name="IllegalInstantiation"/>
+        <module name="ImportOrder">
+            <property name="groups" value="/^(?:kupusoglu\.orhan)\..+/,/^(?!(?:jakarta|javaf?x?)\.).+/,jakarta,java,javafx,javax"/>
+            <property name="ordered" value="true"/>
+            <property name="option" value="top"/>
+            <property name="separated" value="true"/>
+            <property name="separatedStaticGroups" value="true"/>
+            <property name="staticGroups" value="/^(?:kupusoglu\.orhan)\..+/,/^(?!(?:jakarta|javaf?x?)\.).+/,jakarta,java,javafx,javax"/>
+            <property name="sortStaticImportsAlphabetically" value="true"/>
+        </module>
+        <module name="Indentation">
+            <property name="basicOffset" value="4"/>
+            <property name="braceAdjustment" value="0"/>
+            <property name="caseIndent" value="4"/>
+            <property name="throwsIndent" value="4"/>
+            <property name="arrayInitIndent" value="4"/>
+            <property name="lineWrappingIndentation" value="4"/>
+        </module>
+        <module name="InnerAssignment"/>
+        <!-- module name="InnerTypeLast"/ -->
+        <module name="InterfaceIsType"/>
+        <module name="InvalidJavadocPosition"/>
+        <module name="JavadocBlockTagLocation"/>
+        <module name="JavadocContentLocation"/>
+        <module name="JavadocMethod">
+            <property name="accessModifiers" value="public, protected"/>
+            <property name="allowMissingParamTags" value="false"/>
+            <property name="allowMissingReturnTag" value="false"/>
+            <property name="validateThrows" value="false"/>
+            <!-- annotation elements describe themselves, no @return needed -->
+            <property name="tokens" value="METHOD_DEF, CTOR_DEF, COMPACT_CTOR_DEF"/>
+        </module>
+        <module name="JavadocMissingLeadingAsterisk"/>
+        <module name="LeftCurly"/>
+        <module name="LocalFinalVariableName">
+            <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
+        </module>
+        <module name="LocalVariableName">
+            <property name="format" value="(^[a-z][a-zA-Z0-9]*$)|(^[ijk]$)"/>
+        </module>
+        <module name="MemberName">
+            <property name="format" value="^[a-z][a-zA-Z0-9]*$"/>
+        </module>
+        <module name="MethodLength">
+            <property name="max" value="100"/>
+            <property name="countEmpty" value="false"/>
+        </module>
+        <module name="MethodName"/>
+        <module name="MethodParamPad"/>
+        <module name="MissingDeprecated"/>
+        <!-- public API needs Javadoc, tests are exempt (see SuppressionSingleFilter) -->
+        <module name="MissingJavadocMethod">
+            <property name="scope" value="protected"/>
+            <property name="minLineCount" value="-1"/>
+            <property name="tokens" value="METHOD_DEF, CTOR_DEF, ANNOTATION_FIELD_DEF, COMPACT_CTOR_DEF"/>
+        </module>
+        <module name="MissingJavadocPackage"/>
+        <module name="MissingJavadocType">
+            <property name="scope" value="protected"/>
+        </module>
+        <module name="MissingOverride"/>
+        <module name="MissingSwitchDefault"/>
+        <module name="ModifierOrder"/>
+        <!-- MultipleStringLiterals disabled: extracting constants only to avoid duplicate
+             literals rarely improves readability -->
+        <!-- module name="MultipleStringLiterals">
+            <property name="allowedDuplicates" value="3"/>
+        </module -->
+        <module name="MutableException"/>
+        <module name="NeedBraces"/>
+        <module name="NoClone"/>
+        <module name="NoFinalizer"/>
+        <module name="NonEmptyAtclauseDescription"/>
+        <module name="NoWhitespaceAfter"/>
+        <module name="NoWhitespaceBefore"/>
+        <!-- module name="NPathComplexity"/ -->
+        <module name="OneStatementPerLine"/>
+        <module name="OneTopLevelClass"/>
+        <module name="OperatorWrap"/>
+        <module name="OuterTypeFilename"/>
+        <!-- module name="OverloadMethodsDeclarationOrder"/ -->
+        <module name="PackageName">
+            <property name="format" value="^[a-z]+(?:\.[a-z0-9_]+)*$"/>
+        </module>
+        <module name="ParameterAssignment"/>
+        <module name="ParameterName">
+            <property name="format" value="(?:^[a-z][a-zA-Z0-9]*$)"/>
+        </module>
+        <module name="ParameterNumber">
+            <property name="max" value="10"/>
+        </module>
+        <module name="ParenPad"/>
+        <module name="RedundantImport"/>
+        <module name="RedundantModifier"/>
+        <module name="RegexpSinglelineJava">
+            <property name="format" value="\s+$"/>
+            <property name="message" value="Line has trailing whitespace."/>
+        </module>
+        <module name="RightCurly"/>
+        <module name="SimplifyBooleanExpression"/>
+        <module name="SimplifyBooleanReturn"/>
+        <module name="StaticVariableName"/>
+        <module name="StringLiteralEquality"/>
+        <module name="SuperClone"/>
+        <module name="SuperFinalize"/>
+        <module name="SuppressWarningsHolder"/>
+        <!-- module name="TodoComment"/ -->
+        <module name="TypecastParenPad"/>
+        <module name="TypeName"/>
+        <module name="UnusedImports"/>
+        <module name="UpperEll"/>
+        <module name="VariableDeclarationUsageDistance">
+            <property name="allowedDistance" value="10"/>
+        </module>
+        <module name="VisibilityModifier"/>
+        <module name="WhitespaceAfter"/>
+        <module name="WhitespaceAround">
+            <property name="allowEmptyCatches" value="true"/>
+            <property name="allowEmptyConstructors" value="true"/>
+            <property name="allowEmptyLambdas" value="true"/>
+            <property name="allowEmptyMethods" value="true"/>
+            <property name="allowEmptyTypes" value="true"/>
+        </module>
+
+        <module name="SuppressWithNearbyCommentFilter"/>
+    </module>
+
+</module>
+

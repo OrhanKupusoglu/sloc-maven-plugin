@@ -14,7 +14,6 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
 import java.util.regex.Matcher;
 
-
 /**
  * A {@code FileVisitor} that finds Java source files, <strong>*.java</strong>, and counts lines.
  * <br>
@@ -34,16 +33,31 @@ public class CountSLOC extends SimpleFileVisitor<Path> {
     private boolean save;
 
     private PathMatcher matcherJava;
-    private TreeMap<String, int[]> locData = new TreeMap<>();
+    private final Map<String, int[]> locData = new TreeMap<>();
     private boolean isblockComment = false;
     private boolean isblockDoc = false;
-    private boolean isPackageFound = false;
-    private String packageName;
 
+    /**
+     * Creates an empty instance.
+     */
     public CountSLOC() {
         super();
     }
 
+    /**
+     * Creates a file visitor for the given settings.
+     *
+     * @param  log             log to write to
+     * @param  baseDir         base directory of the project
+     * @param  srcMain         source directory, relative to the base directory
+     * @param  fileExt         extension of the source files
+     * @param  charset         charset of the source files
+     * @param  trimPkgNames    whether to remove the common package name
+     * @param  border          border of the table
+     * @param  maxFileNameLen  file names longer than this are abbreviated
+     * @param  display         whether to log the table
+     * @param  save            whether to save the table to a file
+     */
     public CountSLOC(Log log, String baseDir, String srcMain, String fileExt, Charset charset, boolean trimPkgNames, Common.Border border, int maxFileNameLen, boolean display, boolean save) {
         this();
 
@@ -83,24 +97,31 @@ public class CountSLOC extends SimpleFileVisitor<Path> {
         return FileVisitResult.CONTINUE;
     }
 
+    /**
+     * Counts the lines of a source file and stores the counters.
+     *
+     * @param  absolutePath  path of the source file
+     */
     public void processSource(Path absolutePath) {
-        int fileCounterTotal = 0;
+        List<String> lines;
+        try {
+            lines = Common.readTextFile(absolutePath, charset);
+        } catch (IOException ex) {
+            log.error(String.format("Cannot read %s: %s", absolutePath, ex.getMessage()));
+            return;
+        }
+
+        int fileCounterTotal = lines.size();
         int fileCounterBlank = 0;
         int fileCounterComment = 0;
         int fileCounterJavaDoc = 0;
-        String trimmedLine;
-
-        List<String> lines = Common.readTextFile(absolutePath, charset);
-
-        fileCounterTotal = lines.size();
+        String packageName = null;
 
         isblockComment = false;
         isblockDoc = false;
-        isPackageFound = false;
-        packageName = null;
 
         for (String line : lines) {
-            trimmedLine = line.trim();
+            String trimmedLine = line.trim();
 
             if (isJavaDoc(trimmedLine)) {
                 fileCounterJavaDoc++;
@@ -108,10 +129,8 @@ public class CountSLOC extends SimpleFileVisitor<Path> {
                 fileCounterComment++;
             } else if (isBlank(trimmedLine)) {
                 fileCounterBlank++;
-            } else if (!isPackageFound) {
-                if (isPackage(trimmedLine)) {
-                    // found package declaration
-                }
+            } else if (packageName == null) {
+                packageName = findPackageName(trimmedLine);
             }
         }
 
@@ -160,15 +179,12 @@ public class CountSLOC extends SimpleFileVisitor<Path> {
         }
     }
 
-    private boolean isPackage(String line) {
+    /**
+     * Returns the package name declared in the line, null if there is none.
+     */
+    private String findPackageName(String line) {
         Matcher matcher = Common.PACKAGE_DECLARATION.matcher(line);
-        isPackageFound = matcher.find();
-
-        if (isPackageFound) {
-            packageName = matcher.group(1);
-        }
-
-        return isPackageFound;
+        return matcher.find() ? matcher.group(1) : null;
     }
 
     private String getFileType(Path path) {
@@ -189,6 +205,9 @@ public class CountSLOC extends SimpleFileVisitor<Path> {
         }
     }
 
+    /**
+     * Displays or saves the table of the counted files.
+     */
     public void done() {
         String data = Common.processSLOCData(locData, fileExt, trimPkgNames, border, maxFileNameLen).toString();
 
@@ -202,22 +221,11 @@ public class CountSLOC extends SimpleFileVisitor<Path> {
 
         if (save) {
             File file = new File(baseDir + File.separator + Common.OUTPUT_SLOC_FILE);
-            Writer writer = null;
 
-            try {
-                writer = new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8);
+            try (Writer writer = new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8)) {
                 writer.append(data);
-                writer.flush();
-            } catch (IOException e) {
-                log.error(e.getMessage());
-            } finally {
-                try {
-                    if (writer != null) {
-                        writer.close();
-                    }
-                } catch (IOException e) {
-                    log.error(e.getMessage());
-                }
+            } catch (IOException ex) {
+                log.error(ex.getMessage());
             }
         }
     }

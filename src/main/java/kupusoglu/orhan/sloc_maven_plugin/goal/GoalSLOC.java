@@ -12,7 +12,6 @@ import org.apache.maven.project.MavenProject;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
-
 /**
  * Goal <strong>loc</strong>
  * <br>
@@ -90,6 +89,7 @@ public class GoalSLOC extends AbstractMojo {
     @Parameter(property = "save", defaultValue = "false")
     private boolean save;
 
+    @Override
     public void execute() throws MojoExecutionException {
         try {
             Common.countLines(getLog(),
@@ -102,8 +102,8 @@ public class GoalSLOC extends AbstractMojo {
                               getMaxFileNameLen(),
                               display,
                               save);
-        } catch (MojoExecutionException e) {
-            getLog().error(e.getMessage());
+        } catch (MojoExecutionException ex) {
+            getLog().error(ex.getMessage());
         }
     }
 
@@ -113,8 +113,8 @@ public class GoalSLOC extends AbstractMojo {
     private Common.Border getBorder() throws MojoExecutionException {
         try {
             return Common.Border.forName(border);
-        } catch (IllegalArgumentException e) {
-            throw new MojoExecutionException(e.getMessage(), e);
+        } catch (IllegalArgumentException ex) {
+            throw new MojoExecutionException(ex.getMessage(), ex);
         }
     }
 
@@ -132,14 +132,15 @@ public class GoalSLOC extends AbstractMojo {
      * Returns the charset of the configured encoding, UTF-8 if none is configured.
      */
     private Charset getCharset() throws MojoExecutionException {
-        if (encoding == null || encoding.trim().isEmpty()) {
+        String name = encoding == null ? "" : encoding.trim();
+        if (name.isEmpty()) {
             return StandardCharsets.UTF_8;
         }
 
         try {
-            return Charset.forName(encoding.trim());
-        } catch (IllegalArgumentException e) {
-            throw new MojoExecutionException(String.format("Unsupported encoding: %s", encoding), e);
+            return Charset.forName(name);
+        } catch (IllegalArgumentException ex) {
+            throw new MojoExecutionException(String.format("Unsupported encoding: %s", encoding), ex);
         }
     }
 }

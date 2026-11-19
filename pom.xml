@@ -64,8 +64,16 @@
         <dep.maven.version>3.9.6</dep.maven.version>
         <dep.junit.version>5.14.4</dep.junit.version>
 
+        <!-- Checkstyle 9.3 is the last version to run on Java 8 -->
+        <dep.checkstyle.version>9.3</dep.checkstyle.version>
+        <check.checkstyle.ruleset>${project.basedir}/build/checkstyle-rules.xml</check.checkstyle.ruleset>
+
+        <dep.pmd.version>7.29.0</dep.pmd.version>
+        <check.pmd.ruleset>${project.basedir}/build/pmd-rules.xml</check.pmd.ruleset>
+
         <!-- Plugin Versions (alphabetically) -->
         <dep.plugin.central-publishing.version>0.12.0</dep.plugin.central-publishing.version>
+        <dep.plugin.checkstyle.version>3.6.0</dep.plugin.checkstyle.version>
         <dep.plugin.clean.version>3.5.0</dep.plugin.clean.version>
         <dep.plugin.compiler.version>3.16.0</dep.plugin.compiler.version>
         <dep.plugin.deploy.version>3.2.0</dep.plugin.deploy.version>
@@ -76,6 +84,7 @@
         <dep.plugin.javadoc.version>3.12.0</dep.plugin.javadoc.version>
         <dep.plugin.jxr.version>3.6.0</dep.plugin.jxr.version>
         <dep.plugin.plugin.version>3.16.0</dep.plugin.plugin.version>
+        <dep.plugin.pmd.version>3.28.0</dep.plugin.pmd.version>
         <dep.plugin.project-info.version>3.9.0</dep.plugin.project-info.version>
         <dep.plugin.resources.version>3.5.0</dep.plugin.resources.version>
         <dep.plugin.site.version>3.22.0</dep.plugin.site.version>
@@ -186,6 +195,79 @@
                     <showWarnings>true</showWarnings>
                     <showDeprecation>true</showDeprecation>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>${dep.plugin.checkstyle.version}</version>
+                <configuration>
+                    <failOnViolation>true</failOnViolation>
+                    <configLocation>${check.checkstyle.ruleset}</configLocation>
+                    <consoleOutput>true</consoleOutput>
+                    <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                    <sourceDirectories>
+                        <sourceDirectory>${project.build.sourceDirectory}</sourceDirectory>
+                    </sourceDirectories>
+                    <logViolationsToConsole>true</logViolationsToConsole>
+                    <violationSeverity>warning</violationSeverity>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.puppycrawl.tools</groupId>
+                        <artifactId>checkstyle</artifactId>
+                        <version>${dep.checkstyle.version}</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>checkstyle-check</id>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <!-- fail before lengthy test execution -->
+                        <phase>test-compile</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>${dep.plugin.pmd.version}</version>
+                <configuration>
+                    <failOnViolation>true</failOnViolation>
+                    <printFailingErrors>true</printFailingErrors>
+                    <includeTests>true</includeTests>
+                    <failurePriority>4</failurePriority>
+                    <linkXRef>false</linkXRef>
+                    <excludeRoots>
+                        <excludeRoot>${project.build.directory}/generated-sources</excludeRoot>
+                    </excludeRoots>
+                    <rulesets>
+                        <ruleset>${check.pmd.ruleset}</ruleset>
+                    </rulesets>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>net.sourceforge.pmd</groupId>
+                        <artifactId>pmd-core</artifactId>
+                        <version>${dep.pmd.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>net.sourceforge.pmd</groupId>
+                        <artifactId>pmd-java</artifactId>
+                        <version>${dep.pmd.version}</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>pmd-check</id>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                        <!-- fail before lengthy test execution -->
+                        <phase>test-compile</phase>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

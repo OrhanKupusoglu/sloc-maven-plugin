@@ -11,18 +11,17 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-
 /**
  * Common utilities of the plugin
  */
-public class Common {
-    public final static int MIN_HEADER_LEN = 16;
+public final class Common {
+    public static final int MIN_HEADER_LEN = 16;
     // longer package and file names are abbreviated
-    public final static int MAX_PKG_NAME_LEN = 40;
-    public final static int DEFAULT_MAX_FILE_NAME_LEN = 45;
+    public static final int MAX_PKG_NAME_LEN = 40;
+    public static final int DEFAULT_MAX_FILE_NAME_LEN = 45;
     // the semicolon is optional in Groovy, the only group is the package name
-    public final static Pattern PACKAGE_DECLARATION = Pattern.compile("\\bpackage\\s+(?:/\\*.*?\\*/\\s*)?([\\p{javaJavaIdentifierPart}.]+)");
-    public final static String OUTPUT_SLOC_FILE = "sloc.txt";
+    public static final Pattern PACKAGE_DECLARATION = Pattern.compile("\\bpackage\\s+(?:/\\*.*?\\*/\\s*)?([\\p{javaJavaIdentifierPart}.]+)");
+    public static final String OUTPUT_SLOC_FILE = "sloc.txt";
 
     /**
      * Characters to draw the table border with.
@@ -53,6 +52,8 @@ public class Common {
          * Returns the border of the given name, ignoring case. The name auto selects the border
          * that the console can display.
          *
+         * @param  name  border name: auto, ascii or unicode
+         * @return the border
          * @throws IllegalArgumentException if there is no border of that name
          */
         public static Border forName(String name) {
@@ -70,6 +71,9 @@ public class Common {
 
         /**
          * Returns the unicode border if the given charset can encode its characters, the ascii border otherwise.
+         *
+         * @param  charset  charset of the output
+         * @return the border
          */
         public static Border forCharset(Charset charset) {
             String characters = UNICODE.horizontal + "" + UNICODE.vertical + UNICODE.junctions;
@@ -87,7 +91,7 @@ public class Common {
                     if (name != null && Charset.isSupported(name)) {
                         return Charset.forName(name);
                     }
-                } catch (IllegalArgumentException e) {
+                } catch (IllegalArgumentException ignored) {
                     // an illegal charset name, try the next property
                 }
             }
@@ -126,46 +130,69 @@ public class Common {
         // no instance required, use static factory methods
     }
 
-    public static List<String> readTextFile(Path absolutePath, Charset charset) {
+    /**
+     * Reads all lines of a text file, an empty list if the file does not exist or cannot be read.
+     *
+     * @param  absolutePath  path of the file
+     * @param  charset       charset of the file
+     * @return the lines of the file
+     * @throws IOException if reading the file fails
+     */
+    public static List<String> readTextFile(Path absolutePath, Charset charset) throws IOException {
         File file = new File(absolutePath.toString());
         List<String> lines = new ArrayList<>();
 
         if (file.exists() && file.isFile() && file.canRead()) {
-            try {
-                InputStream inputStream = new FileInputStream(file);
-
-                try (
-                    BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, charset))
-                ) {
-                    String line;
-                    while ((line = br.readLine()) != null) {
-                        lines.add(line);
-                    }
-                } catch (IOException e1) {
-                    e1.printStackTrace();
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file), charset))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    lines.add(line);
                 }
-            } catch(FileNotFoundException e2){
-                e2.printStackTrace();
             }
         }
 
         return lines;
     }
 
+    /**
+     * Counts the source lines below the given directory and displays or saves the table.
+     *
+     * @param  log             log to write to
+     * @param  rootDir         base directory of the project
+     * @param  srcMain         source directory, relative to the base directory
+     * @param  fileExt         extension of the source files
+     * @param  charset         charset of the source files
+     * @param  trimPkgNames    whether to remove the common package name
+     * @param  border          border of the table
+     * @param  maxFileNameLen  file names longer than this are abbreviated
+     * @param  display         whether to log the table
+     * @param  save            whether to save the table to a file
+     * @throws MojoExecutionException if counting fails
+     */
     public static void countLines(Log log, String rootDir, String srcMain, String fileExt, Charset charset, boolean trimPkgNames, Border border,
             int maxFileNameLen, boolean display, boolean save) throws MojoExecutionException {
         CountLines countLines = new CountLines(log, rootDir, srcMain, fileExt, charset, trimPkgNames, border, maxFileNameLen, display, save);
         countLines.execute();
     }
 
+    /**
+     * Returns the package name without its last segment, the trailing dot kept.
+     *
+     * @param  packageName  package name
+     * @return the trimmed package name
+     */
     public static String trimPackageName(String packageName) {
-        int last = packageName.lastIndexOf(".");
+        int last = packageName.lastIndexOf('.');
         return packageName.substring(0, last + 1);
     }
 
     /**
      * Returns the package name as displayed in the table: the common package name removed,
      * or the full package name if it does not start with the common package name.
+     *
+     * @param  packageName    package name
+     * @param  commonPackage  common package name, including the trailing dot
+     * @return the package name to display
      */
     public static String displayPackageName(String packageName, String commonPackage) {
         return packageName.startsWith(commonPackage) ? packageName.substring(commonPackage.length()) : packageName;
@@ -174,6 +201,10 @@ public class Common {
     /**
      * Returns the package name, abbreviated to the given length by replacing its leading segments with "..".
      * The end of a package name tells the packages apart. A last segment too long by itself is cut anywhere.
+     *
+     * @param  packageName  package name
+     * @param  maxLength    maximum length
+     * @return the abbreviated package name
      */
     public static String abbreviatePackageName(String packageName, int maxLength) {
         if (packageName.length() <= maxLength) {
@@ -189,6 +220,10 @@ public class Common {
     /**
      * Returns the file name, abbreviated to the given length by replacing the middle of its base name with "..".
      * Start and end of the base name tell the files apart, the extension is kept.
+     *
+     * @param  fileName   file name
+     * @param  maxLength  maximum length
+     * @return the abbreviated file name
      */
     public static String abbreviateFileName(String fileName, int maxLength) {
         if (fileName.length() <= maxLength) {
@@ -197,47 +232,80 @@ public class Common {
 
         int dot = fileName.lastIndexOf('.');
         String extension = dot > 0 ? fileName.substring(dot) : "";
-        String baseName = fileName.substring(0, fileName.length() - extension.length());
         int kept = maxLength - extension.length() - 2;
 
         if (kept < 2) {
             return fileName.substring(0, maxLength - 2) + "..";
         }
 
+        String baseName = fileName.substring(0, fileName.length() - extension.length());
+
         return baseName.substring(0, kept - kept / 2) + ".." + baseName.substring(baseName.length() - kept / 2) + extension;
     }
 
     /**
      * Returns the count followed by the noun, in plural unless the count is one.
+     *
+     * @param  count  count
+     * @param  noun   noun in singular
+     * @return count and noun
      */
     public static String countNoun(int count, String noun) {
         return count + " " + noun + (count == 1 ? "" : "s");
     }
 
+    /**
+     * Returns a copy of the array without the element at the given index.
+     *
+     * @param  src    source array
+     * @param  index  index of the element to remove
+     * @return the new array
+     */
     public static String[] removeArrayElement(String[] src, int index) {
-        List<String> dst = new LinkedList<String>(Arrays.asList(src));
+        List<String> dst = new LinkedList<>(Arrays.asList(src));
         dst.remove(index);
-        return dst.toArray(new String[src.length - 1]);
+        return dst.toArray(new String[0]);
     }
 
-    public static StringBuilder processSLOCData(TreeMap<String, int[]> locData, String fileExt, boolean trimPkgNames) {
+    /**
+     * Returns the SLOC table of the given data, drawn with the ascii border.
+     *
+     * @param  locData       counters by package, file name and type
+     * @param  fileExt       extension of the source files
+     * @param  trimPkgNames  whether to remove the common package name
+     * @return the table
+     */
+    public static StringBuilder processSLOCData(Map<String, int[]> locData, String fileExt, boolean trimPkgNames) {
         return processSLOCData(locData, fileExt, trimPkgNames, Border.ASCII);
     }
 
     /**
      * Returns the SLOC table of the given data, drawn with the given border.
+     *
+     * @param  locData       counters by package, file name and type
+     * @param  fileExt       extension of the source files
+     * @param  trimPkgNames  whether to remove the common package name
+     * @param  border        border of the table
+     * @return the table
      */
-    public static StringBuilder processSLOCData(TreeMap<String, int[]> locData, String fileExt, boolean trimPkgNames, Border border) {
+    public static StringBuilder processSLOCData(Map<String, int[]> locData, String fileExt, boolean trimPkgNames, Border border) {
         return processSLOCData(locData, fileExt, trimPkgNames, border, DEFAULT_MAX_FILE_NAME_LEN);
     }
 
     /**
      * Returns the SLOC table of the given data, drawn with the given border, longer file names abbreviated.
+     *
+     * @param  locData         counters by package, file name and type
+     * @param  fileExt         extension of the source files
+     * @param  trimPkgNames    whether to remove the common package name
+     * @param  border          border of the table
+     * @param  maxFileNameLen  file names longer than this are abbreviated
+     * @return the table
      */
-    public static StringBuilder processSLOCData(TreeMap<String, int[]> locData, String fileExt, boolean trimPkgNames, Border border, int maxFileNameLen) {
+    public static StringBuilder processSLOCData(Map<String, int[]> locData, String fileExt, boolean trimPkgNames, Border border, int maxFileNameLen) {
         StringBuilder sb = new StringBuilder();
 
-        if (locData.size() > 0) {
+        if (!locData.isEmpty()) {
             // sort by package first, a plain string sort would put "a.b.c:X.java" before "a.b:Y.java"
             SortedSet<String> keys = new TreeSet<>(Comparator.comparing((String key) -> key.split(":")[0])
                     .thenComparing(key -> key.substring(key.indexOf(':') + 1)));
@@ -273,7 +341,7 @@ public class Common {
 
                 // if some package names would be eliminated completely, trim the last part of the common package name
                 if (packageData.contains(commonPackage)) {
-                    commonPackage = Common.trimPackageName(commonPackage);
+                    commonPackage = trimPackageName(commonPackage);
                 } else if (!commonPackage.isEmpty()) {
                     commonPackage += ".";
                 }
@@ -362,6 +430,9 @@ public class Common {
      * A package that shares no prefix with the others, such as an unrelated root or the default package,
      * therefore does not disable the trimming, it is merely displayed in full.
      * Returns an empty string if no prefix is shared by at least two packages.
+     *
+     * @param  packages  package names
+     * @return the common package name prefix, null if there are no packages
      */
     public static String getCommonPackagePrefix(String[] packages) {
         if (packages == null || packages.length == 0) {
