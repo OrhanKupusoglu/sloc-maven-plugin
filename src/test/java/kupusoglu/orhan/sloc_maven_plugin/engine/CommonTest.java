@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 
+@SuppressWarnings("checkstyle:MethodName")
 class CommonTest {
 
     @Test
@@ -38,8 +39,8 @@ class CommonTest {
         boolean display = true;
         boolean save = false;
 
-        try ( // capture output
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        // capture output
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
             PrintStream ps = new PrintStream(baos)) {
             System.setOut(ps);
 
