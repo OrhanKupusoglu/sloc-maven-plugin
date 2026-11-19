@@ -61,7 +61,8 @@
         <maven.compiler.release>8</maven.compiler.release>
 
         <!-- Dependency Versions -->
-        <dep.maven.version>3.9.6</dep.maven.version>
+        <!-- oldest Maven the plugin runs on, also used as its requiredMavenVersion -->
+        <dep.maven.version>3.6.3</dep.maven.version>
         <dep.junit.version>5.14.4</dep.junit.version>
 
         <!-- Checkstyle 9.3 is the last version to run on Java 8 -->
