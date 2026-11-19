@@ -89,6 +89,7 @@
         <dep.plugin.compiler.version>3.16.0</dep.plugin.compiler.version>
         <dep.plugin.deploy.version>3.2.0</dep.plugin.deploy.version>
         <dep.plugin.enforcer.version>3.7.0</dep.plugin.enforcer.version>
+        <dep.plugin.error-prone.version>2.53.0</dep.plugin.error-prone.version>
         <dep.plugin.gpg.version>3.2.8</dep.plugin.gpg.version>
         <dep.plugin.install.version>3.2.0</dep.plugin.install.version>
         <dep.plugin.jar.version>3.5.1</dep.plugin.jar.version>
@@ -401,6 +402,56 @@
                             <jdkToolchain>
                                 <version>${test.jdk}</version>
                             </jdkToolchain>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- fail the build on Error Prone findings, needs JDK 21, so the release build on JDK 8
+             compiles without it, see: https://errorprone.info/ -->
+        <profile>
+            <id>errorprone-fatal</id>
+            <activation>
+                <jdk>[21,)</jdk>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <configuration>
+                            <fork>true</fork>
+                            <compilerArgs combine.children="append">
+                                <arg>-Werror</arg>
+                                <!-- javac 21 warns that release 8 is obsolete -->
+                                <arg>-Xlint:-options</arg>
+                                <arg>-Xlint:-classfile</arg>
+                                <arg>-XDcompilePolicy=simple</arg>
+                                <arg>-XDaddTypeAnnotationsToSymbol=true</arg>
+
+                                <arg>--should-stop=ifError=FLOW</arg>
+
+                                <arg>-Xplugin:ErrorProne -XepExcludedPaths:.*/target/generated-sources/.* -Xep:MissingSummary:WARN -Xep:InvalidBlockTag:WARN</arg>
+
+                                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED</arg>
+                                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED</arg>
+                                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED</arg>
+                                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED</arg>
+                                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED</arg>
+                                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED</arg>
+                                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED</arg>
+                                <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED</arg>
+                                <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED</arg>
+                                <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED</arg>
+                            </compilerArgs>
+                            <annotationProcessorPaths>
+                                <path>
+                                    <groupId>com.google.errorprone</groupId>
+                                    <artifactId>error_prone_core</artifactId>
+                                    <version>${dep.plugin.error-prone.version}</version>
+                                </path>
+                            </annotationProcessorPaths>
                         </configuration>
                     </plugin>
                 </plugins>
