@@ -70,7 +70,7 @@ public class CountLines {
             if (Files.exists(Paths.get(baseDir + File.separator + srcMain).toAbsolutePath())) {
                 CountSLOC countSLOC = new CountSLOC(log, baseDir, srcMain, fileExt, charset, trimPkgNames, border, maxFileNameLen, display, save);
 
-                java.nio.file.Files.walkFileTree(Paths.get(baseDir + File.separator + srcMain).toAbsolutePath(), countSLOC);
+                Files.walkFileTree(Paths.get(baseDir + File.separator + srcMain).toAbsolutePath(), countSLOC);
                 countSLOC.done();
             } else {
                 log.warn("Does not contain a source directory: " + baseDir  + File.separator + srcMain);

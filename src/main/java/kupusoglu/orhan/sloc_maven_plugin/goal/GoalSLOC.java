@@ -132,12 +132,13 @@ public class GoalSLOC extends AbstractMojo {
      * Returns the charset of the configured encoding, UTF-8 if none is configured.
      */
     private Charset getCharset() throws MojoExecutionException {
-        if (encoding == null || encoding.trim().isEmpty()) {
+        String name = encoding == null ? "" : encoding.trim();
+        if (name.isEmpty()) {
             return StandardCharsets.UTF_8;
         }
 
         try {
-            return Charset.forName(encoding.trim());
+            return Charset.forName(name);
         } catch (IllegalArgumentException ex) {
             throw new MojoExecutionException(String.format("Unsupported encoding: %s", encoding), ex);
         }

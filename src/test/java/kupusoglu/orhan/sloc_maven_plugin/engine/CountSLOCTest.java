@@ -110,7 +110,7 @@ class CountSLOCTest {
     /**
      * Reads the SLOC table saved to the base directory.
      */
-    private String[] readSavedTable() {
+    private String[] readSavedTable() throws IOException {
         return Common.readTextFile(baseDir.resolve(Common.OUTPUT_SLOC_FILE), StandardCharsets.UTF_8).toArray(new String[0]);
     }
 

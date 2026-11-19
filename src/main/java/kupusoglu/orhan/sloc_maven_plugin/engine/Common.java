@@ -131,32 +131,23 @@ public final class Common {
     }
 
     /**
-     * Reads all lines of a text file, an empty list if the file cannot be read.
+     * Reads all lines of a text file, an empty list if the file does not exist or cannot be read.
      *
      * @param  absolutePath  path of the file
      * @param  charset       charset of the file
      * @return the lines of the file
+     * @throws IOException if reading the file fails
      */
-    public static List<String> readTextFile(Path absolutePath, Charset charset) {
+    public static List<String> readTextFile(Path absolutePath, Charset charset) throws IOException {
         File file = new File(absolutePath.toString());
         List<String> lines = new ArrayList<>();
 
         if (file.exists() && file.isFile() && file.canRead()) {
-            try {
-                InputStream inputStream = new FileInputStream(file);
-
-                try (
-                    BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, charset))
-                ) {
-                    String line;
-                    while ((line = br.readLine()) != null) {
-                        lines.add(line);
-                    }
-                } catch (IOException ex) {
-                    ex.printStackTrace();
+            try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file), charset))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    lines.add(line);
                 }
-            } catch (FileNotFoundException ex) {
-                ex.printStackTrace();
             }
         }
 
@@ -191,7 +182,7 @@ public final class Common {
      * @return the trimmed package name
      */
     public static String trimPackageName(String packageName) {
-        int last = packageName.lastIndexOf(".");
+        int last = packageName.lastIndexOf('.');
         return packageName.substring(0, last + 1);
     }
 
@@ -241,12 +232,13 @@ public final class Common {
 
         int dot = fileName.lastIndexOf('.');
         String extension = dot > 0 ? fileName.substring(dot) : "";
-        String baseName = fileName.substring(0, fileName.length() - extension.length());
         int kept = maxLength - extension.length() - 2;
 
         if (kept < 2) {
             return fileName.substring(0, maxLength - 2) + "..";
         }
+
+        String baseName = fileName.substring(0, fileName.length() - extension.length());
 
         return baseName.substring(0, kept - kept / 2) + ".." + baseName.substring(baseName.length() - kept / 2) + extension;
     }
@@ -270,9 +262,9 @@ public final class Common {
      * @return the new array
      */
     public static String[] removeArrayElement(String[] src, int index) {
-        List<String> dst = new LinkedList<String>(Arrays.asList(src));
+        List<String> dst = new LinkedList<>(Arrays.asList(src));
         dst.remove(index);
-        return dst.toArray(new String[src.length - 1]);
+        return dst.toArray(new String[0]);
     }
 
     /**
@@ -283,7 +275,7 @@ public final class Common {
      * @param  trimPkgNames  whether to remove the common package name
      * @return the table
      */
-    public static StringBuilder processSLOCData(TreeMap<String, int[]> locData, String fileExt, boolean trimPkgNames) {
+    public static StringBuilder processSLOCData(Map<String, int[]> locData, String fileExt, boolean trimPkgNames) {
         return processSLOCData(locData, fileExt, trimPkgNames, Border.ASCII);
     }
 
@@ -296,7 +288,7 @@ public final class Common {
      * @param  border        border of the table
      * @return the table
      */
-    public static StringBuilder processSLOCData(TreeMap<String, int[]> locData, String fileExt, boolean trimPkgNames, Border border) {
+    public static StringBuilder processSLOCData(Map<String, int[]> locData, String fileExt, boolean trimPkgNames, Border border) {
         return processSLOCData(locData, fileExt, trimPkgNames, border, DEFAULT_MAX_FILE_NAME_LEN);
     }
 
@@ -310,10 +302,10 @@ public final class Common {
      * @param  maxFileNameLen  file names longer than this are abbreviated
      * @return the table
      */
-    public static StringBuilder processSLOCData(TreeMap<String, int[]> locData, String fileExt, boolean trimPkgNames, Border border, int maxFileNameLen) {
+    public static StringBuilder processSLOCData(Map<String, int[]> locData, String fileExt, boolean trimPkgNames, Border border, int maxFileNameLen) {
         StringBuilder sb = new StringBuilder();
 
-        if (locData.size() > 0) {
+        if (!locData.isEmpty()) {
             // sort by package first, a plain string sort would put "a.b.c:X.java" before "a.b:Y.java"
             SortedSet<String> keys = new TreeSet<>(Comparator.comparing((String key) -> key.split(":")[0])
                     .thenComparing(key -> key.substring(key.indexOf(':') + 1)));
@@ -349,7 +341,7 @@ public final class Common {
 
                 // if some package names would be eliminated completely, trim the last part of the common package name
                 if (packageData.contains(commonPackage)) {
-                    commonPackage = Common.trimPackageName(commonPackage);
+                    commonPackage = trimPackageName(commonPackage);
                 } else if (!commonPackage.isEmpty()) {
                     commonPackage += ".";
                 }
