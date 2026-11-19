@@ -50,6 +50,7 @@ class CommonTest {
                               StandardCharsets.UTF_8,
                               trimPkgNames,
                               Common.Border.ASCII,
+                              Common.DEFAULT_MAX_FILE_NAME_LEN,
                               display,
                               save);
 
@@ -238,6 +239,21 @@ class CommonTest {
         assertEquals("Package Name", withoutCommonPrefix[1].split("\\|")[1].trim());
     }
 
+    @ParameterizedTest
+    @CsvSource({
+        "45, File Name",
+        "16, Short File Name"
+    })
+    void processSLOCData_maxFileNameLen_headerMarkedShortIfAbbreviated(int maxFileNameLen, String expected) {
+        TreeMap<String, int[]> locData = new TreeMap<>();
+        locData.put("a.b:AVeryLongClassName.java:src", new int[4]);
+
+        String[] table = Common.processSLOCData(locData, "java", false, Common.Border.ASCII, maxFileNameLen).toString().split("\n");
+
+        assertEquals(expected, table[1].split("\\|")[2].trim());
+        assertEquals(table[0].length(), table[1].length());
+    }
+
     @Test
     void processSLOCData_subpackage_listedAfterParent() {
         TreeMap<String, int[]> locData = new TreeMap<>();
@@ -284,7 +300,83 @@ class CommonTest {
 
         String[] table = Common.processSLOCData(locData, "java", false).toString().split("\n");
 
+        assertTrue(table[1].endsWith("| Type |   Blank | Javadoc | Comment |    Code |   Total |"), table[1]);
+    }
+
+    @Test
+    void processSLOCData_largeTotal_numberColumnsWidened() {
+        TreeMap<String, int[]> locData = new TreeMap<>();
+        locData.put("a.b:A.java:src", new int[] {0, 0, 0, 12345678});
+
+        String[] table = Common.processSLOCData(locData, "java", false).toString().split("\n");
+
         assertTrue(table[1].endsWith("|    Blank |  Javadoc |  Comment |     Code |    Total |"), table[1]);
+        assertTrue(table[3].endsWith("|        0 |        0 |        0 | 12345678 | 12345678 |"), table[3]);
+    }
+
+    @Test
+    void processSLOCData_longFileExt_typeColumnWidened() {
+        TreeMap<String, int[]> locData = new TreeMap<>();
+        locData.put("a.b:A.groovy:src", new int[4]);
+
+        String[] table = Common.processSLOCData(locData, "groovy", false).toString().split("\n");
+
+        assertTrue(table[1].contains("| Type   |"), table[1]);
+        assertTrue(table[3].contains("| src    |"), table[3]);
+        assertTrue(table[5].contains("| groovy |"), table[5]);
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+        "a.b.c,         5, a.b.c",
+        "com.foo.bar,   8, ..bar",
+        "com.foo.bar,   9, ..foo.bar",
+        "a.longsegment, 8, ..egment"
+    })
+    void abbreviatePackageName_length_leadingSegmentsReplaced(String packageName, int maxLength, String expected) {
+        assertEquals(expected, Common.abbreviatePackageName(packageName, maxLength));
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+        "Abc.java,        8, Abc.java",
+        "AbcdefXyz.java, 11, Ab..yz.java",
+        "AbcdefXyz.java, 12, Abc..yz.java",
+        "AbcdefXyz.java, 13, Abc..Xyz.java",
+        "AbcdefXyz,       7, Abc..yz",
+        "A.verylongext,   8, A.very.."
+    })
+    void abbreviateFileName_length_middleReplaced(String fileName, int maxLength, String expected) {
+        assertEquals(expected, Common.abbreviateFileName(fileName, maxLength));
+    }
+
+    @Test
+    void processSLOCData_longNames_abbreviated() {
+        String longPackage = "com.example.some.very.deeply.nested.package.name";
+        String longFile = "AnExtremelyLongClassNameThatGoesOnAndOnForever.java";
+        TreeMap<String, int[]> locData = new TreeMap<>();
+        locData.put(longPackage + ":" + longFile + ":src", new int[4]);
+
+        String[] lines = Common.processSLOCData(locData, "java", false).toString().split("\n");
+        String[] row = CountSLOCTest.findRow(lines, "AnExtremelyLongClas..tGoesOnAndOnForever.java");
+
+        assertEquals("..some.very.deeply.nested.package.name", row[0]);
+        assertEquals(1, Arrays.stream(lines).map(String::length).distinct().count());
+    }
+
+    @ParameterizedTest
+    @CsvSource({
+        "20, AnExtre..orever.java",
+        "30, AnExtremelyL..ndOnForever.java",
+        "60, AnExtremelyLongClassNameThatGoesOnAndOnForever.java"
+    })
+    void processSLOCData_maxFileNameLen_fileNameAbbreviated(int maxFileNameLen, String expected) {
+        TreeMap<String, int[]> locData = new TreeMap<>();
+        locData.put("a.b:AnExtremelyLongClassNameThatGoesOnAndOnForever.java:src", new int[4]);
+
+        String[] lines = Common.processSLOCData(locData, "java", false, Common.Border.ASCII, maxFileNameLen).toString().split("\n");
+
+        assertEquals("a.b", CountSLOCTest.findRow(lines, expected)[0]);
     }
 
     @ParameterizedTest
