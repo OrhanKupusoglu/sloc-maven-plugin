@@ -85,6 +85,7 @@
         <dep.plugin.javadoc.version>3.12.0</dep.plugin.javadoc.version>
         <dep.plugin.jxr.version>3.6.0</dep.plugin.jxr.version>
         <dep.plugin.plugin.version>3.16.0</dep.plugin.plugin.version>
+        <dep.plugin.plugin.report.version>3.16.0</dep.plugin.plugin.report.version>
         <dep.plugin.pmd.version>3.28.0</dep.plugin.pmd.version>
         <dep.plugin.project-info.version>3.9.0</dep.plugin.project-info.version>
         <dep.plugin.resources.version>3.5.0</dep.plugin.resources.version>
@@ -336,8 +337,8 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-plugin-plugin</artifactId>
-                <version>${dep.plugin.plugin.version}</version>
+                <artifactId>maven-plugin-report-plugin</artifactId>
+                <version>${dep.plugin.plugin.report.version}</version>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
