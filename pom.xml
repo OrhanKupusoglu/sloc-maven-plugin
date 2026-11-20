@@ -372,6 +372,31 @@
     </reporting>
 
     <profiles>
+        <!-- fork the test JVM onto the JDK toolchain given by test.jdk, to run the Java 8 bytecode
+             on older JDKs while Maven itself runs on a newer one. Requires that JDK registered in
+             ~/.m2/toolchains.xml (see ci.yml). Usage: mvn -Dtest.jdk=8 clean verify -->
+        <profile>
+            <id>toolchain-tests</id>
+            <activation>
+                <property>
+                    <name>test.jdk</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <jdkToolchain>
+                                <version>${test.jdk}</version>
+                            </jdkToolchain>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
         <profile>
             <id>release</id>
             <build>
