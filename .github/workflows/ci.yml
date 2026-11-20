@@ -1,0 +1,52 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+
+# cancel superseded runs on the same branch or PR
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        # java is the JDK the tests run on, build-java the JDK that runs Maven
+        java: ['8', '11', '17', '21']
+        build-java: ['21']
+        include:
+          - os: ubuntu-latest
+            java: '25'
+            build-java: '25'
+    runs-on: ${{ matrix.os }}
+    # JDK 25 is an early warning, it may fail without failing the workflow
+    continue-on-error: ${{ matrix.java == '25' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      # both JDKs are registered in ~/.m2/toolchains.xml, the last one listed runs Maven
+      - name: Set up JDK ${{ matrix.build-java }} (build) and JDK ${{ matrix.java }} (tests)
+        uses: actions/setup-java@v6
+        with:
+          distribution: 'temurin'
+          java-version: |
+            ${{ matrix.java }}
+            ${{ matrix.build-java }}
+          cache: maven
+
+      - name: Build with JDK ${{ matrix.build-java }}, tests on JDK ${{ matrix.java }}
+        shell: bash
+        run: mvn -B -Dtest.jdk=${{ matrix.java }} clean verify
