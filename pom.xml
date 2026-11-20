@@ -40,6 +40,16 @@
             </roles>
             <timezone>Europe/Berlin</timezone>
         </developer>
+        <developer>
+            <id>spannm</id>
+            <name>Markus Spann</name>
+            <url>https://github.com/spannm</url>
+            <roles>
+                <role>architect</role>
+                <role>developer</role>
+            </roles>
+            <timezone>Europe/Berlin</timezone>
+        </developer>
     </developers>
 
     <issueManagement>
