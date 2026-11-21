@@ -29,7 +29,7 @@ The plugin finds each pom.xml's source codes and reports for each source file:
 - Code lines
 - Total lines
 
-The output is displayed in a formatted table, similar to [MySQL Shell](https://dev.mysql.com/doc/refman/8.0/en/selecting-all.html)'s table outputs.
+The output is displayed in a formatted table, similar to MySQL Shell's [table format](https://dev.mysql.com/doc/mysql-shell/en/mysql-shell-output-table-format.html).
 
 The package names can be shortened by removing the package name prefix shared by the most packages, in order to prevent too much repetition. A package that shares no prefix with the others is displayed in full. The feature is disabled by default and can be enabled with **-DtrimPkgNames=true**; the header of the first column then reads **Short Package Name** to mark the shortened names.
 
