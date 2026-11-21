@@ -122,7 +122,7 @@ class CountSLOCTest {
      */
     static String[] findRow(String[] table, String fileName) {
         return Arrays.stream(table)
-            .map(line -> Arrays.stream(line.split("\\|")).skip(1).map(String::trim).toArray(String[]::new))
+            .map(line -> Arrays.stream(line.split("\\|", -1)).skip(1).map(String::trim).toArray(String[]::new))
             .filter(cells -> cells.length > 1 && fileName.equals(cells[1]))
             .findFirst()
             .orElseThrow(() -> new AssertionError(String.format("No row for %s in:%n%s", fileName, String.join("\n", table))));

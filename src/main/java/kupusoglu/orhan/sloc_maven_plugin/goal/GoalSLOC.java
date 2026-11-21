@@ -35,56 +35,48 @@ public class GoalSLOC extends AbstractMojo {
 
     /**
      * name of the root directory for the source files
-     * @parameter
      */
     @Parameter(property = "srcMain", defaultValue = "src")
     private String srcMain;
 
     /**
      * extension of the source files
-     * @parameter
      */
     @Parameter(property = "fileExt", defaultValue = "java")
     private String fileExt;
 
     /**
      * encoding of the source files, UTF-8 if not set
-     * @parameter
      */
     @Parameter(property = "encoding", defaultValue = "${project.build.sourceEncoding}")
     private String encoding;
 
     /**
      * trim package names
-     * @parameter
      */
     @Parameter(property = "trimPkgNames", defaultValue = "false")
     private boolean trimPkgNames;
 
     /**
      * table border, ascii or unicode, auto selects unicode if the console can display it
-     * @parameter
      */
     @Parameter(property = "border", defaultValue = "auto")
     private String border;
 
     /**
      * abbreviate file names longer than this, at least 16
-     * @parameter
      */
     @Parameter(property = "maxFileNameLen", defaultValue = "45")
     private int maxFileNameLen;
 
     /**
      * output SLOC data to stdout
-     * @parameter
      */
     @Parameter(property = "display", defaultValue = "true")
     private boolean display;
 
     /**
      * output SLOC data to file "sloc.txt"
-     * @parameter
      */
     @Parameter(property = "save", defaultValue = "false")
     private boolean save;
