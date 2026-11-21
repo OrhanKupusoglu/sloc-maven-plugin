@@ -262,7 +262,7 @@ public final class Common {
      * @return the new array
      */
     public static String[] removeArrayElement(String[] src, int index) {
-        List<String> dst = new LinkedList<>(Arrays.asList(src));
+        List<String> dst = new ArrayList<>(Arrays.asList(src));
         dst.remove(index);
         return dst.toArray(new String[0]);
     }
@@ -307,7 +307,7 @@ public final class Common {
 
         if (!locData.isEmpty()) {
             // sort by package first, a plain string sort would put "a.b.c:X.java" before "a.b:Y.java"
-            SortedSet<String> keys = new TreeSet<>(Comparator.comparing((String key) -> key.split(":")[0])
+            SortedSet<String> keys = new TreeSet<>(Comparator.comparing((String key) -> key.split(":", -1)[0])
                     .thenComparing(key -> key.substring(key.indexOf(':') + 1)));
             keys.addAll(locData.keySet());
 
@@ -318,7 +318,7 @@ public final class Common {
             boolean fileNamesShortened = false;
 
             for (String key : keys) {
-                String[] fields = key.split(":");
+                String[] fields = key.split(":", -1);
 
                 String packageName = fields[0];
                 String className = abbreviateFileName(fields[1], maxFileNameLen);
@@ -389,7 +389,7 @@ public final class Common {
                     .append(String.format(row, packageHeader, fileHeader, "Type", "Blank", "Javadoc", "Comment", "Code", "Total"))
                     .append(lineMiddle);
 
-            String[] fields = keys.first().split(":");
+            String[] fields = keys.first().split(":", -1);
 
             String commonPackageName = displayPackageName(fields[0], commonPackage);
 
@@ -397,7 +397,7 @@ public final class Common {
                 int[] counters = locData.get(key);
                 int total = IntStream.of(counters).sum();
 
-                fields = key.split(":");
+                fields = key.split(":", -1);
 
                 String packageName = displayPackageName(fields[0], commonPackage);
                 String className = abbreviateFileName(fields[1], maxFileNameLen);

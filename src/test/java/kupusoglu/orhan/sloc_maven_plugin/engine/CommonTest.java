@@ -31,6 +31,8 @@ class CommonTest {
         assertEquals("sampleapp.cli.", Common.trimPackageName(packageName));
     }
 
+    // the Charset overloads of PrintStream and ByteArrayOutputStream need Java 10
+    @SuppressWarnings("JdkObsolete")
     @Test
     void testCountLines() throws MojoExecutionException, IOException {
         Path baseDir = Paths.get(new File(".").getAbsolutePath(), "src/test/resources").normalize();
@@ -42,7 +44,7 @@ class CommonTest {
 
         // capture output
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            PrintStream ps = new PrintStream(baos)) {
+            PrintStream ps = new PrintStream(baos, true, StandardCharsets.UTF_8.name())) {
             System.setOut(ps);
 
             Common.countLines(new SystemStreamLog(),
@@ -58,7 +60,7 @@ class CommonTest {
 
             System.setOut(System.out);
 
-            String[] output = baos.toString().split("\r\n|\r|\n");
+            String[] output = toLines(baos.toString(StandardCharsets.UTF_8.name()));
 
             assertTrue(output.length > 0);
 
@@ -162,7 +164,7 @@ class CommonTest {
         locData.put(package1 + ":A.java:src", new int[4]);
         locData.put(package2 + ":B.java:src", new int[4]);
 
-        String[] table = Common.processSLOCData(locData, "java", true).toString().split("\n");
+        String[] table = toLines(Common.processSLOCData(locData, "java", true));
 
         assertEquals(expected1, CountSLOCTest.findRow(table, "A.java")[0]);
         assertEquals(expected2, CountSLOCTest.findRow(table, "B.java")[0]);
@@ -175,7 +177,7 @@ class CommonTest {
         locData.put("com.foo.b:B.java:src", new int[4]);
         locData.put("com.foo.c:C.java:src", new int[4]);
 
-        String[] table = Common.processSLOCData(locData, "java", true).toString().split("\n");
+        String[] table = toLines(Common.processSLOCData(locData, "java", true));
 
         assertEquals("out.pkg", CountSLOCTest.findRow(table, "A.java")[0]);
         assertEquals("b", CountSLOCTest.findRow(table, "B.java")[0]);
@@ -189,7 +191,7 @@ class CommonTest {
         locData.put("p.q:B.java:src", new int[4]);
         locData.put("p.q.r:C.java:src", new int[4]);
 
-        String[] table = Common.processSLOCData(locData, "java", true).toString().split("\n");
+        String[] table = toLines(Common.processSLOCData(locData, "java", true));
 
         assertEquals("o.z", CountSLOCTest.findRow(table, "A.java")[0]);
         assertEquals("q", CountSLOCTest.findRow(table, "B.java")[0]);
@@ -203,7 +205,7 @@ class CommonTest {
         locData.put("com.foo.b:B.java:src", new int[4]);
         locData.put("com.foo.c:C.java:src", new int[4]);
 
-        String[] lines = Common.processSLOCData(locData, "java", true).toString().split("\n");
+        String[] lines = toLines(Common.processSLOCData(locData, "java", true));
 
         // every table line has the same width, a long outlier package name does not break the layout
         assertEquals(1, Arrays.stream(lines).map(String::length).distinct().count());
@@ -215,7 +217,7 @@ class CommonTest {
         locData.put("out.pkg:A.java:src", new int[4]);
         locData.put("com.foo.b:B.java:src", new int[4]);
 
-        String[] table = Common.processSLOCData(locData, "java", false).toString().split("\n");
+        String[] table = toLines(Common.processSLOCData(locData, "java", false));
 
         assertEquals("out.pkg", CountSLOCTest.findRow(table, "A.java")[0]);
         assertEquals("com.foo.b", CountSLOCTest.findRow(table, "B.java")[0]);
@@ -227,18 +229,18 @@ class CommonTest {
         locData.put("com.foo.b:A.java:src", new int[4]);
         locData.put("com.foo.c:B.java:src", new int[4]);
 
-        String[] trimmed = Common.processSLOCData(locData, "java", true).toString().split("\n");
-        String[] untrimmed = Common.processSLOCData(locData, "java", false).toString().split("\n");
+        String[] trimmed = toLines(Common.processSLOCData(locData, "java", true));
+        String[] untrimmed = toLines(Common.processSLOCData(locData, "java", false));
 
         Map<String, int[]> withoutCommonPrefixData = new TreeMap<>();
         withoutCommonPrefixData.put("a.b:A.java:src", new int[4]);
         withoutCommonPrefixData.put("c.d:B.java:src", new int[4]);
 
-        String[] withoutCommonPrefix = Common.processSLOCData(withoutCommonPrefixData, "java", true).toString().split("\n");
+        String[] withoutCommonPrefix = toLines(Common.processSLOCData(withoutCommonPrefixData, "java", true));
 
-        assertEquals("Short Package Name", trimmed[1].split("\\|")[1].trim());
-        assertEquals("Package Name", untrimmed[1].split("\\|")[1].trim());
-        assertEquals("Package Name", withoutCommonPrefix[1].split("\\|")[1].trim());
+        assertEquals("Short Package Name", trimmed[1].split("\\|", -1)[1].trim());
+        assertEquals("Package Name", untrimmed[1].split("\\|", -1)[1].trim());
+        assertEquals("Package Name", withoutCommonPrefix[1].split("\\|", -1)[1].trim());
     }
 
     @ParameterizedTest
@@ -250,9 +252,9 @@ class CommonTest {
         Map<String, int[]> locData = new TreeMap<>();
         locData.put("a.b:AVeryLongClassName.java:src", new int[4]);
 
-        String[] table = Common.processSLOCData(locData, "java", false, Common.Border.ASCII, maxFileNameLen).toString().split("\n");
+        String[] table = toLines(Common.processSLOCData(locData, "java", false, Common.Border.ASCII, maxFileNameLen));
 
-        assertEquals(expected, table[1].split("\\|")[2].trim());
+        assertEquals(expected, table[1].split("\\|", -1)[2].trim());
         assertEquals(table[0].length(), table[1].length());
     }
 
@@ -264,9 +266,9 @@ class CommonTest {
         locData.put("a.b:C.java:test", new int[4]);
         locData.put("a.bc:D.java:src", new int[4]);
 
-        String[] table = Common.processSLOCData(locData, "java", false).toString().split("\n");
+        String[] table = toLines(Common.processSLOCData(locData, "java", false));
         String[] files = Arrays.stream(table)
-            .map(line -> line.split("\\|"))
+            .map(line -> line.split("\\|", -1))
             .filter(cells -> cells.length > 2 && cells[2].trim().endsWith(".java"))
             .map(cells -> cells[2].trim())
             .toArray(String[]::new);
@@ -290,7 +292,7 @@ class CommonTest {
         Map<String, int[]> locData = new TreeMap<>();
         locData.put("a.b:A.java:src", new int[4]);
 
-        String[] table = Common.processSLOCData(locData, "java", false).toString().split("\n");
+        String[] table = toLines(Common.processSLOCData(locData, "java", false));
 
         assertEquals("1 package", CountSLOCTest.findRow(table, "1 file")[0]);
     }
@@ -300,7 +302,7 @@ class CommonTest {
         Map<String, int[]> locData = new TreeMap<>();
         locData.put("a.b:A.java:src", new int[4]);
 
-        String[] table = Common.processSLOCData(locData, "java", false).toString().split("\n");
+        String[] table = toLines(Common.processSLOCData(locData, "java", false));
 
         assertTrue(table[1].endsWith("| Type |   Blank | Javadoc | Comment |    Code |   Total |"), table[1]);
     }
@@ -310,7 +312,7 @@ class CommonTest {
         Map<String, int[]> locData = new TreeMap<>();
         locData.put("a.b:A.java:src", new int[] {0, 0, 0, 12345678});
 
-        String[] table = Common.processSLOCData(locData, "java", false).toString().split("\n");
+        String[] table = toLines(Common.processSLOCData(locData, "java", false));
 
         assertTrue(table[1].endsWith("|    Blank |  Javadoc |  Comment |     Code |    Total |"), table[1]);
         assertTrue(table[3].endsWith("|        0 |        0 |        0 | 12345678 | 12345678 |"), table[3]);
@@ -321,7 +323,7 @@ class CommonTest {
         Map<String, int[]> locData = new TreeMap<>();
         locData.put("a.b:A.groovy:src", new int[4]);
 
-        String[] table = Common.processSLOCData(locData, "groovy", false).toString().split("\n");
+        String[] table = toLines(Common.processSLOCData(locData, "groovy", false));
 
         assertTrue(table[1].contains("| Type   |"), table[1]);
         assertTrue(table[3].contains("| src    |"), table[3]);
@@ -359,7 +361,7 @@ class CommonTest {
         Map<String, int[]> locData = new TreeMap<>();
         locData.put(longPackage + ":" + longFile + ":src", new int[4]);
 
-        String[] lines = Common.processSLOCData(locData, "java", false).toString().split("\n");
+        String[] lines = toLines(Common.processSLOCData(locData, "java", false));
         String[] row = CountSLOCTest.findRow(lines, "AnExtremelyLongClas..tGoesOnAndOnForever.java");
 
         assertEquals("..some.very.deeply.nested.package.name", row[0]);
@@ -376,7 +378,7 @@ class CommonTest {
         Map<String, int[]> locData = new TreeMap<>();
         locData.put("a.b:AnExtremelyLongClassNameThatGoesOnAndOnForever.java:src", new int[4]);
 
-        String[] lines = Common.processSLOCData(locData, "java", false, Common.Border.ASCII, maxFileNameLen).toString().split("\n");
+        String[] lines = toLines(Common.processSLOCData(locData, "java", false, Common.Border.ASCII, maxFileNameLen));
 
         assertEquals("a.b", CountSLOCTest.findRow(lines, expected)[0]);
     }
@@ -414,13 +416,20 @@ class CommonTest {
         locData.put("a.b:A.java:src", new int[4]);
         locData.put("a.c:B.java:src", new int[4]);
 
-        String[] lines = Common.processSLOCData(locData, "java", false, Common.Border.UNICODE).toString().split("\n");
+        String[] lines = toLines(Common.processSLOCData(locData, "java", false, Common.Border.UNICODE));
 
         assertTrue(lines[0].matches("\u250c\u2500+(\u252c\u2500+)+\u2510"), lines[0]);
         assertTrue(lines[1].matches("\u2502.*\u2502") && !lines[1].contains("|"), lines[1]);
         assertTrue(lines[2].matches("\u251c\u2500+(\u253c\u2500+)+\u2524"), lines[2]);
         assertTrue(lines[lines.length - 1].matches("\u2514\u2500+(\u2534\u2500+)+\u2518"), lines[lines.length - 1]);
         assertEquals(1, Arrays.stream(lines).map(String::length).distinct().count());
+    }
+
+    /**
+     * Splits the text into lines, trailing empty lines removed.
+     */
+    private static String[] toLines(CharSequence text) {
+        return text.toString().split("\\R", 0);
     }
 
 }
