@@ -12,7 +12,7 @@ A well-known SLOC tool is [cloc](https://github.com/AlDanial/cloc) by *Al Danial
 
 ## Overview
 
-The plugin is a standard [Apache Maven plugin](https://maven.apache.org/plugin-developers/index.html), it requires Java 8 or newer and a recent Maven 3:
+The plugin is a standard [Apache Maven plugin](https://maven.apache.org/plugin-developers/index.html), it requires Java 8 or newer and Maven 3.8.1 or newer:
 
 ```
 $ cd sloc-maven-plugin
